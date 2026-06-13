@@ -5,14 +5,17 @@
   "description": "Avaliação visual de acessibilidade web baseada nas normas WCAG e NBR 17225.",
   "permissions": [
     "activeTab",
-    "scripting"
+    "scripting",
+    "sidePanel"
   ],
   "background": {
     "service_worker": "background.js"
   },
   "action": {
-    "default_popup": "popup.html",
-    "default_title": "Avaliar Acessibilidade"
+    "default_title": "Abrir Avaliador AMAWeb"
+  },
+  "side_panel": {
+    "default_path": "popup.html"
   },
   "content_scripts": [
     {

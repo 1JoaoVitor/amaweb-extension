@@ -3,25 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <style>
-    body {
-      width: 250px;
-      font-family: Arial, sans-serif;
-      padding: 15px;
+    html, body {
+      height: 100%;
       margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+    }
+    .container {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
     }
     h3 {
-      color: #2b5c46; 
-      margin-top: 0;
+      color: #2b5c46;
+      margin: 0;
     }
     button {
       width: 100%;
       background-color: #558b72;
       color: white;
       border: none;
-      padding: 10px;
+      padding: 12px;
       font-size: 14px;
       cursor: pointer;
       border-radius: 4px;
+      font-weight: bold;
     }
     button:hover {
       background-color: #3d6853;
@@ -29,9 +37,11 @@
   </style>
 </head>
 <body>
-  <h3>AMAWeb Avaliador</h3>
-  <p>Clique no botão abaixo para analisar a página atual.</p>
-  <button id="btn-analisar">Analisar Página</button>
+  <div class="container">
+    <h3>AMAWeb Avaliador</h3>
+    <p>Clique no botão abaixo para analisar as diretrizes WCAG e NBR 17225 da página atual.</p>
+    <button id="btn-analisar">Avaliar Página</button>
+  </div>
   
   <script src="popup.js"></script>
 </body>

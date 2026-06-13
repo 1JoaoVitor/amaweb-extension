@@ -1,22 +1,45 @@
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.action === "START_ANALYSIS") {
-    console.log("Iniciando varredura de acessibilidade visual...");
+  if (request.action === "RENDER_OVERLAYS") {
+    console.log("[Content Script] Dados recebidos para renderização visual:", request.data);
     
-    // Teste temporário: Seleciona todos os botões da página atual
-    const botoes = document.querySelectorAll('button');
-    
-    if(botoes.length === 0) {
-      alert("Nenhum botão encontrado nesta página para simular o destaque!");
-      return;
-    }
+    // Remove overlays anteriores se o usuário clicar para avaliar novamente
+    const overlaysAntigos = document.querySelectorAll('.amaweb-overlay-container');
+    overlaysAntigos.forEach(el => el.remove());
 
-    // Aplica o estilo visual diretamente neles (Overlay)
-    botoes.forEach(botao => {
-      botao.style.outline = "3px dashed red";
-      botao.style.outlineOffset = "2px";
-      botao.title = "Elemento destacado pela extensão AMAWeb";
+    let errosDestacados = 0;
+
+    // Varre o array de resultados trazidos do servidor
+    request.data.forEach(item => {
+      // Filtra apenas o que for do tipo "Erro" e contiver elementosHtml válidos
+      if (item["Tipo de erro"] === "Erro" && item.Elementos && item.Elementos.elementosHtml) {
+        
+        item.Elementos.elementosHtml.forEach(elHtml => {
+          const seletorCss = elHtml.pointer;
+          
+          if (seletorCss) {
+            try {
+              // Procura o elemento exato na página usando o ponteiro do AMAWeb
+              const elementoAlvo = document.querySelector(seletorCss);
+              
+              if (elementoAlvo) {
+                // Aplica o destaque visual (Overlay) diretamente nas bordas do elemento
+                elementoAlvo.style.outline = "3px solid #ff4d4d";
+                elementoAlvo.style.outlineOffset = "3px";
+                elementoAlvo.style.position = "relative";
+
+                // Opcional: Adiciona um atributo para sabermos o critério WCAG violado
+                elementoAlvo.setAttribute('data-amaweb-criterio', item.Criterio);
+                
+                errosDestacados++;
+              }
+            } catch (e) {
+              console.warn(`[Content Script] Não foi possível selecionar o ponteiro: ${seletorCss}`, e);
+            }
+          }
+        });
+      }
     });
 
-    alert(`Simulação: ${botoes.length} botões destacados na interface!`);
+    alert(`Varredura concluída! ${errosDestacados} falhas críticas foram sinalizadas visualmente na interface.`);
   }
 });
