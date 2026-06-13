@@ -1,0 +1,63 @@
+/* A Camada Invisível (Lençol) */
+#amaweb-overlay-layer {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 9999 !important;
+    pointer-events: none !important;
+}
+
+/* O Contorno do Erro */
+.amaweb-highlight-box {
+    position: absolute !important;
+    outline: 3px solid #ff4d4d !important;
+    outline-offset: 2px !important;
+    pointer-events: none !important;
+}
+
+/* NOVO: O Contêiner que agrupa as etiquetas próximas */
+.amaweb-badge-container {
+    position: absolute !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 4px !important;
+    z-index: 2147483647 !important;
+    pointer-events: none !important; /* Permite clicar nos espaços vazios */
+}
+
+/* A Etiqueta flutuante (agora relativa ao contêiner) */
+.amaweb-badge {
+    position: relative !important; 
+    background-color: #ff4d4d !important;
+    color: white !important;
+    font-family: 'Segoe UI', Arial, sans-serif !important;
+    font-size: 11px !important;
+    font-weight: bold !important;
+    padding: 4px 8px !important;
+    border-radius: 4px !important;
+    white-space: nowrap !important;
+    pointer-events: auto !important; /* Ativa o mouse apenas em cima da etiqueta */
+    cursor: help !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+}
+
+/* O Tooltip (balão de descrição) */
+.amaweb-badge:hover::after {
+    content: attr(data-description);
+    position: absolute !important;
+    top: 25px !important;
+    left: 0 !important;
+    background-color: #222 !important;
+    color: #fff !important;
+    padding: 8px 12px !important;
+    border-radius: 5px !important;
+    font-size: 12px !important;
+    font-weight: normal !important;
+    white-space: normal !important;
+    width: max-content !important;
+    max-width: 250px !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3) !important;
+    z-index: 2147483647 !important;
+}
