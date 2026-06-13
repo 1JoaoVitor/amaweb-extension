@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Avaliador AMAWeb - Extensão",
+  "version": "1.0",
+  "description": "Avaliação visual de acessibilidade web baseada nas normas WCAG e NBR 17225.",
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Avaliar Acessibilidade"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["styles.css"]
+    }
+  ]
+}
