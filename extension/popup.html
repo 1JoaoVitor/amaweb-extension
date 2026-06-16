@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <style>
+    /* ESTILOS GERAIS E ESTRUTURA  */
     html, body {
       height: 100%;
       margin: 0;
@@ -38,23 +39,46 @@
       font-weight: bold;
       transition: background 0.2s;
     }
-    button:hover {
-      background-color: #3d6853;
-    }
     button:disabled {
       background-color: #a3bfae;
       cursor: not-allowed;
     }
-    
-    /* Painel de Resultados */
+
+    /* SISTEMA DE ABAS E PAINEL  */
+    .tabs-container {
+      display: flex;
+      border-bottom: 2px solid #ddd;
+      margin-bottom: 10px;
+    }
+    .tab-btn {
+      flex: 1;
+      background: none;
+      color: #666;
+      border: none;
+      border-radius: 0;
+      padding: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+    }
+    .tab-btn.active {
+      color: #2b5c46;
+      border-bottom: 3px solid #2b5c46;
+    }
+    .tab-content { display: none; }
+    .tab-content.active {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
     .results-panel {
-      display: none; /* Escondido até que a avaliação aconteça */
+      display: none; 
       flex-direction: column;
       gap: 15px;
     }
     .score-box {
-      background: white;
-      border-radius: 8px;
+      background: white;  
       padding: 15px;
       text-align: center;
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
@@ -70,56 +94,246 @@
       color: #666;
       text-transform: uppercase;
     }
-    
-    /* Grid de Contadores */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-    .stat-card {
-      background: white;
-      padding: 12px;
+
+    /* TABELA DO AVALIADOR  */
+    .tabela-resumo {
+      background-color: #f0f0f0;
       border-radius: 6px;
-      text-align: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      border: 1px solid #ddd;
+      overflow: hidden;
     }
-    .stat-card.errors { border-top: 4px solid #ff4d4d; }
-    .stat-card.warnings { border-top: 4px solid #ffaa00; }
-    .stat-number {
-      font-size: 24px;
+    .tabela-header {
+      padding: 10px;
       font-weight: bold;
+      font-size: 14px;
+      background-color: #f9f9f9;
+      border-bottom: 1px solid #ddd;
     }
-    .stat-card.errors .stat-number { color: #ff4d4d; }
-    .stat-card.warnings .stat-number { color: #ffaa00; }
-    .stat-label { font-size: 12px; color: #777; }
+    .linha-resumo { 
+      border-bottom: 1px solid #fff; 
+    }
+    .linha-titulo {
+      display: flex;
+      align-items: center;
+      padding: 8px 10px;
+      font-size: 13px;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+    .linha-titulo.sucesso { background-color: #c3e6cb; color: #155724; width: max-content; padding-right: 20px;}
+    .linha-titulo.aviso { background-color: #fff3cd; color: #856404; width: max-content; padding-right: 20px;}
+    .linha-titulo.erro { background-color: #f5c6cb; color: #721c24; width: max-content; padding-right: 20px;}
+    
+    .icone-circulo {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid currentColor;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 8px;
+    }
+    .icone-circulo svg {
+      display: block;
+    }
+    
+    .niveis-grid {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr 1fr !important;
+      background-color: #f0f0f0;
+      padding: 10px 0;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .nivel-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-right: 1px solid #ccc;
+      line-height: 1.2;
+    }
+    .nivel-col span { font-size: 11px; color: #666; }
+    .nivel-col b { font-size: 16px; color: #111; margin-top: 4px; }
+    .nivel-col.sem-borda { border-right: none; }
+    
+    .linha-resumo.total-geral .linha-titulo {
+      background-color: transparent;
+      color: #333;
+      padding-bottom: 4px;
+    }
+
+    /* CARDS DE DETALHES  */
+    #view-detalhes {
+      align-items: center !important; 
+    }
+    #lista-detalhada {
+      display: flex; 
+      flex-direction: column; 
+      gap: 10px;
+      width: 100%;
+      max-width: 380px !important;
+    }
+    .am-card {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .am-card-color {
+      width: 36px;
+      min-width: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+    .am-card-color.error { background-color: #ff8a8a; } 
+    .am-card-color.warning { background-color: #ffe066; color: #333;} 
+    
+    .am-card-body {
+      padding: 10px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-width: 0; 
+    }
+    .am-card-title {
+      font-size: 12px;
+      color: #333;
+      margin: 0;
+      line-height: 1.4;
+    }
+    
+    .am-card-footer {
+      display: flex !important;
+      flex-direction: row !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      margin-top: 8px;
+      gap: 10px !important; 
+    }
+    
+
+    .btn-destacar {
+      background-color: #2b5c46 !important; 
+      color: white !important;
+      border: none !important;
+      padding: 5px 12px !important; 
+      border-radius: 15px !important;
+      font-size: 11px !important;
+      font-weight: bold !important;
+      cursor: pointer !important;
+      white-space: nowrap !important; 
+      flex-shrink: 0 !important; 
+      width: auto !important;
+      transition: background 0.2s !important;
+    }
+    .btn-destacar.ativo { 
+      background-color: #d9534f !important; 
+    }
   </style>
 </head>
+
 <body>
   <div class="container">
     <div class="header">
       <h3>AMAWeb Avaliador</h3>
     </div>
     
-    <p style="margin: 0; font-size: 13px; color: #555;">Análise de conformidade com base nas diretrizes WCAG e NBR 17225.</p>
-    
-    <button id="btn-analisar">Avaliar Página</button>
-    
-    <div id="results-panel" class="results-panel">
-      <div class="score-box">
-        <div id="score-value" class="score-value">--</div>
-        <div class="score-label">Nota de Conformidade</div>
-      </div>
+    <div class="tabs-container">
+      <button id="tab-geral" class="tab-btn active">Visão Geral</button>
+      <button id="tab-detalhes" class="tab-btn">Lista de Erros</button>
+    </div>
+
+    <div id="view-geral" class="tab-content active">
       
-      <div class="stats-grid">
-        <div class="stat-card errors">
-          <div id="count-errors" class="stat-number">0</div>
-          <div class="stat-label">Erros Críticos</div>
+      
+      <div style="display: flex; gap: 10px; margin-top: 2px; width: 100%;">
+        <button id="btn-analisar" style="flex: 1; box-sizing: border-box;">Avaliar Página</button>
+        <button id="btn-limpar" style="background-color: #d9534f; flex: 1; box-sizing: border-box;">Limpar Tela</button>
+      </div>
+
+      <div style="display: flex; gap: 10px; width: 100%;">
+        <button id="btn-amaweb" style="background-color: #2b5c46; flex: 1; box-sizing: border-box;">Portal AMAWeb</button>
+        <button id="btn-baixar-json" style="background-color: #3f3b8b; flex: 1; box-sizing: border-box;" disabled>Baixar JSON</button>
+      </div>
+
+      <div id="results-panel" class="results-panel">
+        <div class="score-box">
+          <div id="score-value" class="score-value">--</div>
+          <div class="score-label">Nota de Conformidade</div>
         </div>
-        <div class="stat-card warnings">
-          <div id="count-warnings" class="stat-number">0</div>
-          <div class="stat-label">Avisos</div>
+        
+        <div class="tabela-resumo">
+          <div class="tabela-header">Tipo de prática</div>
+
+          <div class="linha-resumo">
+            <div class="linha-titulo sucesso">
+              <div class="icone-circulo icone-sucesso">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              Aceitáveis (<span id="count-sucesso-total">0</span>)
+            </div>
+            <div class="niveis-grid">
+              <div class="nivel-col"><span>A</span><b id="count-sucesso-a">0</b></div>
+              <div class="nivel-col"><span>AA</span><b id="count-sucesso-aa">0</b></div>
+              <div class="nivel-col sem-borda"><span>AAA</span><b id="count-sucesso-aaa">0</b></div>
+            </div>
+          </div>
+
+          <div class="linha-resumo">
+            <div class="linha-titulo aviso">
+              <div class="icone-circulo icone-aviso">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              </div>
+              Para ver manualmente (<span id="count-aviso-total">0</span>)
+            </div>
+            <div class="niveis-grid">
+              <div class="nivel-col"><span>A</span><b id="count-aviso-a">0</b></div>
+              <div class="nivel-col"><span>AA</span><b id="count-aviso-aa">0</b></div>
+              <div class="nivel-col sem-borda"><span>AAA</span><b id="count-aviso-aaa">0</b></div>
+            </div>
+          </div>
+
+          <div class="linha-resumo">
+            <div class="linha-titulo erro">
+              <div class="icone-circulo icone-erro">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </div>
+              Não aceitáveis (<span id="count-erro-total">0</span>)
+            </div>
+            <div class="niveis-grid">
+              <div class="nivel-col"><span>A</span><b id="count-erro-a">0</b></div>
+              <div class="nivel-col"><span>AA</span><b id="count-erro-aa">0</b></div>
+              <div class="nivel-col sem-borda"><span>AAA</span><b id="count-erro-aaa">0</b></div>
+            </div>
+          </div>
+
+          <div class="linha-resumo total-geral">
+            <div class="linha-titulo">Total (<span id="count-geral-total">0</span>)</div>
+            <div class="niveis-grid">
+              <div class="nivel-col"><span>A</span><b id="count-geral-a">0</b></div>
+              <div class="nivel-col"><span>AA</span><b id="count-geral-aa">0</b></div>
+              <div class="nivel-col sem-borda"><span>AAA</span><b id="count-geral-aaa">0</b></div>
+            </div>
+          </div>
         </div>
+      </div>
+    </div>
+
+    <div id="view-detalhes" class="tab-content">
+      <div id="lista-detalhada">
+        <p style="font-size: 13px; color: #666; text-align: center; margin-top: 20px;">
+          Execute a avaliação na aba "Visão Geral" primeiro.
+        </p>
       </div>
     </div>
   </div>
