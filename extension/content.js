@@ -185,4 +185,24 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       }
     });
   }
+
+  if (request.action === "CAPTURE_HTML") {
+    console.log("[Content Script] Capturando DOM para avaliação...");
+    try {
+      // Clona o documento para podermos limpar o lixo sem quebrar a página real
+      const documentClone = document.documentElement.cloneNode(true);
+      
+      // Remove scripts, estilos, vídeos e svgs (o AMAWeb não precisa disso para avaliar estrutura)
+      const elementosInuteis = documentClone.querySelectorAll('script, style, link[rel="stylesheet"], svg, video, iframe');
+      elementosInuteis.forEach(el => el.remove());
+
+      const htmlLimpo = documentClone.outerHTML;
+      
+      sendResponse({ sucesso: true, html: htmlLimpo });
+    } catch (e) {
+      console.error("[Content Script] Erro ao capturar HTML:", e);
+      sendResponse({ sucesso: false, erro: e.toString() });
+    }
+  }
+
 });
