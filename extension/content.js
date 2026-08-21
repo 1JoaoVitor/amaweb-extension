@@ -126,7 +126,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 
 
-  if (request.action === "HIGHLIGHT_SPECIFIC") {
+if (request.action === "HIGHLIGHT_SPECIFIC") {
     
     const camadaAntiga = document.getElementById('amaweb-overlay-layer');
     if (camadaAntiga) camadaAntiga.remove();
@@ -144,6 +144,23 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
           const { rect, oculto } = obterCaixaVisivel(elementoAlvo);
           if (rect.width === 0 || rect.height === 0) return;
+
+          // Rola a tela suavemente para o primeiro elemento encontrado
+          // (Feito ANTES de desenhar as caixas para garantir a fluidez)
+          if (!rolouPagina) {
+            rolouPagina = true; 
+            setTimeout(() => {
+              try {
+                // Calcula o meio da tela para centralizar a caixa perfeitamente
+                const centroDaTelaY = topAbsoluto - (window.innerHeight / 2) + (rect.height / 2);
+                
+                window.scrollTo({
+                  top: centroDaTelaY,
+                  behavior: 'smooth'
+                });
+              } catch(e) {}
+            }, 100);
+          }
 
           const topAbsoluto = rect.top + window.scrollY;
           const leftAbsoluto = rect.left + window.scrollX;
@@ -174,11 +191,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           
           containerBadge.appendChild(badge);
           overlayLayer.appendChild(containerBadge);
-          
-          if (!rolouPagina) {
-            elementoAlvo.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            rolouPagina = true;
-          }
         }
       } catch (e) {
         console.warn(`[Content Script] Erro no seletor cirúrgico: ${seletorCss}`, e);

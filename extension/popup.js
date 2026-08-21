@@ -199,6 +199,8 @@ document.getElementById('btn-analisar').addEventListener('click', async () => {
 
     // Exibe o painel de resultados finalizados
     if (loadingPanel) loadingPanel.style.display = "none";
+    const btnDownload = document.getElementById('btn-baixar-json');
+    if (btnDownload) btnDownload.disabled = false;  
     resultsPanel.style.display = "flex";
 
     // Pede ao content.js para injetar e agrupar os overlays globais (todas as caixas)
@@ -227,8 +229,20 @@ document.getElementById('btn-analisar').addEventListener('click', async () => {
     // Mostra o painel de erro amigável na tela
     const errorPanel = document.getElementById('error-panel');
     const errorMessage = document.getElementById('error-message');
+    
     if (errorPanel && errorMessage) {
-      errorMessage.innerText = error.message || "Ocorreu um erro inesperado ao avaliar a página.";
+      let textoAmigavel = error.message || "Ocorreu um erro inesperado ao avaliar a página.";
+
+      // MAPEAMENTO DE ERROS AMIGÁVEIS
+      if (textoAmigavel.includes("413")) {
+        textoAmigavel = "Esta página é muito grande ou possui muitos elementos visuais pesados. O servidor recusou o tamanho do arquivo (Erro 413).";
+      } else if (textoAmigavel.includes("405")) {
+        textoAmigavel = "Erro de comunicação com o servidor. Método não permitido (Erro 405).";
+      } else if (textoAmigavel.includes("Failed to fetch") || textoAmigavel.includes("NetworkError")) {
+        textoAmigavel = "Não foi possível conectar ao servidor do AMAWeb. Verifique sua conexão ou se a API está online.";
+      }
+
+      errorMessage.innerText = textoAmigavel;
       errorPanel.style.display = "block";
     }
   } finally {
@@ -405,3 +419,35 @@ function adaptarJsonAmaWeb(nodes, scoreGeral, dicionarioAMA) {
 
     return arrayAdaptado;
 }
+
+// LÓGICA DE EXPORTAÇÃO (DOWNLOAD)
+document.getElementById('btn-baixar-json').addEventListener('click', async () => {
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  
+  // Verifica se temos os dados na memória para esta aba
+  if (!tab || !cacheAvaliacoes[tab.id]) {
+    alert("Nenhum dado disponível para exportar nesta aba.");
+    return;
+  }
+
+  const dadosBrutos = cacheAvaliacoes[tab.id].dados;
+  
+  // Formata o JSON para ficar bonitinho e legível no arquivo (com 2 espaços de indentação)
+  const conteudoJson = JSON.stringify(dadosBrutos, null, 2);
+  
+  // Cria um arquivo virtual em memória (Blob)
+  const blob = new Blob([conteudoJson], { type: "application/json" });
+  const urlVirtual = URL.createObjectURL(blob);
+  
+  // Cria um link <a> invisível, clica nele para baixar e depois o destrói
+  const linkInvisivel = document.createElement('a');
+  linkInvisivel.href = urlVirtual;
+  linkInvisivel.download = `relatorio-amaweb-${new Date().getTime()}.json`;
+  
+  document.body.appendChild(linkInvisivel);
+  linkInvisivel.click();
+  
+  // Limpa a memória
+  document.body.removeChild(linkInvisivel);
+  URL.revokeObjectURL(urlVirtual);
+});
