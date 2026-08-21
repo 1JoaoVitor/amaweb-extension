@@ -26,7 +26,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
         // 3. Prepara a requisição para o AMAWeb
         // ATENÇÃO: Confirme com o backend se a base URL é localhost ou o servidor oficial da Unifesp
-        const baseUrl = "https://amaweb.unifesp.br"; 
+        const baseUrl = "https://amaweb.unifesp.br/server"; 
         const apiUrl = `${baseUrl}/amp/eval/html`;
 
         fetch(apiUrl, {
