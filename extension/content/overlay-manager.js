@@ -33,7 +33,7 @@
   }
 
   // NOVA FUNÇÃO UNIFICADA: Cria a caixa e o ícone já amarrados no Modo WAVE
-  function adicionarMarcacao(camada, rect, top, left, texto, descricao, tipo, oculto, containers) {
+  function adicionarMarcacao(camada, rect, top, left, texto, descricao, tipo, oculto, containers, indexErro, forcarAtivo = false) {
     // 1. Cria a caixa tracejada (Invisível por padrão)
     const caixa = document.createElement('div');
     caixa.className = `amaweb-highlight-box ${tipo}`;
@@ -94,6 +94,10 @@
         badgeWrapper.classList.add('ativo');
         if (!oculto) caixa.classList.add('ativa');
 
+        if (indexErro !== undefined) {
+          chrome.runtime.sendMessage({ action: 'SCROLL_TO_ERROR', index: indexErro }).catch(() => {});
+        }
+
         // LÓGICA DE DETECÇÃO DE BORDAS DA TELA (Prevenção de corte)
         setTimeout(() => {
           const rect = tooltip.getBoundingClientRect();
@@ -123,6 +127,11 @@
     caixa.id = boxId;
     badgeWrapper.setAttribute('data-box-id', boxId);
 
+    if (forcarAtivo && !oculto) {
+      badgeWrapper.classList.add('ativo');
+      caixa.classList.add('ativa');
+    }
+
     badgeWrapper.appendChild(badge);
     badgeWrapper.appendChild(tooltip);
     container.elemento.appendChild(badgeWrapper);
@@ -136,7 +145,7 @@
 
     
 
-    resultados.forEach(item => {
+    resultados.forEach((item, indexErro) => {
       const tipo = item['Tipo de erro'] === 'Erro' || item['Tipo de erro'] === 'Não aceitável' ? 'error' : 'warning';
       const deveExibir = ['Erro', 'Não aceitável', 'Aviso', 'Para ver manualmente'].includes(item['Tipo de erro']);
       if (!deveExibir || !Array.isArray(item.Elementos?.elementosHtml)) return;
@@ -157,7 +166,7 @@
           const titulo = `${item.Criterio || 'NBR 17225'}${oculto ? ' (Oculto)' : ''}`;
           const desc = (item.Descricao || item.Elementos.descricao || '').replace(/\{\{value\}\}/g, item.Valor || item['Numero de ocorrencias'] || '1');
 
-          adicionarMarcacao(camada, rect, top, left, titulo, desc, tipo, oculto, containers);
+          adicionarMarcacao(camada, rect, top, left, titulo, desc, tipo, oculto, containers, indexErro);
           total++;
         } catch (error) {
           console.warn(`[Content Script] Seletor inválido: ${elemento.pointer}`, error);
@@ -168,8 +177,17 @@
     console.log(`[Content Script] ${total} falhas renderizadas.`);
   }
 
-  function destacar(pointers, tipo, criterio, descricao) {
-    const camada = criarCamada();
+function destacar(pointers, tipo, criterio, descricao) {
+    // 1. Oculta os resultados gerais sem destruí-los (Resolve o problema 3)
+    const camadaPrincipal = document.getElementById('amaweb-overlay-layer');
+    if (camadaPrincipal) camadaPrincipal.style.display = 'none';
+
+    // 2. Cria uma camada exclusiva para o destaque
+    document.getElementById('amaweb-highlight-layer')?.remove();
+    const camadaDestaque = document.createElement('div');
+    camadaDestaque.id = 'amaweb-highlight-layer';
+    (document.body || document.documentElement).appendChild(camadaDestaque);
+
     const containers = [];
     let rolouPagina = false;
 
@@ -182,9 +200,10 @@
         const top = rect.top + window.scrollY;
         const left = rect.left + window.scrollX;
 
-        adicionarMarcacao(camada, rect, top, left, criterio, descricao, tipo, oculto, containers);
+        // true no final para forçar a caixa e tooltip a aparecerem na hora (Resolve a UX visual)
+        adicionarMarcacao(camadaDestaque, rect, top, left, criterio, descricao, tipo, oculto, containers, undefined, true);
 
-        // Rola a tela para o primeiro elemento visível
+        // Rolagem da página de volta para o erro (Resolve o problema 2)
         if (!rolouPagina && !oculto) {
           rolouPagina = true;
           const centroDaTelaY = top - (window.innerHeight / 2) + (rect.height / 2);
@@ -197,7 +216,12 @@
   }
 
   function limpar() {
-    document.getElementById('amaweb-overlay-layer')?.remove();
+    // 1. Remove apenas a camada exclusiva de destaque
+    document.getElementById('amaweb-highlight-layer')?.remove();
+    
+    // 2. Restaura os resultados gerais (Resolve o problema 3)
+    const camadaPrincipal = document.getElementById('amaweb-overlay-layer');
+    if (camadaPrincipal) camadaPrincipal.style.display = 'block';
   }
 
   globalThis.AmawebOverlayManager = { renderizar, destacar, limpar };

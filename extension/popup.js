@@ -389,3 +389,48 @@ document.getElementById('btn-baixar-json').addEventListener('click', async () =>
   URL.revokeObjectURL(urlVirtual);
 });
 
+// OUVINTE PARA CLIQUE NO OVERLAY DA PÁGINA
+chrome.runtime.onMessage.addListener((message) => {
+  if (message.action === 'SCROLL_TO_ERROR') {
+    
+    // 1. Mudar para a Aba "Lista de Erros" automaticamente
+    const tabDetalhes = document.getElementById('view-detalhes');
+    const tabGeral = document.getElementById('view-geral'); // Corrigido para view-geral
+    const botoesAba = document.querySelectorAll('.tab-btn');
+    
+    if (tabDetalhes && tabGeral) {
+      tabGeral.classList.remove('active');
+      tabDetalhes.classList.add('active');
+      
+      botoesAba.forEach(btn => btn.classList.remove('active'));
+      // Seleciona o botão da aba de detalhes (geralmente o segundo botão, índice 1)
+      if (botoesAba.length > 1) botoesAba[1].classList.add('active'); 
+    }
+
+    // 2. Encontrar o Card, Rolar até ele e Dar o Efeito Visual
+    setTimeout(() => {
+      const btn = document.querySelector(`.btn-destacar[data-index="${message.index}"]`);
+      if (btn) {
+        const card = btn.closest('.am-card');
+        if (card) {
+          // Desce até o card no painel
+          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          
+          // Efeito visual dinâmico
+          const estiloOriginalTransform = card.style.transform;
+          const estiloOriginalBoxShadow = card.style.boxShadow;
+          
+          card.style.transition = 'all 0.3s ease-in-out';
+          card.style.transform = 'scale(1.02)';
+          card.style.boxShadow = '0 0 15px 2px rgba(43, 92, 70, 0.6)';
+          
+          // Remove o efeito após 2 segundos
+          setTimeout(() => {
+            card.style.transform = estiloOriginalTransform;
+            card.style.boxShadow = estiloOriginalBoxShadow;
+          }, 2000);
+        }
+      }
+    }, 150); 
+  }
+});

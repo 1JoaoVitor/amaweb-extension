@@ -6,6 +6,21 @@ const STATUS_POR_VERDICT = {
   passed: 'passed'
 };
 
+function descobrirNivelWCAG(scs) {
+  if (!scs) return 'A'; 
+  const crit = String(scs);
+
+  if (crit.match(/1\.2\.6|1\.2\.7|1\.2\.8|1\.2\.9|1\.3\.6|1\.4\.6|1\.4\.7|1\.4\.8|1\.4\.9|2\.1\.3|2\.2\.3|2\.2\.4|2\.2\.5|2\.2\.6|2\.3\.2|2\.3\.3|2\.4\.8|2\.4\.9|2\.4\.10|3\.1\.3|3\.1\.4|3\.1\.5|3\.1\.6|3\.2\.5|3\.3\.5|3\.3\.6/)) {
+    return 'AAA';
+  }
+
+  if (crit.match(/1\.2\.4|1\.2\.5|1\.3\.4|1\.3\.5|1\.4\.3|1\.4\.4|1\.4\.5|1\.4\.10|1\.4\.11|1\.4\.12|1\.4\.13|2\.4\.5|2\.4\.6|2\.4\.7|3\.1\.2|3\.2\.3|3\.2\.4|3\.3\.3|3\.3\.4|4\.1\.3/)) {
+    return 'AA';
+  }
+
+  return 'A';
+}
+
 function limparMarcacao(texto = '') {
   return String(texto).replace(/<[^>]*>/g, '');
 }
@@ -51,8 +66,6 @@ export function adaptarJsonAmaWeb(nodes, scoreGeral, dicionarioAMA) {
       let descricaoLimpa = descricaoTraduzida|| "";
 
       // Remove textos dinâmicos em inglês comuns injetados pelo motor
-      // descricaoLimpa = descricaoLimpa.replace(/This link skips a content block.*/gi, '');
-      // descricaoLimpa = descricaoLimpa.replace(/Encontrei \d+ imag.*/gi, ''); 
 
       let tipoDeErroFormatado = "Para ver manualmente"; 
             if (resultado.verdict === "failed") tipoDeErroFormatado = "Erro";
@@ -69,7 +82,9 @@ export function adaptarJsonAmaWeb(nodes, scoreGeral, dicionarioAMA) {
         'Regra': chaveResultado || nomeDaRegra,
         'Referencia': regraOficial?.[1]?.ref || '',
         'CriteriosRelacionados': regraOficial?.[1]?.scs || '',
-        'Nivel de Conformidade': regraOficial?.[1]?.level?.toUpperCase() || resultado.level || resultado.conformanceLevel || 'A',
+        'Nivel de Conformidade': regraOficial?.[1]?.level?.toUpperCase() || 
+                         resultado.level?.toUpperCase() || 
+                         descobrirNivelWCAG(regraOficial?.[1]?.scs),
         'Elementos': {
           'elementosHtml': elementos
         }
