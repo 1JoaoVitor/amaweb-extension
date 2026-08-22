@@ -1,3 +1,7 @@
+import { cacheAvaliacoes } from './core/cache-store.js';
+import { adaptarJsonAmaWeb } from './core/amaweb-adapter.js';
+import { renderizarCardResultado, limparRegraAtiva } from './sidepanel/findings-renderer.js';
+
 // DICIONÁRIO DE ERROS DO SERVIDOR (AMAWeb)
 const MENSAGENS_ERRO_API = {
   "INVALID_URL": "A URL capturada é inválida para avaliação.",
@@ -11,8 +15,7 @@ const MENSAGENS_ERRO_API = {
   "ACCESS_DENIED": "Acesso negado ao motor de avaliação."
 };
 
-// Memória da extensão: Guarda as avaliações por ID da Aba
-const cacheAvaliacoes = {};
+const cachePronto = cacheAvaliacoes.hydrate();
 
 // LÓGICA DAS ABAS
 document.getElementById('tab-geral').addEventListener('click', () => {
@@ -32,22 +35,44 @@ document.getElementById('tab-detalhes').addEventListener('click', () => {
 
 // LÓGICA PRINCIPAL DE AVALIAÇÃO
 document.getElementById('btn-analisar').addEventListener('click', async () => {
+  // 1. Declara as variáveis de interface UMA ÚNICA VEZ
   const btn = document.getElementById('btn-analisar');
   const resultsPanel = document.getElementById('results-panel');
-  
-  btn.innerText = "Processando...";
-  btn.disabled = true;
-  resultsPanel.style.display = "none";
-
   const errorPanel = document.getElementById('error-panel');
-  if (errorPanel) errorPanel.style.display = "none"; // Esconde erros antigos
-
+  const errorMessage = document.getElementById('error-message');
   const loadingPanel = document.getElementById('loading-panel');
-  if (loadingPanel) loadingPanel.style.display = "block";
 
   try {
+    await cachePronto;
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     if (!tab) return;
+
+    // --- BLOQUEIO DE SEGURANÇA (EDGE CASES) ---
+    // Impede a execução em páginas protegidas do navegador e arquivos locais
+    const urlRestrita = tab.url.startsWith("chrome://") || 
+                        tab.url.startsWith("edge://") || 
+                        tab.url.startsWith("about:") ||
+                        tab.url.startsWith("chrome-extension://") ||
+                        tab.url.includes("chrome.google.com/webstore");
+    
+    if (urlRestrita) {
+      if (errorPanel && errorMessage) {
+        errorMessage.innerText = "Página restrita: O navegador bloqueia a avaliação de páginas internas, configurações ou lojas de extensões por motivos de segurança.";
+        errorPanel.style.display = "block";
+      }
+      if (loadingPanel) loadingPanel.style.display = "none";
+      if (resultsPanel) resultsPanel.style.display = "none";
+      return; // Interrompe a função aqui
+    }
+    // ------------------------------------------
+
+    // Prepara a tela para o carregamento
+    btn.innerText = "Processando...";
+    btn.disabled = true;
+    
+    if (errorPanel) errorPanel.style.display = "none";
+    if (resultsPanel) resultsPanel.style.display = "none";
+    if (loadingPanel) loadingPanel.style.display = "block";
 
     // 1. Carrega as traduções locais da extensão
     const urlTraducoes = chrome.runtime.getURL('translations.json');
@@ -84,8 +109,8 @@ document.getElementById('btn-analisar').addEventListener('click', async () => {
 
     // Renderização e Contagem
     const listaDetalhada = document.getElementById('lista-detalhada');
-    listaDetalhada.innerHTML = ""; 
-    let regraAtivaIndex = null;
+    listaDetalhada.replaceChildren();
+    limparRegraAtiva();
     let notaGeral = scoreGeral; 
 
     const contagem = {
@@ -98,13 +123,6 @@ document.getElementById('btn-analisar').addEventListener('click', async () => {
     dadosAvaliacao.forEach((item, index) => {
       const ehErro = item["Tipo de erro"] === "Erro" || item["Tipo de erro"] === "Não aceitável";
       const ehAviso = item["Tipo de erro"] === "Aviso" || item["Tipo de erro"] === "Para ver manualmente";
-
-      let numElementosReal = 0;
-      let ponteirosDaRegra = [];
-      if (item.Elementos && Array.isArray(item.Elementos.elementosHtml)) {
-        ponteirosDaRegra = item.Elementos.elementosHtml.map(el => el.pointer).filter(Boolean);
-        numElementosReal = ponteirosDaRegra.length;
-      }
 
       const ocorrencias = item["Numero de ocorrencias"] || 1;
       let nivel = (item["Nivel de Conformidade"] || "A").includes("AAA") ? "AAA" : 
@@ -123,55 +141,7 @@ document.getElementById('btn-analisar').addEventListener('click', async () => {
       contagem.geral.total += ocorrencias;
       contagem.geral[nivel] += ocorrencias;
 
-      // Criação dos Cards (Aba Lista) - Foca apenas em Erros e Avisos
-      if (ehErro || ehAviso) {
-        const textoLimpo = (item.Descricao || (item.Elementos && item.Elementos.descricao) || "").replace(/\{\{value\}\}/g, item.Valor || ocorrencias);
-        const card = document.createElement('div');
-        card.className = 'am-card';
-        card.innerHTML = `
-          <div class="am-card-color ${ehErro ? 'error' : 'warning'}">
-            ${ehErro ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>' : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>'}
-          </div>
-          <div class="am-card-body">
-            <p class="am-card-title"><strong>${item.Criterio}</strong><br/><span style="font-weight: normal; font-size: 13px;">${textoLimpo}</span></p>
-            <p style="font-size: 12px; color: #2b5c46; margin: 6px 0 0 0; font-weight: bold;">Nível: ${item["Nivel de Conformidade"] || "A"}</p>
-            <div class="am-card-footer">
-              ${numElementosReal > 0 ? `<span style="font-size: 16px; font-weight: bold; color: #333;">${numElementosReal} <span style="font-size:11px; font-weight:normal;">elementos</span></span><button class="btn-destacar" id="btn-destacar-${index}">Destacar</button>` : `<span style="font-size:12px; color:#666;">Erro global</span>`}
-            </div>
-          </div>
-        `;
-        
-        listaDetalhada.appendChild(card);
-
-        if (numElementosReal > 0) {
-          const btnDestacar = card.querySelector(`#btn-destacar-${index}`);
-          btnDestacar.addEventListener('click', () => {
-            if (regraAtivaIndex === index) {
-              regraAtivaIndex = null;
-              btnDestacar.classList.remove('ativo');
-              btnDestacar.innerText = "Destacar";
-              chrome.tabs.sendMessage(tab.id, { action: "CLEAR_OVERLAYS" });
-            } else {
-              regraAtivaIndex = index;
-              document.querySelectorAll('.btn-destacar').forEach(b => {
-                b.classList.remove('ativo');
-                b.innerText = "Destacar";
-              });
-              btnDestacar.classList.add('ativo');
-              btnDestacar.innerText = "Remover Destaque";
-
-              // Passa os dados para o content.js destacar o erro
-              chrome.tabs.sendMessage(tab.id, { 
-                action: "HIGHLIGHT_SPECIFIC", 
-                pointers: ponteirosDaRegra,
-                criterio: "AMAWeb", // Opcional: ajustar texto da tag visual flutuante
-                tipo: ehErro ? 'error' : 'warning',
-                descricao: item.Criterio
-              });
-            }
-          });
-        }
-      }
+      renderizarCardResultado(item, index, tab);
     });
 
     // Atualiza os contadores na UI
@@ -210,26 +180,21 @@ document.getElementById('btn-analisar').addEventListener('click', async () => {
     });
 
     // ======== NOVO: SALVANDO NO CACHE ========
-    cacheAvaliacoes[tab.id] = {
+    await cacheAvaliacoes.set(tab.id, {
       url: tab.url,
       dados: dadosAvaliacao, // Dados brutos para poder re-injetar os overlays
-      htmlDetalhes: document.getElementById('lista-detalhada').innerHTML, // O HTML das caixinhas
       scoreGeral: notaGeral,
       contagem: contagem
-    };
+    });
 
-} catch (error) {
+  } catch (error) {
     console.error("[Extension] Erro no fluxo de análise:", error);
     
     // Esconde o loading e resultados
-    const loadingPanel = document.getElementById('loading-panel');
     if (loadingPanel) loadingPanel.style.display = "none";
     if (resultsPanel) resultsPanel.style.display = "none";
 
     // Mostra o painel de erro amigável na tela
-    const errorPanel = document.getElementById('error-panel');
-    const errorMessage = document.getElementById('error-message');
-    
     if (errorPanel && errorMessage) {
       let textoAmigavel = error.message || "Ocorreu um erro inesperado ao avaliar a página.";
 
@@ -246,9 +211,12 @@ document.getElementById('btn-analisar').addEventListener('click', async () => {
       errorPanel.style.display = "block";
     }
   } finally {
-    // Restaura o estado do botão
-    btn.innerText = "Avaliar Página";
-    btn.disabled = false;
+    // Restaura o estado do botão (garantindo que btn existe no finally)
+    const btnRefresh = document.getElementById('btn-analisar');
+    if (btnRefresh) {
+      btnRefresh.innerText = "Avaliar Página";
+      btnRefresh.disabled = false;
+    }
   }
 });
 
@@ -276,7 +244,11 @@ async function resetarPainel(trocaDeAba = false) {
   
   const listaDetalhada = document.getElementById('lista-detalhada');
   if (listaDetalhada) {
-    listaDetalhada.innerHTML = "<p style='font-size: 13px; color: #666; text-align: center; margin-top: 20px;'>Clique em <b>Avaliar Página</b> para avaliar o contexto atual.</p>";
+    listaDetalhada.replaceChildren();
+    const emptyState = document.createElement('p');
+    emptyState.className = 'empty-state';
+    emptyState.textContent = 'Clique em Avaliar Página para avaliar o contexto atual.';
+    listaDetalhada.appendChild(emptyState);
   }
 
   // Verifica o Toggle do usuário antes de limpar as marcações na tela
@@ -294,9 +266,9 @@ async function resetarPainel(trocaDeAba = false) {
 }
 
 // Função para recriar a interface usando o Cache
-function restaurarDoCache(tabId) {
-  const cache = cacheAvaliacoes[tabId];
-  if (!cache) return;
+function restaurarDoCache(tabId, tab) {
+  const cache = cacheAvaliacoes.get(tabId);
+  if (!cache || !tab) return;
 
   document.getElementById('error-panel').style.display = "none";
   document.getElementById('loading-panel').style.display = "none";
@@ -320,117 +292,79 @@ function restaurarDoCache(tabId) {
   document.getElementById('count-geral-aa').innerText = cache.contagem.geral.AA;
   document.getElementById('count-geral-aaa').innerText = cache.contagem.geral.AAA;
 
-  // Restaura os cards HTML
-  document.getElementById('lista-detalhada').innerHTML = cache.htmlDetalhes;
-  
-  // Re-anexa os eventos de clique dos botões "Destacar" recém colados
-  setTimeout(async () => {
-      const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-      const botoes = document.querySelectorAll('.btn-destacar');
-      
-      botoes.forEach(btn => {
-        // Pega o index que deixamos salvo no ID (ex: btn-destacar-5)
-        const indexStr = btn.id.replace('btn-destacar-', '');
-        const itemRegra = cache.dados[parseInt(indexStr)];
-        
-        btn.addEventListener('click', () => {
-           if (btn.classList.contains('ativo')) {
-              btn.classList.remove('ativo');
-              btn.innerText = "Destacar";
-              chrome.tabs.sendMessage(tab.id, { action: "CLEAR_OVERLAYS" });
-           } else {
-              // Desmarca outros
-              document.querySelectorAll('.btn-destacar').forEach(b => { b.classList.remove('ativo'); b.innerText = "Destacar"; });
-              btn.classList.add('ativo');
-              btn.innerText = "Remover Destaque";
-
-              const ehErro = itemRegra["Tipo de erro"] === "Erro" || itemRegra["Tipo de erro"] === "Não aceitável";
-              const ponteiros = itemRegra.Elementos.elementosHtml.map(el => el.pointer).filter(Boolean);
-
-              chrome.tabs.sendMessage(tab.id, { 
-                action: "HIGHLIGHT_SPECIFIC", 
-                pointers: ponteiros,
-                tipo: ehErro ? 'error' : 'warning',
-                descricao: itemRegra.Criterio
-              });
-           }
-        });
-      });
-  }, 100);
+    limparRegraAtiva();
+    const listaDetalhada = document.getElementById('lista-detalhada');
+    listaDetalhada.replaceChildren();
+    cache.dados.forEach((item, index) => renderizarCardResultado(item, index, tab));
 
   document.getElementById('results-panel').style.display = "flex";
+  
+  // Habilita o botão de baixar JSON quando restaurar do cache
+  const btnDownload = document.getElementById('btn-baixar-json');
+  if (btnDownload) btnDownload.disabled = false;
 }
 
 // Quando o usuário troca de aba
 chrome.tabs.onActivated.addListener(async (activeInfo) => {
+  await cachePronto;
   const tabId = activeInfo.tabId;
   const tab = await chrome.tabs.get(tabId);
   
   // Se essa aba já foi avaliada e a URL continua a mesma, puxa do Cache!
-  if (cacheAvaliacoes[tabId] && cacheAvaliacoes[tabId].url === tab.url) {
-    restaurarDoCache(tabId);
+  const cache = cacheAvaliacoes.get(tabId);
+  if (cache && cache.url === tab.url) {
+    restaurarDoCache(tabId, tab);
   } else {
     // Caso contrário, mostra a tela limpa indicando para avaliar
     resetarPainel(true);
   }
 });
 
-// Quando a página recarrega (F5) ou muda de URL
+// Quando a página recarrega (F5) ou muda de URL dinamicamente (SPAs como React/Angular)
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-  if (changeInfo.status === 'loading') {
-    // Apaga a memória dessa aba pois o conteúdo mudou
-    delete cacheAvaliacoes[tabId];
-    resetarPainel(false);
+  // changeInfo.status === 'loading' -> Captura F5 e links tradicionais
+  // changeInfo.url -> Captura navegação dinâmica de SPAs (History API) sem reload
+  if (changeInfo.status === 'loading' || changeInfo.url) {
+    
+    // Verifica se realmente houve uma mudança de contexto justificável
+    const cache = cacheAvaliacoes.get(tabId);
+    const urlDiferente = cache && cache.url !== tab.url;
+
+    if (changeInfo.status === 'loading' || urlDiferente) {
+      // Apaga a memória dessa aba pois o conteúdo raiz ou a URL mudou
+      cacheAvaliacoes.delete(tabId);
+      
+      // Se for apenas uma mudança de URL via SPA, o HTML antigo não foi destruído pelo navegador.
+      // Precisamos mandar um comando explícito para limpar as caixas antigas.
+      const mudancaViaSPA = (changeInfo.url && changeInfo.status !== 'loading');
+      
+      if (mudancaViaSPA) {
+        chrome.tabs.sendMessage(tabId, { action: "CLEAR_OVERLAYS" }).catch(() => {});
+      }
+      
+      resetarPainel(false); 
+    }
   }
 });
 
+chrome.tabs.onRemoved.addListener((tabId) => {
+  cacheAvaliacoes.delete(tabId);
+});
 
-// A FUNÇÃO ADAPTADORA E TRADUTORA DE DADOS
-function adaptarJsonAmaWeb(nodes, scoreGeral, dicionarioAMA) {
-    const arrayAdaptado = [];
-
-    // Itera sobre as chaves do json (ex: "imgAltNo", "aTitleMatch", etc)
-    for (const [nomeDaRegra, arrayDeResultados] of Object.entries(nodes)) {
-        if (!Array.isArray(arrayDeResultados)) continue;
-
-        // Tenta achar o nome amigável ("Imagens sem equivalente alternativo")
-        // Se a regra não existir no dicionário, usa o nome original técnico
-        const tituloTraduzido = dicionarioAMA.ELEMS[nomeDaRegra] || nomeDaRegra;
-
-        arrayDeResultados.forEach(resultado => {
-            let tipoDeErroFormatado = "Para ver manualmente"; 
-            if (resultado.verdict === "failed") tipoDeErroFormatado = "Erro";
-            else if (resultado.verdict === "warning") tipoDeErroFormatado = "Aviso";
-            else if (resultado.verdict === "passed") tipoDeErroFormatado = "Sucesso";
-
-            arrayAdaptado.push({
-                "Pontuação": scoreGeral,
-                "Tipo de erro": tipoDeErroFormatado,
-                "Criterio": tituloTraduzido,
-                "Descricao": resultado.description,
-                "Numero de ocorrencias": resultado.elements ? resultado.elements.length : 1,
-                "Nivel de Conformidade": "A", // Padrão se não vier da API
-                "Elementos": {
-                    "elementosHtml": resultado.elements || []
-                }
-            });
-        });
-    }
-
-    return arrayAdaptado;
-}
 
 // LÓGICA DE EXPORTAÇÃO (DOWNLOAD)
 document.getElementById('btn-baixar-json').addEventListener('click', async () => {
+  await cachePronto;
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   
   // Verifica se temos os dados na memória para esta aba
-  if (!tab || !cacheAvaliacoes[tab.id]) {
+  const cache = tab && cacheAvaliacoes.get(tab.id);
+  if (!tab || !cache) {
     alert("Nenhum dado disponível para exportar nesta aba.");
     return;
   }
 
-  const dadosBrutos = cacheAvaliacoes[tab.id].dados;
+  const dadosBrutos = cache.dados;
   
   // Formata o JSON para ficar bonitinho e legível no arquivo (com 2 espaços de indentação)
   const conteudoJson = JSON.stringify(dadosBrutos, null, 2);
@@ -451,3 +385,4 @@ document.getElementById('btn-baixar-json').addEventListener('click', async () =>
   document.body.removeChild(linkInvisivel);
   URL.revokeObjectURL(urlVirtual);
 });
+

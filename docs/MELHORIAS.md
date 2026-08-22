@@ -1,23 +1,151 @@
-# Arquitetura e Integração
+# Plano técnico do Avaliador AMAWeb
 
-* **Comunicação Direta via Manifest V3:** A extensão utiliza o *Service Worker* (`background.js`) para realizar requisições assíncronas nativas (API Fetch). O sistema envia a árvore DOM sanitizada como *payload* diretamente ao servidor, eliminando a dependência de um servidor intermediário (BFF).
-* **Tratamento Semântico de Exceções:** Implementação de resiliência na comunicação com a API. Códigos HTTP brutos, como o limite de tamanho do arquivo (Erro 413), são interceptados e mapeados para *feedbacks* descritivos e amigáveis ao usuário.
-* **Mensageria Inter-processos:** Estabelecimento de um canal bidirecional entre o Painel Lateral (`popup`), o Service Worker e o *Content Script*, permitindo a orquestração segura de capturas e injeções de elementos na página ativa.
+Este documento registra a arquitetura desejada, as correções prioritárias e o roadmap da extensão. A implementação será incremental: primeiro estabilizamos o código existente; depois adicionamos funcionalidades apoiadas por testes.
 
-## Performance e Gerenciamento de Estado
+## Estado atual
 
-* **Sistema de Cache em Memória:** Criação de uma estrutura de dados de armazenamento temporário no *Side Panel*, vinculando os resultados das requisições ao identificador único da aba atual (`tab.id`).
-* **Otimização de Requisições:** A alternância entre abas reconstrói a interface instantaneamente a partir do cache local, poupando a API de reprocessamentos redundantes e melhorando o tempo de resposta percebido.
-* **Invalidação Condicional:** O sistema destrói automaticamente o cache específico de uma aba caso detecte eventos de recarregamento completo (F5) ou navegação para novos domínios.
+O protótipo usa Manifest V3 e possui três contextos principais:
 
-## Manipulação Dinâmica do DOM
+* `background.js`: abre o Side Panel, captura a página por mensagem e chama a API.
+* `content.js`: sanitiza o DOM e desenha overlays na página avaliada.
+* `popup.js` e `popup.html`: controlam a interface, calculam contadores e exportam o relatório.
+* `core/cache-store.js`: mantém cache rápido em memória e persiste os resultados na sessão do navegador.
+* `core/amaweb-adapter.js`: converte a resposta do backend para o modelo usado pela interface.
+* `sidepanel/findings-renderer.js`: cria os cards de erros e gerencia o destaque dos elementos.
 
-* **Cálculo Espacial Cirúrgico:** Aplicação do método `getBoundingClientRect` somado ao deslocamento vetorial da janela (`window.scrollY`) para plotar coordenadas absolutas e desenhar *overlays* sem quebrar o layout da página avaliada.
-* **Rolagem Geométrica Centralizada:** Implementação de rolagem automática baseada em cálculo matemático focado no eixo Y. O navegador move a tela suavemente para centralizar as marcações visuais, contornando bloqueios nativos do `scrollIntoView`.
-* **Isolamento de Camadas Visual:** As caixas delimitadoras e *badges* são renderizadas dentro de um contêiner global isolado (`amaweb-overlay-layer`), permitindo rápida remoção e evitando herança indesejada de CSS.
+O principal ponto de manutenção é o excesso de responsabilidades em `popup.js` e a mistura de CSS do Side Panel, CSS dos overlays, estilos inline e estilos aplicados por JavaScript.
 
-## UX e Exportação de Dados
+## Arquitetura alvo
 
-* **Controle de Persistência Visual:** Desenvolvimento de um *toggle switch* estilizado em CSS puro, entregando ao usuário a autonomia de gerenciar o ciclo de vida das marcações na tela durante a mudança de contexto.
-* **Geração Client-Side de Relatórios:** Utilização da interface `Blob` e `URL.createObjectURL` para serializar os dados cacheados, convertendo-os em um arquivo `.json` local para download instantâneo, sem onerar o *backend*.
-* **Feedback de Assincronicidade:** Proteção da interface do usuário com elementos visuais de carregamento (*Loaders*) durante o trânsito de dados de páginas massivas.
+```text
+extension/
+  background/
+    service-worker.js
+    api-client.js
+    message-router.js
+  content/
+    content.js
+    dom-capture.js
+    overlay-manager.js
+    overlay.css
+  sidepanel/
+    index.html
+    sidepanel.js
+    popup.css
+    ui/
+      tabs.js
+      summary-renderer.js
+      findings-renderer.js
+  core/
+    amaweb-adapter.js
+    errors.js
+    validators.js
+    cache-store.js
+    export-report.js
+    message-types.js
+  data/
+    translations.json
+    rules.json
+```
+
+A migração pode começar sem framework e sem build. A adoção de TypeScript ou Vite só deve ocorrer quando o número de módulos e testes justificar a complexidade adicional.
+
+## Regras de organização
+
+1. O Side Panel deve renderizar a partir de dados, nunca armazenar HTML pronto no cache.
+2. Dados vindos da API devem ser inseridos com `textContent` ou APIs DOM seguras, nunca por interpolação em `innerHTML`.
+3. `popup.css` deve conter apenas a interface da extensão; `overlay.css` deve conter apenas os elementos injetados na página.
+4. O content script não deve alterar estilos do site avaliado sem guardar e restaurar o valor original.
+5. Mensagens entre contextos devem usar nomes constantes e payloads validados.
+6. A URL da API, timeout e ambiente devem ser configuração, não valores espalhados pelo código.
+
+## Correções prioritárias
+
+### P0: correção e segurança
+
+* Corrigir o uso de `topAbsoluto` antes da declaração no destaque específico.
+* Remover interpolação de descrição, critério e contadores em `innerHTML`.
+* Validar a estrutura da resposta do backend e tratar respostas incompletas.
+* Adicionar timeout e mensagens consistentes para falhas de rede, HTTP 413, 405 e indisponibilidade.
+* Evitar `catch` vazio e validar URL, seletor CSS e existência de elementos.
+* Remover a mutação permanente de `document.body.style.position`.
+
+### P1: estrutura e manutenção
+
+* Extrair o adaptador da API, o cliente HTTP, o cache e os renderizadores para módulos.
+* Substituir o cache de `htmlDetalhes` por um cache de dados normalizados.
+* Usar `Map` ou `chrome.storage.session`, com invalidação em recarga, mudança de URL e fechamento da aba.
+* Extrair todo CSS inline para classes semânticas e centralizar cores em variáveis CSS.
+* Separar o dicionário de traduções realmente usado pela extensão dos dados herdados do portal.
+* Definir o nível A, AA ou AAA a partir da API ou de uma tabela de regras, sem assumir sempre A.
+
+## Modelo interno de resultado
+
+Cada resultado adaptado deve seguir um formato estável:
+
+```js
+{
+  id: "imgAltNo",
+  title: "Imagens sem texto alternativo",
+  description: "...",
+  status: "error",
+  level: "A",
+  occurrenceCount: 3,
+  pointers: ["main img:nth-of-type(2)"]
+}
+```
+
+Esse modelo desacopla o backend da interface e facilita filtros, testes, exportação e troca do fornecedor da API.
+
+## Testes
+
+### Testes unitários
+
+* Sanitização do DOM e remoção de Base64.
+* Adaptação da resposta AMAWeb.
+* Contagem por status e nível de conformidade.
+* Tradução e classificação de erros HTTP.
+* Validação do contrato da API.
+* Geração do relatório exportado.
+
+### Testes de integração
+
+* Avaliação de uma página simples.
+* Renderização e limpeza dos overlays.
+* Destaque de uma regra com múltiplos elementos.
+* Troca de abas e invalidação do cache.
+* Recarregamento e navegação de SPA.
+
+## Próximas funcionalidades
+
+### Curto prazo
+
+* Filtros por erro, aviso, sucesso e nível A/AA/AAA.
+* Ordenação por regra ou quantidade de ocorrências.
+* Navegação entre ocorrências com “anterior” e “próximo”.
+* Painel de detalhes contendo seletor, HTML, atributos e sugestão de correção.
+* Reavaliação manual após alterações no DOM.
+
+### Médio prazo
+
+* Exportação em HTML, CSV e relatório para impressão.
+* Página de opções para servidor oficial, servidor local, idioma e timeout.
+* Histórico local de avaliações com pontuação e data.
+* Suporte a Shadow DOM aberto e documentação das limitações de iframes e Shadow DOM fechado.
+* Melhorias de teclado, foco, contraste e anúncios de carregamento para leitores de tela.
+
+### Longo prazo
+
+* Comparação entre avaliações e histórico de regressões.
+* Integração com CI/CD e formatos como SARIF.
+* Sugestões de correção baseadas na regra e no elemento encontrado.
+* Instrumentação opcional de desempenho e tamanho do payload.
+
+## Ordem de execução
+
+1. Corrigir destaque, segurança de renderização e tratamento de erros.
+2. Separar CSS do Side Panel e dos overlays.
+3. Extrair módulos de adaptação, estado, comunicação e renderização.
+4. Criar testes para sanitização, adaptação e contadores.
+5. Implementar filtros, detalhes de elementos e exportações adicionais.
+6. Avaliar persistência, histórico e integração com CI/CD.

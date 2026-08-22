@@ -6,13 +6,15 @@
   "permissions": [
     "activeTab",
     "scripting",
-    "sidePanel"
+    "sidePanel",
+    "storage"
   ],
   "host_permissions": [
     "https://amaweb.unifesp.br/*"
   ],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background/service-worker.js",
+    "type": "module"
   },
   "action": {
     "default_title": "Abrir Avaliador AMAWeb"
@@ -29,7 +31,11 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["content.js"],
+      "js": [
+        "content/dom-capture.js",
+        "content/overlay-manager.js",
+        "content.js"
+      ],
       "css": ["styles.css"]
     }
   ]
