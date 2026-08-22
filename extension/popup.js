@@ -199,7 +199,10 @@ document.getElementById('btn-analisar').addEventListener('click', async () => {
       let textoAmigavel = error.message || "Ocorreu um erro inesperado ao avaliar a página.";
 
       // MAPEAMENTO DE ERROS AMIGÁVEIS
-      if (textoAmigavel.includes("413")) {
+      
+      if (textoAmigavel.includes("Receiving end does not exist")) {
+        textoAmigavel = "A conexão com a página foi perdida. Por favor, atualize a aba (F5) e tente novamente."; }
+        else if (textoAmigavel.includes("413")) {
         textoAmigavel = "Esta página é muito grande ou possui muitos elementos visuais pesados. O servidor recusou o tamanho do arquivo (Erro 413).";
       } else if (textoAmigavel.includes("405")) {
         textoAmigavel = "Erro de comunicação com o servidor. Método não permitido (Erro 405).";

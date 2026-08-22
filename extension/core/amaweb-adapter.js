@@ -48,11 +48,22 @@ export function adaptarJsonAmaWeb(nodes, scoreGeral, dicionarioAMA) {
         ? traduzirResultado(chaveResultado, ocorrencias, dicionarioAMA)
         : '';
 
+      let descricaoLimpa = descricaoTraduzida|| "";
+
+      // Remove textos dinâmicos em inglês comuns injetados pelo motor
+      // descricaoLimpa = descricaoLimpa.replace(/This link skips a content block.*/gi, '');
+      // descricaoLimpa = descricaoLimpa.replace(/Encontrei \d+ imag.*/gi, ''); 
+
+      let tipoDeErroFormatado = "Para ver manualmente"; 
+            if (resultado.verdict === "failed") tipoDeErroFormatado = "Erro";
+            else if (resultado.verdict === "warning") tipoDeErroFormatado = "Aviso";
+            else if (resultado.verdict === "passed") tipoDeErroFormatado = "Sucesso";
+
       resultados.push({
         'Pontuação': scoreGeral,
-        'Tipo de erro': status === 'error' ? 'Erro' : status === 'warning' ? 'Aviso' : status === 'success' ? 'Sucesso' : 'Para ver manualmente',
+        'Tipo de erro': tipoDeErroFormatado,
         'Criterio': limparMarcacao(dicionarioAMA?.ELEMS?.[regraOficial?.[1]?.test || nomeDaRegra] || tituloTraduzido),
-        'Descricao': descricaoTraduzida || resultado.description || '',
+        'Descricao': descricaoLimpa.trim(),
         'Numero de ocorrencias': ocorrencias,
         'Valor': ocorrencias,
         'Regra': chaveResultado || nomeDaRegra,

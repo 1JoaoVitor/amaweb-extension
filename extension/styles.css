@@ -4,24 +4,41 @@
     left: 0 !important;
     width: 100% !important;
     height: 100% !important;
-    z-index: 9999 !important;
+    z-index: 2147483647 !important; 
     pointer-events: none !important;
 }
 
 
-/* --- ESTILOS DO CONTORNO (BOX) --- */
+.amaweb-badge-container > div.ativo {
+    z-index: 10 !important; 
+}
+
+
+
+/* --- ESTILOS DA CAIXA (MODO WAVE: INVISÍVEL POR PADRÃO) --- */
 .amaweb-highlight-box {
     position: absolute !important;
-    outline-offset: 2px !important;
     pointer-events: none !important;
+    opacity: 0 !important; /* Totalmente invisível até passar o mouse */
+    transition: opacity 0.2s ease-in-out !important;
+    background-color: transparent !important;
+    outline: none !important;
+     z-index: 1 !important; 
 }
 
 .amaweb-highlight-box.error {
-    outline: 3px solid #ff4d4d !important;
+    border: 3px dashed #ff4d4d !important;
+    background-color: rgba(255, 77, 77, 0.1) !important; /* Fundo avermelhado leve */
 }
 
 .amaweb-highlight-box.warning {
-    outline: 3px solid #ffaa00 !important;
+    border: 3px dashed #ffaa00 !important;
+    background-color: rgba(255, 170, 0, 0.1) !important; /* Fundo amarelado leve */
+}
+
+/* Quando o mouse passa no ícone, o JS adiciona esta classe na caixa */
+.amaweb-highlight-box.ativa {
+    opacity: 1 !important;
 }
 
 /* --- ESTILOS DO CONTÊINER DE ETIQUETAS --- */
@@ -30,27 +47,94 @@
     display: flex !important;
     flex-wrap: wrap !important;
     gap: 4px !important;
-    z-index: 2147483647 !important;
     pointer-events: none !important;
+    z-index: 3 !important; 
 }
 
-.amaweb-badge-container:hover {
-    z-index: 2147483647 !important; 
-}
 
-/* --- ESTILOS DA ETIQUETA (BADGE) --- */
+/* --- ESTILOS DO ÍCONE (NOVO BADGE MINIMALISTA) --- */
 .amaweb-badge {
     position: relative !important; 
     color: white !important;
     font-family: 'Segoe UI', Arial, sans-serif !important;
-    font-size: 11px !important;
+    font-size: 14px !important;
     font-weight: bold !important;
-    padding: 4px 8px !important;
-    border-radius: 4px !important;
-    white-space: nowrap !important;
+    width: 24px !important;
+    height: 24px !important;
+    border-radius: 50% !important; /* Transforma em círculo perfeito */
+    border: 2px solid white !important; /* Borda branca para destacar do fundo */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     pointer-events: auto !important;
     cursor: help !important;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.4) !important;
+    line-height: 1 !important;
+}
+
+.amaweb-badge.error {
+    background-color: #ff4d4d !important;
+}
+
+.amaweb-badge.warning {
+    background-color: #ffaa00 !important;
+    color: #333 !important; /* Melhor contraste no fundo amarelo */
+}
+
+
+/* --- ESTILOS DO TOOLTIP (CLIQUE) --- */
+.amaweb-tooltip-box {
+    display: none !important;
+    position: absolute !important;
+    bottom: 35px !important; /* Posicionado acima do ícone */
+    left: -10px !important;
+    background-color: #ffffff !important;
+    color: #333333 !important;
+    border: 2px solid #2b5c46 !important; /* Cor primária do seu projeto */
+    padding: 10px !important;
+    border-radius: 4px !important;
+    width: max-content !important;
+    max-width: 250px !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important;
+    text-align: left !important;
+    line-height: 1.4 !important;
+    font-family: Arial, sans-serif !important;
+    font-size: 13px !important;
+    pointer-events: auto !important;
+}
+
+/* Seta apontando para baixo */
+.amaweb-tooltip-box::after {
+    content: '' !important;
+    position: absolute !important;
+    top: 100% !important;
+    left: 15px !important;
+    border-width: 8px !important;
+    border-style: solid !important;
+    border-color: #2b5c46 transparent transparent transparent !important;
+}
+
+.amaweb-badge-container > div {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* Mostra o Tooltip quando o wrapper tem a classe 'ativo' adicionada pelo JS */
+.amaweb-badge-container > div.ativo .amaweb-tooltip-box {
+    display: block !important;
+}
+
+/* Inverte o tooltip para abrir para BAIXO quando estiver no topo da tela */
+.amaweb-badge-container > div.flip .amaweb-tooltip-box {
+    bottom: auto !important;
+    top: 35px !important;
+}
+
+/* Inverte a seta do tooltip para apontar para cima */
+.amaweb-badge-container > div.flip .amaweb-tooltip-box::after {
+    top: auto !important;
+    bottom: 100% !important;
+    border-color: transparent transparent #2b5c46 transparent !important;
 }
 
 .amaweb-badge.error {
@@ -61,24 +145,7 @@
     background-color: #ffaa00 !important;
 }
 
-/* O Tooltip */
-.amaweb-badge:hover::after {
-    content: attr(data-description);
-    position: absolute !important;
-    top: 25px !important;
-    left: 0 !important;
-    background-color: #222 !important;
-    color: #fff !important;
-    padding: 8px 12px !important;
-    border-radius: 5px !important;
-    font-size: 12px !important;
-    font-weight: normal !important;
-    white-space: normal !important;
-    width: max-content !important;
-    max-width: 250px !important;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3) !important;
-    z-index: 2147483647 !important;
-}
+
 
 
 
@@ -88,12 +155,11 @@
     box-shadow: 0 0 15px 5px rgba(0, 242, 254, 0.8) !important;
     background-color: rgba(0, 242, 254, 0.2) !important;
     transition: all 0.3s ease-in-out !important;
-    z-index: 2147483646 !important; 
+    z-index: 2 !important; 
 }
 
 .amaweb-badge.amaweb-focado {
     transform: scale(1.15) !important;
     box-shadow: 0 0 15px 3px rgba(0, 242, 254, 0.8) !important;
     border: 2px solid white !important;
-    z-index: 2147483647 !important;
 }
