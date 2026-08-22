@@ -11,6 +11,7 @@ O protótipo usa Manifest V3 e possui três contextos principais:
 * `popup.js` e `popup.html`: controlam a interface, calculam contadores e exportam o relatório.
 * `core/cache-store.js`: mantém cache rápido em memória e persiste os resultados na sessão do navegador.
 * `core/amaweb-adapter.js`: converte a resposta do backend para o modelo usado pela interface.
+* `core/tests-catalog.js` e `core/tests-colors.js`: catálogos de metadados derivados do pacote `evaluation`, usados para resolver a chave traduzível, nível e status de cada teste.
 * `sidepanel/findings-renderer.js`: cria os cards de erros e gerencia o destaque dos elementos.
 
 O principal ponto de manutenção é o excesso de responsabilidades em `popup.js` e a mistura de CSS do Side Panel, CSS dos overlays, estilos inline e estilos aplicados por JavaScript.
@@ -76,7 +77,7 @@ A migração pode começar sem framework e sem build. A adoção de TypeScript o
 * Substituir o cache de `htmlDetalhes` por um cache de dados normalizados.
 * Usar `Map` ou `chrome.storage.session`, com invalidação em recarga, mudança de URL e fechamento da aba.
 * Extrair todo CSS inline para classes semânticas e centralizar cores em variáveis CSS.
-* Separar o dicionário de traduções realmente usado pela extensão dos dados herdados do portal.
+* Separar o dicionário de traduções realmente usado pela extensão dos dados herdados do portal. A primeira integração já reutiliza `ELEMS` e `TESTS_RESULTS` do catálogo oficial.
 * Definir o nível A, AA ou AAA a partir da API ou de uma tabela de regras, sem assumir sempre A.
 
 ## Modelo interno de resultado
@@ -96,6 +97,16 @@ Cada resultado adaptado deve seguir um formato estável:
 ```
 
 Esse modelo desacopla o backend da interface e facilita filtros, testes, exportação e troca do fornecedor da API.
+
+## Tradução das respostas da API
+
+O backend retorna descrições em inglês, mas o avaliador oficial não traduz essas descrições dinamicamente. Ele usa três catálogos locais:
+
+* `ELEMS`: nome localizado do teste técnico, como `imgAltNo`.
+* `tests.ts`: relação entre o teste técnico, a chave de resultado, o nível, a referência WCAG e os critérios relacionados.
+* `TESTS_RESULTS`: mensagem localizada da regra, com versões singular (`s`) e plural (`p`).
+
+Na extensão, essa estratégia foi incorporada em `core/amaweb-adapter.js`, com os catálogos convertidos para `core/tests-catalog.js` e `core/tests-colors.js`. Quando uma regra ainda não existe no catálogo local, a extensão mantém a descrição original da API como fallback.
 
 ## Testes
 
