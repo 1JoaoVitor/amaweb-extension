@@ -1,6 +1,6 @@
 import { cacheAvaliacoes } from './core/cache-store.js';
 import { adaptarJsonAmaWeb } from './core/amaweb-adapter.js';
-import { renderizarCardResultado, limparRegraAtiva } from './sidepanel/findings-renderer.js';
+import { atualizarListaDeResultados, limparRegraAtiva } from './sidepanel/findings-renderer.js';
 
 // DICIONÁRIO DE ERROS DO SERVIDOR (AMAWeb)
 const MENSAGENS_ERRO_API = {
@@ -120,29 +120,7 @@ document.getElementById('btn-analisar').addEventListener('click', async () => {
       geral: { total: 0, A: 0, AA: 0, AAA: 0 }
     };
 
-    dadosAvaliacao.forEach((item, index) => {
-      const ehErro = item["Tipo de erro"] === "Erro" || item["Tipo de erro"] === "Não aceitável";
-      const ehAviso = item["Tipo de erro"] === "Aviso" || item["Tipo de erro"] === "Para ver manualmente";
-
-      const ocorrencias = item["Numero de ocorrencias"] || 1;
-      let nivel = (item["Nivel de Conformidade"] || "A").includes("AAA") ? "AAA" : 
-                  (item["Nivel de Conformidade"] || "A").includes("AA") ? "AA" : "A";
-
-      if (ehErro) {
-        contagem.erros.total += ocorrencias;
-        contagem.erros[nivel] += ocorrencias;
-      } else if (ehAviso) {
-        contagem.avisos.total += ocorrencias;
-        contagem.avisos[nivel] += ocorrencias;
-      } else {
-        contagem.sucessos.total += ocorrencias;
-        contagem.sucessos[nivel] += ocorrencias;
-      }
-      contagem.geral.total += ocorrencias;
-      contagem.geral[nivel] += ocorrencias;
-
-      renderizarCardResultado(item, index, tab);
-    });
+    atualizarListaDeResultados(dadosAvaliacao, tab);
 
     // Atualiza os contadores na UI
     document.getElementById('score-value').innerText = notaGeral;
@@ -298,7 +276,7 @@ function restaurarDoCache(tabId, tab) {
     limparRegraAtiva();
     const listaDetalhada = document.getElementById('lista-detalhada');
     listaDetalhada.replaceChildren();
-    cache.dados.forEach((item, index) => renderizarCardResultado(item, index, tab));
+    atualizarListaDeResultados(cache.dados, tab);
 
   document.getElementById('results-panel').style.display = "flex";
   
@@ -433,4 +411,15 @@ chrome.runtime.onMessage.addListener((message) => {
       }
     }, 150); 
   }
+});
+
+// Ativa os filtros ao trocar as opções
+['filtro-tipo', 'filtro-nivel', 'ordenacao'].forEach(id => {
+  document.getElementById(id)?.addEventListener('change', async () => {
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    const cache = cacheAvaliacoes.get(tab.id);
+    if (cache && cache.dados) {
+      atualizarListaDeResultados(cache.dados, tab);
+    }
+  });
 });

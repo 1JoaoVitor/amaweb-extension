@@ -333,3 +333,75 @@ button:hover:not(:disabled) {
 .am-slider::before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: white; transition: 0.4s; border-radius: 50%; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); }
 .am-switch input:checked + .am-slider { background-color: var(--color-info); }
 .am-switch input:checked + .am-slider::before { transform: translateX(16px); }
+
+
+/* --- BARRA DE FILTROS (Organizada em Coluna para Painéis Estreitos) --- */
+.am-filtros-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 12px;
+  background-color: var(--color-surface);
+  border-radius: var(--radius-small);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.am-select {
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-small);
+  background-color: #ffffff;
+  color: var(--color-text);
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.am-select:focus {
+  outline: none;
+  border-color: var(--color-primary-soft);
+}
+
+/* --- PAINEL DE DETALHES EXPANDIDO --- */
+.am-card-details {
+  display: none; /* Escondido por padrão */
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed #ccc;
+  font-size: 12px;
+  color: #444;
+}
+
+.am-card.expandido .am-card-details {
+  display: block; /* Mostra quando o card ganha a classe 'expandido' */
+}
+
+.am-details-list {
+  margin: 5px 0 0 0;
+  padding-left: 20px;
+  max-height: 100px;
+  overflow-y: auto;
+}
+
+.am-details-list li {
+  margin-bottom: 4px;
+  font-family: monospace;
+  background: #f1f1f1;
+  padding: 2px 4px;
+  border-radius: 3px;
+  word-break: break-all;
+}
+
+.btn-expandir {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font-size: 11px;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  margin-left: auto;
+}

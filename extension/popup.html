@@ -77,6 +77,27 @@
     </section>
 
     <section id="view-detalhes" class="tab-content">
+      <div class="am-filtros-container">
+        <select id="filtro-tipo" class="am-select">
+          <option value="todos">Todos os problemas</option>
+          <option value="error">Apenas Erros</option>
+          <option value="warning">Apenas Avisos</option>
+        </select>
+
+        <select id="filtro-nivel" class="am-select">
+          <option value="todos">Todos os Níveis</option>
+          <option value="A">Nível A</option>
+          <option value="AA">Nível AA</option>
+          <option value="AAA">Nível AAA</option>
+        </select>
+
+        <select id="ordenacao" class="am-select">
+          <option value="padrao">Ordem Padrão</option>
+          <option value="ocorrencias-desc">Mais ocorrências</option>
+          <option value="ocorrencias-asc">Menos ocorrências</option>
+        </select>
+      </div>
+      
       <div id="lista-detalhada">
         <p class="empty-state">Execute a avaliação na aba "Visão Geral" primeiro.</p>
       </div>
