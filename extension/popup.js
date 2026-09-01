@@ -155,7 +155,7 @@ document.getElementById('btn-analisar').addEventListener('click', async () => {
     chrome.tabs.sendMessage(tab.id, { 
       action: "RENDER_OVERLAYS", 
       data: dadosAvaliacao 
-    });
+    }).catch(() => {});
 
     // ======== NOVO: SALVANDO NO CACHE ========
     await cacheAvaliacoes.set(tab.id, {
@@ -206,7 +206,7 @@ document.getElementById('btn-analisar').addEventListener('click', async () => {
 document.getElementById('btn-limpar').addEventListener('click', async () => {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   if (!tab) return;
-  chrome.tabs.sendMessage(tab.id, { action: "CLEAR_OVERLAYS" });
+  chrome.tabs.sendMessage(tab.id, { action: "CLEAR_OVERLAYS" }).catch(() => {});
 });
 
 // ======== LÓGICA DE CACHE, RESET E EVENTOS ========

@@ -65,10 +65,21 @@
     badge.className = `amaweb-badge ${tipo}`;
     badge.textContent = tipo === 'error' ? '✖' : '❗';
 
-    // Tooltip em HTML (WAVE Style)
+    // Tooltip em HTML (WAVE Style) - Criado com DOM API (seguro contra XSS)
     const tooltip = document.createElement('div');
     tooltip.className = 'amaweb-tooltip-box';
-    tooltip.innerHTML = `<strong>${texto}</strong><br><span style="font-size:12px; font-weight:normal;">${descricao}</span>`;
+    
+    const strong = document.createElement('strong');
+    strong.textContent = texto;
+    tooltip.appendChild(strong);
+    
+    tooltip.appendChild(document.createElement('br'));
+    
+    const span = document.createElement('span');
+    span.style.fontSize = '12px';
+    span.style.fontWeight = 'normal';
+    span.textContent = descricao;
+    tooltip.appendChild(span);
 
     // Evento de Clique
     badge.addEventListener('click', (e) => {
