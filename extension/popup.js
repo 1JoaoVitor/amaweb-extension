@@ -1,5 +1,6 @@
 import { cacheAvaliacoes } from './core/cache-store.js';
 import { adaptarJsonAmaWeb } from './core/amaweb-adapter.js';
+import { validateEvaluationResponse } from './core/validators.js';
 import { atualizarListaDeResultados, limparRegraAtiva } from './sidepanel/findings-renderer.js';
 
 // DICIONÁRIO DE ERROS DO SERVIDOR (AMAWeb)
@@ -90,22 +91,17 @@ document.getElementById('btn-analisar').addEventListener('click', async () => {
     
     const jsonReal = response.dados;
 
-    // 3. Verifica os códigos de erro oficiais do backend do AMAWeb
-    if (jsonReal.success === 0) {
-        const codigoErro = jsonReal.message; 
-        const mensagemTraduzida = MENSAGENS_ERRO_API[codigoErro] || `Erro na avaliação: ${codigoErro}`;
+    // 3. Valida os códigos de erro e estructura da resposta
+    const validacao = validateEvaluationResponse(jsonReal);
+    if (!validacao.valid) {
+        const mensagemTraduzida = MENSAGENS_ERRO_API[validacao.code] || validacao.error;
         throw new Error(mensagemTraduzida);
     }
 
-    // Valida a estrutura da resposta de sucesso
-    if (!jsonReal.result || !jsonReal.result.data || !jsonReal.result.data.nodes) {
-        throw new Error("Formato de resposta da API inválido ou inesperado.");
-    }
-
-    const scoreGeral = jsonReal.result.data.score || "0.0";
+    const scoreGeral = String(validacao.data.score) || "0.0";
     
     // 4. O ADAPTADOR: Converte o JSON complexo para o formato da UI
-    const dadosAvaliacao = adaptarJsonAmaWeb(jsonReal.result.data.nodes, scoreGeral, dicionarioAMA);
+    const dadosAvaliacao = adaptarJsonAmaWeb(validacao.data.nodes, scoreGeral, dicionarioAMA);
 
     // Renderização e Contagem
     const listaDetalhada = document.getElementById('lista-detalhada');
