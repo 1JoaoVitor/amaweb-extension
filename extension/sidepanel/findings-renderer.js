@@ -1,10 +1,41 @@
+/**
+ * @fileoverview Renderizador de resultados de avaliação no side panel
+ * 
+ * Responsável por filtrar, ordenar e renderizar os cards de erros/avisos.
+ * Gerencia estado de expansão dos cards e comunicação com content script para overlays.
+ * 
+ * Exports: atualizarListaDeResultados, limparRegraAtiva
+ */
+
 let regraAtivaIndex = null;
 
+/**
+ * Limpa a regra ativa (remove destaque de sobreposição anterior)
+ * @returns {void}
+ */
 export function limparRegraAtiva() {
   regraAtivaIndex = null;
 }
 
-// Gerencia os filtros, a ordenação e o loop da lista inteira
+/**
+ * Atualiza a lista de resultados com filtros e ordenação aplicados.
+ * 
+ * Lê os valores dos selects (#filtro-tipo, #filtro-nivel, #ordenacao),
+ * filtra e ordena os dados, renderiza os cards individuais.
+ * Comunica com content script para renderizar/limpar overlays.
+ * 
+ * @param {Array} dadosOriginais - Array de resultados do adaptador
+ *   Cada item: { Criterio, Descricao, Tipo de erro, Nivel de Conformidade, ... }
+ * @param {Object} tab - Objeto chrome.tabs.Tab com { id, url, ... }
+ * @returns {void}
+ * 
+ * @example
+ *   const dados = [
+ *     { Criterio: "1.1.1", Descricao: "Alt text missing", Tipo de erro: "Erro", Nivel de Conformidade: "A" },
+ *     ...
+ *   ];
+ *   atualizarListaDeResultados(dados, { id: 123, url: "https://..." });
+ */
 export function atualizarListaDeResultados(dadosOriginais, tab) {
   const listaDetalhada = document.getElementById('lista-detalhada');
   listaDetalhada.replaceChildren();

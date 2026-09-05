@@ -183,63 +183,63 @@ extension/
 
 ---
 
-## Checklist de Validação
+## Checklist de Validaï¿½ï¿½o
 
-Antes de considerar a extensão "pronta para público", verificar:
+Antes de considerar a extensï¿½o "pronta para pï¿½blico", verificar:
 
-- [ ] Nenhum `console.error` não tratado
-- [ ] Nenhum `.innerHTML +=` ou interpolação direta em HTML
-- [ ] Estilos do body/html restaurados após limpar overlays
+- [ ] Nenhum `console.error` nï¿½o tratado
+- [ ] Nenhum `.innerHTML +=` ou interpolaï¿½ï¿½o direta em HTML
+- [ ] Estilos do body/html restaurados apï¿½s limpar overlays
 - [ ] Cache funciona em trocar de aba e recarga
 - [ ] Mensagens de erro cobrem: timeout, 413, 405, DNS, rate limit, indisponibilidade
-- [ ] Filtros e ordenação não quebram renderização
-- [ ] Overlays não ficam presos em Shadow DOM
-- [ ] Exportação JSON está válida e contém todos os campos
-- [ ] Traduções não têm placeholders `{{value}}` quebrados
-- [ ] URLs internas são bloqueadas
+- [ ] Filtros e ordenaï¿½ï¿½o nï¿½o quebram renderizaï¿½ï¿½o
+- [ ] Overlays nï¿½o ficam presos em Shadow DOM
+- [ ] Exportaï¿½ï¿½o JSON estï¿½ vï¿½lida e contï¿½m todos os campos
+- [ ] Traduï¿½ï¿½es nï¿½o tï¿½m placeholders `{{value}}` quebrados
+- [ ] URLs internas sï¿½o bloqueadas
 - [ ] Funciona em Chrome, Edge e Chromium
 
 ---
 
 ## Roadmap
 
-### Curto Prazo (próximas 2-4 semanas)
+### Curto Prazo (prï¿½ximas 2-4 semanas)
 
-1. **Testes unitários** para adaptador e cache (Vitest)
-2. **Separação de CSS** (sidepanel.css vs overlay.css)
-3. **Validação de schema** da resposta da API
-4. **Documentação JSDoc** nos exports principais
-5. **Auditoria de segurança** (XSS, innerHTML, estilos globais)
+1. **Testes unitï¿½rios** para adaptador e cache (Vitest)
+2. **Separaï¿½ï¿½o de CSS** (sidepanel.css vs overlay.css)
+3. **Validaï¿½ï¿½o de schema** da resposta da API
+4. **Documentaï¿½ï¿½o JSDoc** nos exports principais
+5. **Auditoria de seguranï¿½a** (XSS, innerHTML, estilos globais)
 
-### Médio Prazo (1-2 meses)
+### Mï¿½dio Prazo (1-2 meses)
 
-6. Navegação entre ocorrências (anterior/próximo)
-7. Painel de detalhes expansível com seletor e sugestões
-8. Exportação em CSV e HTML
-9. Página de opções (servidor customizado, timeout, idioma)
-10. Histórico local com `chrome.storage.local`
+6. Navegaï¿½ï¿½o entre ocorrï¿½ncias (anterior/prï¿½ximo)
+7. Painel de detalhes expansï¿½vel com seletor e sugestï¿½es
+8. Exportaï¿½ï¿½o em CSV e HTML
+9. Pï¿½gina de opï¿½ï¿½es (servidor customizado, timeout, idioma)
+10. Histï¿½rico local com `chrome.storage.local`
 
 ### Longo Prazo (3+ meses)
 
-11. Comparação entre avaliações e regressões
-12. Suporte a documentação de Shadow DOM e limitações
-13. Melhorias de acessibilidade própria (teclado, contraste, ARIA)
+11. Comparaï¿½ï¿½o entre avaliaï¿½ï¿½es e regressï¿½es
+12. Suporte a documentaï¿½ï¿½o de Shadow DOM e limitaï¿½ï¿½es
+13. Melhorias de acessibilidade prï¿½pria (teclado, contraste, ARIA)
 14. Modo offline com dados em cache
-15. Integração com CI/CD (relatórios automáticos)
+15. Integraï¿½ï¿½o com CI/CD (relatï¿½rios automï¿½ticos)
 
 ---
 
-## Arquivos de Referência
+## Arquivos de Referï¿½ncia
 
-Armazenados em `docs/referencia-amaweb/` para consulta técnica:
+Armazenados em `docs/referencia-amaweb/` para consulta tï¿½cnica:
 
-- `mapping.ts`: lógica oficial de mapeamento de regras e elementos
-- `tests.ts`: catálogo completo de regras com metadados
+- `mapping.ts`: lï¿½gica oficial de mapeamento de regras e elementos
+- `tests.ts`: catï¿½logo completo de regras com metadados
 - `testsColors.ts`: cores e status por regra
-- `scs.ts`: critérios de sucesso e URLs
-- `translate.ts`: implementação oficial de tradução
+- `scs.ts`: critï¿½rios de sucesso e URLs
+- `translate.ts`: implementaï¿½ï¿½o oficial de traduï¿½ï¿½o
 
-Esses arquivos foram copiados para referência mas não são utilizados diretamente em produção (já foram incorporados em `tests-catalog.js`).
+Esses arquivos foram copiados para referï¿½ncia mas nï¿½o sï¿½o utilizados diretamente em produï¿½ï¿½o (jï¿½ foram incorporados em `tests-catalog.js`).
 
 ---
 
@@ -247,34 +247,34 @@ Esses arquivos foram copiados para referência mas não são utilizados diretamente
 
 ### Localidades de Risco
 
-1. **popup.js, linhas 80+**: Loop de renderização e atualização de contadores. Risco de performance se houver muitos resultados (>1000).
-2. **findings-renderer.js, linhas 40+**: Renderização de cards. Se `item.Descricao` vier da API com HTML, há risco de XSS.
+1. **popup.js, linhas 80+**: Loop de renderizaï¿½ï¿½o e atualizaï¿½ï¿½o de contadores. Risco de performance se houver muitos resultados (>1000).
+2. **findings-renderer.js, linhas 40+**: Renderizaï¿½ï¿½o de cards. Se `item.Descricao` vier da API com HTML, hï¿½ risco de XSS.
 3. **content.js, linhas com `style`**: Mudar estilos globais sem salvar estado anterior.
 
 ### Como Estender
 
 **Adicionar novo filtro:**
 - Adicionar `<select id="filtro-novo">` em `popup.html`
-- Adicionar lógica em `findings-renderer.js` no método `atualizarListaDeResultados()`
+- Adicionar lï¿½gica em `findings-renderer.js` no mï¿½todo `atualizarListaDeResultados()`
 
 **Adicionar novo campo ao resultado:**
 - Adicionar em `amaweb-adapter.js` dentro do loop de resultados
-- Adicionar tradução em `translations.json` se necessário
+- Adicionar traduï¿½ï¿½o em `translations.json` se necessï¿½rio
 - Atualizar export em `popup.js` se mudar o schema
 
 **Testar localmente:**
 ```bash
-# No Chrome: chrome://extensions ? "Carregar extensão sem empacotamento" ? selecionar pasta extension/
+# No Chrome: chrome://extensions ? "Carregar extensï¿½o sem empacotamento" ? selecionar pasta extension/
 # Verificar console: F12 no painel lateral, Developer tools
 # Limpar cache: Settings ? Clear all ? refresh
 ```
 
 ---
 
-## Último Status
+## ï¿½ltimo Status
 
 - **Data:** 22 de agosto de 2026
 - **Branch:** develop
 - **Testes:** nenhum (prioridade: implementar em curto prazo)
-- **Funcionalidade:** core completo, filtros e ordenação operacionais, cache estável
-- **Próximo:** Auditoria de segurança (XSS, interpolação de dados)
+- **Funcionalidade:** core completo, filtros e ordenaï¿½ï¿½o operacionais, cache estï¿½vel
+- **Prï¿½ximo:** Auditoria de seguranï¿½a (XSS, interpolaï¿½ï¿½o de dados)
