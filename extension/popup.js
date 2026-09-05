@@ -1,6 +1,7 @@
 import { cacheAvaliacoes } from './core/cache-store.js';
 import { adaptarJsonAmaWeb } from './core/amaweb-adapter.js';
 import { validateEvaluationResponse } from './core/validators.js';
+import { exportarRelatorio } from './core/export-report.js';
 import { atualizarListaDeResultados, limparRegraAtiva } from './sidepanel/findings-renderer.js';
 
 // DICIONÁRIO DE ERROS DO SERVIDOR (AMAWeb)
@@ -342,25 +343,10 @@ document.getElementById('btn-baixar-json').addEventListener('click', async () =>
   }
 
   const dadosBrutos = cache.dados;
+  const nomeArquivo = `relatorio-amaweb-${new Date().getTime()}`;
   
-  // Formata o JSON para ficar bonitinho e legível no arquivo (com 2 espaços de indentação)
-  const conteudoJson = JSON.stringify(dadosBrutos, null, 2);
-  
-  // Cria um arquivo virtual em memória (Blob)
-  const blob = new Blob([conteudoJson], { type: "application/json" });
-  const urlVirtual = URL.createObjectURL(blob);
-  
-  // Cria um link <a> invisível, clica nele para baixar e depois o destrói
-  const linkInvisivel = document.createElement('a');
-  linkInvisivel.href = urlVirtual;
-  linkInvisivel.download = `relatorio-amaweb-${new Date().getTime()}.json`;
-  
-  document.body.appendChild(linkInvisivel);
-  linkInvisivel.click();
-  
-  // Limpa a memória
-  document.body.removeChild(linkInvisivel);
-  URL.revokeObjectURL(urlVirtual);
+  // Delega para o módulo de exportação
+  exportarRelatorio(dadosBrutos, nomeArquivo);
 });
 
 // OUVINTE PARA CLIQUE NO OVERLAY DA PÁGINA
