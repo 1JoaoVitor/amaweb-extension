@@ -26,3 +26,12 @@
 
   globalThis.AmawebDomCapture = { capturar };
 })();
+
+// OUVINTE NATIVO PARA CAPTURA DE DOM
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.action === 'CAPTURE_HTML') {
+    // Chama a função global de captura que já existe neste arquivo
+    sendResponse(globalThis.AmawebDomCapture.capturar());
+    return true;
+  }
+});

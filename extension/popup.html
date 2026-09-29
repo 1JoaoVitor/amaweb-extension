@@ -2,7 +2,6 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="popup.css">
   <link rel="stylesheet" href="sidepanel.css">
 </head>
 <body>
@@ -17,16 +16,38 @@
     </nav>
 
     <section id="view-geral" class="tab-content active">
-      <div class="actions-row">
-        <button id="btn-analisar" type="button">Avaliar Página</button>
-        <button id="btn-limpar" class="button-danger" type="button">Limpar Tela</button>
+      
+      <!-- 1. BLOCO DE AÇÕES (Grid 2x2 com visual oficial) -->
+      <div class="actions-grid">
+        <button id="btn-analisar" class="btn-solid" type="button">Avaliar Página</button>
+        <button id="btn-limpar" class="btn-outline-danger" type="button">Limpar Tela</button>
+        <button id="btn-amaweb" class="btn-outline" type="button">Portal AMAWeb</button>
+        <button id="btn-baixar-json" class="btn-outline" type="button" disabled>Baixar JSON</button>
       </div>
 
-      <div class="actions-row">
-        <button id="btn-amaweb" class="button-primary" type="button">Portal AMAWeb</button>
-        <button id="btn-baixar-json" class="button-info" type="button" disabled>Baixar JSON</button>
+      <!-- 2. BLOCO DE CONFIGURAÇÕES (Agrupado com bordas retas) -->
+      <div class="settings-group">
+        <div class="options-row">
+          <label for="toggle-limpeza" class="options-label">Limpar marcações ao trocar de aba</label>
+          <label class="am-switch">
+            <input type="checkbox" id="toggle-limpeza">
+            <span class="am-slider"></span>
+          </label>
+        </div>
+        
+        <div class="options-row">
+          <label for="toggle-contagem" class="options-label">
+            Contar elementos afetados
+            <span>Ou quantidade de regras</span>
+          </label>
+          <label class="am-switch">
+            <input type="checkbox" id="toggle-contagem" checked>
+            <span class="am-slider"></span>
+          </label>
+        </div>
       </div>
 
+      <!-- 3. ESTADOS DE PROCESSAMENTO (Abaixo das configurações) -->
       <div id="loading-panel" class="loading-panel" role="status" aria-live="polite">
         <div class="spinner" aria-hidden="true"></div>
         <h3 class="loading-title">Avaliando Acessibilidade...</h3>
@@ -41,15 +62,9 @@
         <p id="error-message" class="error-message"></p>
       </section>
 
-      <div class="options-row">
-        <label for="toggle-limpeza" class="options-label">Limpar marcações ao trocar de aba</label>
-        <label class="am-switch">
-          <input type="checkbox" id="toggle-limpeza">
-          <span class="am-slider"></span>
-        </label>
-      </div>
-
+      <!-- 4. BLOCO DE RESULTADOS -->
       <section id="results-panel" class="results-panel">
+        
         <div class="score-box">
           <div id="score-value" class="score-value">--</div>
           <div class="score-label">Nota de Conformidade</div>
@@ -57,26 +72,32 @@
 
         <div class="tabela-resumo">
           <div class="tabela-header">Tipo de prática</div>
+          
           <div class="linha-resumo">
-            <div class="linha-titulo sucesso"><div class="icone-circulo"><span aria-hidden="true">+</span></div>Aceitáveis (<span id="count-sucesso-total">0</span>)</div>
+            <div class="linha-titulo sucesso"><div class="icone-circulo"><span aria-hidden="true">✓</span></div>Aceitáveis (<span id="count-sucesso-total">0</span>)</div>
             <div class="niveis-grid"><div class="nivel-col"><span>A</span><b id="count-sucesso-a">0</b></div><div class="nivel-col"><span>AA</span><b id="count-sucesso-aa">0</b></div><div class="nivel-col sem-borda"><span>AAA</span><b id="count-sucesso-aaa">0</b></div></div>
           </div>
+          
           <div class="linha-resumo">
-            <div class="linha-titulo aviso"><div class="icone-circulo"><span aria-hidden="true">-</span></div>Para ver manualmente (<span id="count-aviso-total">0</span>)</div>
+            <div class="linha-titulo aviso"><div class="icone-circulo"><span aria-hidden="true">!</span></div>Revisar manualmente (<span id="count-aviso-total">0</span>)</div>
             <div class="niveis-grid"><div class="nivel-col"><span>A</span><b id="count-aviso-a">0</b></div><div class="nivel-col"><span>AA</span><b id="count-aviso-aa">0</b></div><div class="nivel-col sem-borda"><span>AAA</span><b id="count-aviso-aaa">0</b></div></div>
           </div>
+          
           <div class="linha-resumo">
-            <div class="linha-titulo erro"><div class="icone-circulo"><span aria-hidden="true">x</span></div>Não aceitáveis (<span id="count-erro-total">0</span>)</div>
+            <div class="linha-titulo erro"><div class="icone-circulo"><span aria-hidden="true">✕</span></div>Erros (<span id="count-erro-total">0</span>)</div>
             <div class="niveis-grid"><div class="nivel-col"><span>A</span><b id="count-erro-a">0</b></div><div class="nivel-col"><span>AA</span><b id="count-erro-aa">0</b></div><div class="nivel-col sem-borda"><span>AAA</span><b id="count-erro-aaa">0</b></div></div>
           </div>
+          
           <div class="linha-resumo total-geral">
             <div class="linha-titulo">Total (<span id="count-geral-total">0</span>)</div>
             <div class="niveis-grid"><div class="nivel-col"><span>A</span><b id="count-geral-a">0</b></div><div class="nivel-col"><span>AA</span><b id="count-geral-aa">0</b></div><div class="nivel-col sem-borda"><span>AAA</span><b id="count-geral-aaa">0</b></div></div>
           </div>
         </div>
+        
       </section>
     </section>
 
+    <!-- ABA DE DETALHES -->
     <section id="view-detalhes" class="tab-content">
       <div class="am-filtros-container">
         <select id="filtro-tipo" class="am-select">
@@ -84,14 +105,12 @@
           <option value="error">Apenas Erros</option>
           <option value="warning">Apenas Avisos</option>
         </select>
-
         <select id="filtro-nivel" class="am-select">
           <option value="todos">Todos os Níveis</option>
           <option value="A">Nível A</option>
           <option value="AA">Nível AA</option>
           <option value="AAA">Nível AAA</option>
         </select>
-
         <select id="ordenacao" class="am-select">
           <option value="padrao">Ordem Padrão</option>
           <option value="ocorrencias-desc">Mais ocorrências</option>

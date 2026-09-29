@@ -2,7 +2,7 @@ import { cacheAvaliacoes } from './core/cache-store.js';
 import { adaptarJsonAmaWeb } from './core/amaweb-adapter.js';
 import { validateEvaluationResponse } from './core/validators.js';
 import { exportarRelatorio } from './core/export-report.js';
-import { atualizarListaDeResultados, limparRegraAtiva } from './sidepanel/findings-renderer.js';
+import { atualizarListaDeResultados, limparRegraAtiva, atualizarEstatisticas} from './sidepanel/findings-renderer.js';
 
 // DICIONÁRIO DE ERROS DO SERVIDOR (AMAWeb)
 const MENSAGENS_ERRO_API = {
@@ -117,49 +117,32 @@ document.getElementById('btn-analisar').addEventListener('click', async () => {
       geral: { total: 0, A: 0, AA: 0, AAA: 0 }
     };
 
+    // 1. PRIMEIRO: Pede à página para desenhar os overlays e memorizar o HTML
+    // O 'await' faz a extensão esperar a pintura terminar antes de prosseguir
+    await chrome.tabs.sendMessage(tab.id, { 
+      action: "RENDER_OVERLAYS", 
+      data: dadosAvaliacao 
+    }).catch(() => {});
+
+    // 2. SEGUNDO: Cria a lista (agora a página já tem o HTML na memória e achará os elementos)
     atualizarListaDeResultados(dadosAvaliacao, tab);
 
-    // Atualiza os contadores na UI
+    // 3. TERCEIRO: Atualiza os contadores
     document.getElementById('score-value').innerText = notaGeral;
-    
-    document.getElementById('count-sucesso-total').innerText = contagem.sucessos.total;
-    document.getElementById('count-sucesso-a').innerText = contagem.sucessos.A;
-    document.getElementById('count-sucesso-aa').innerText = contagem.sucessos.AA;
-    document.getElementById('count-sucesso-aaa').innerText = contagem.sucessos.AAA;
+    const modoAtual = document.getElementById('toggle-contagem')?.checked ? 'elementos' : 'regras';
+    atualizarEstatisticas(dadosAvaliacao, modoAtual);
 
-    document.getElementById('count-aviso-total').innerText = contagem.avisos.total;
-    document.getElementById('count-aviso-a').innerText = contagem.avisos.A;
-    document.getElementById('count-aviso-aa').innerText = contagem.avisos.AA;
-    document.getElementById('count-aviso-aaa').innerText = contagem.avisos.AAA;
-
-    document.getElementById('count-erro-total').innerText = contagem.erros.total;
-    document.getElementById('count-erro-a').innerText = contagem.erros.A;
-    document.getElementById('count-erro-aa').innerText = contagem.erros.AA;
-    document.getElementById('count-erro-aaa').innerText = contagem.erros.AAA;
-
-    document.getElementById('count-geral-total').innerText = contagem.geral.total;
-    document.getElementById('count-geral-a').innerText = contagem.geral.A;
-    document.getElementById('count-geral-aa').innerText = contagem.geral.AA;
-    document.getElementById('count-geral-aaa').innerText = contagem.geral.AAA;
-
-    // Exibe o painel de resultados finalizados
+    // 4. Exibe o painel de resultados finalizados
     if (loadingPanel) loadingPanel.style.display = "none";
     const btnDownload = document.getElementById('btn-baixar-json');
     if (btnDownload) btnDownload.disabled = false;  
     resultsPanel.style.display = "flex";
-
-    // Pede ao content.js para injetar e agrupar os overlays globais (todas as caixas)
-    chrome.tabs.sendMessage(tab.id, { 
-      action: "RENDER_OVERLAYS", 
-      data: dadosAvaliacao 
-    }).catch(() => {});
 
     // ======== NOVO: SALVANDO NO CACHE ========
     await cacheAvaliacoes.set(tab.id, {
       url: tab.url,
       dados: dadosAvaliacao, // Dados brutos para poder re-injetar os overlays
       scoreGeral: notaGeral,
-      contagem: contagem
     });
 
   } catch (error) {
@@ -253,27 +236,15 @@ function restaurarDoCache(tabId, tab) {
   
   // Restaura a nota e os contadores
   document.getElementById('score-value').innerText = cache.scoreGeral;
-  document.getElementById('count-sucesso-total').innerText = cache.contagem.sucessos.total;
-  document.getElementById('count-sucesso-a').innerText = cache.contagem.sucessos.A;
-  document.getElementById('count-sucesso-aa').innerText = cache.contagem.sucessos.AA;
-  document.getElementById('count-sucesso-aaa').innerText = cache.contagem.sucessos.AAA;
-  document.getElementById('count-aviso-total').innerText = cache.contagem.avisos.total;
-  document.getElementById('count-aviso-a').innerText = cache.contagem.avisos.A;
-  document.getElementById('count-aviso-aa').innerText = cache.contagem.avisos.AA;
-  document.getElementById('count-aviso-aaa').innerText = cache.contagem.avisos.AAA;
-  document.getElementById('count-erro-total').innerText = cache.contagem.erros.total;
-  document.getElementById('count-erro-a').innerText = cache.contagem.erros.A;
-  document.getElementById('count-erro-aa').innerText = cache.contagem.erros.AA;
-  document.getElementById('count-erro-aaa').innerText = cache.contagem.erros.AAA;
-  document.getElementById('count-geral-total').innerText = cache.contagem.geral.total;
-  document.getElementById('count-geral-a').innerText = cache.contagem.geral.A;
-  document.getElementById('count-geral-aa').innerText = cache.contagem.geral.AA;
-  document.getElementById('count-geral-aaa').innerText = cache.contagem.geral.AAA;
+  
+  // A mágica que automatiza a tabela:
+  const modoAtual = document.getElementById('toggle-contagem')?.checked ? 'elementos' : 'regras';
+  atualizarEstatisticas(cache.dados, modoAtual);
 
-    limparRegraAtiva();
-    const listaDetalhada = document.getElementById('lista-detalhada');
-    listaDetalhada.replaceChildren();
-    atualizarListaDeResultados(cache.dados, tab);
+  limparRegraAtiva();
+  const listaDetalhada = document.getElementById('lista-detalhada');
+  listaDetalhada.replaceChildren();
+  atualizarListaDeResultados(cache.dados, tab);
 
   document.getElementById('results-panel').style.display = "flex";
   
@@ -351,50 +322,59 @@ document.getElementById('btn-baixar-json').addEventListener('click', async () =>
 
 // OUVINTE PARA CLIQUE NO OVERLAY DA PÁGINA
 chrome.runtime.onMessage.addListener((message) => {
-  if (message.action === 'SCROLL_TO_ERROR') {
+  if (message.action === 'SCROLL_TO_ERROR' && message.titulo) {
     
-    // 1. Mudar para a Aba "Lista de Erros" automaticamente
-    const tabDetalhes = document.getElementById('view-detalhes');
-    const tabGeral = document.getElementById('view-geral'); // Corrigido para view-geral
-    const botoesAba = document.querySelectorAll('.tab-btn');
-    
-    if (tabDetalhes && tabGeral) {
-      tabGeral.classList.remove('active');
-      tabDetalhes.classList.add('active');
-      
-      botoesAba.forEach(btn => btn.classList.remove('active'));
-      // Seleciona o botão da aba de detalhes (geralmente o segundo botão, índice 1)
-      if (botoesAba.length > 1) botoesAba[1].classList.add('active'); 
+    document.querySelectorAll('.tab-content, .tab-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById('view-detalhes').classList.add('active');
+    document.getElementById('tab-detalhes').classList.add('active');
+
+    const filtroTipo = document.getElementById('filtro-tipo');
+    if (filtroTipo && filtroTipo.value !== 'todos') {
+      filtroTipo.value = 'todos';
+      filtroTipo.dispatchEvent(new Event('change'));
     }
 
-    // 2. Encontrar o Card, Rolar até ele e Dar o Efeito Visual
     setTimeout(() => {
-      const btn = document.querySelector(`.btn-destacar[data-index="${message.index}"]`);
-      if (btn) {
-        const card = btn.closest('.am-card');
-        if (card) {
-          // Desce até o card no painel
-          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          
-          // Efeito visual dinâmico
-          const estiloOriginalTransform = card.style.transform;
-          const estiloOriginalBoxShadow = card.style.boxShadow;
-          
-          card.style.transition = 'all 0.3s ease-in-out';
-          card.style.transform = 'scale(1.02)';
-          card.style.boxShadow = '0 0 15px 2px rgba(43, 92, 70, 0.6)';
-          
-          // Remove o efeito após 2 segundos
-          setTimeout(() => {
-            card.style.transform = estiloOriginalTransform;
-            card.style.boxShadow = estiloOriginalBoxShadow;
-          }, 2000);
-        }
+      let card = null;
+
+      // 1ª TENTATIVA: Tenta achar o card EXATO usando o Index (resolve cards com nomes iguais)
+      if (message.index !== undefined) {
+        const btn = document.querySelector(`.btn-destacar[data-index="${message.index}"]`);
+        if (btn) card = btn.closest('.am-card');
       }
-    }, 150); 
+
+      // 2ª TENTATIVA (Fallback): Se falhou (ex: lista foi reordenada), busca pelo Título (resolve SPAs como YouTube)
+      if (!card) {
+        const cardsTitle = Array.from(document.querySelectorAll('.am-card-title'));
+        let tituloEncontrado = cardsTitle.find(t => 
+          t.textContent.trim().includes(message.titulo.trim()) && 
+          t.closest('.am-card').querySelector('.btn-destacar')
+        );
+        if (!tituloEncontrado) tituloEncontrado = cardsTitle.find(t => t.textContent.trim().includes(message.titulo.trim()));
+        if (tituloEncontrado) card = tituloEncontrado.closest('.am-card');
+      }
+
+      // Se achou o card (por um método ou por outro), pisca-o!
+      if (card) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        card.style.transition = 'none';
+        card.style.boxShadow = 'none';
+        card.style.transform = 'scale(1)';
+        void card.offsetWidth; 
+        
+        card.style.transition = 'all 0.4s ease';
+        card.style.boxShadow = '0 0 0 3px #1b6345, 0 5px 15px rgba(0,0,0,0.2)';
+        card.style.transform = 'scale(1.03)';
+        
+        setTimeout(() => {
+          card.style.boxShadow = '0 1px 2px rgba(0,0,0,0.05)';
+          card.style.transform = 'scale(1)';
+        }, 2000);
+      }
+    }, 300); 
   }
 });
-
 // Ativa os filtros ao trocar as opções
 ['filtro-tipo', 'filtro-nivel', 'ordenacao'].forEach(id => {
   document.getElementById(id)?.addEventListener('change', async () => {
@@ -404,4 +384,20 @@ chrome.runtime.onMessage.addListener((message) => {
       atualizarListaDeResultados(cache.dados, tab);
     }
   });
+});
+
+// OUVINTE DO TOGGLE DA TABELA DE ESTATÍSTICAS
+document.getElementById('toggle-contagem')?.addEventListener('change', async (e) => {
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  const cache = tab && cacheAvaliacoes.get(tab.id);
+  
+  if (cache && cache.dados) {
+    const modo = e.target.checked ? 'elementos' : 'regras';
+    atualizarEstatisticas(cache.dados, modo);
+  }
+});
+
+// ABRIR PORTAL AMAWEB
+document.getElementById('btn-amaweb')?.addEventListener('click', () => {
+  chrome.tabs.create({ url: 'https://amaweb.unifesp.br/' }); // Substitua pela URL exata, se for diferente
 });
