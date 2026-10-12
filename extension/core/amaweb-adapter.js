@@ -1,0 +1,155 @@
+/**
+ * @fileoverview Adaptador de respostas da API AMAWeb
+ * 
+ * Converte JSON complexo da API oficial em estrutura normalizada para UI.
+ * Aplica tradução plural/singular, mapeamento de cores, decodificação de critérios WCAG.
+ * 
+ * Exports: adaptarJsonAmaWeb(nodes, scoreGeral, dicionarioAMA)
+ */
+
+import testsCatalog from './tests-catalog.js';
+
+const STATUS_POR_VERDICT = {
+  failed: 'failed',
+  warning: 'warning',
+  passed: 'passed'
+};
+
+/**
+ * Deduz o nível de conformidade WCAG (A, AA ou AAA) a partir de critérios de sucesso.
+ * Verifica padrões conhecidos de números de critério para determinar o nível mínimo.
+ * @param {string|number} scs - String de critérios de sucesso (ex: "1.1.1", "1.2.4")
+ * @returns {string} Nível WCAG: 'A' | 'AA' | 'AAA'
+ * @example descobrirNivelWCAG('1.2.5') → 'AA'
+ */
+function descobrirNivelWCAG(scs) {
+  if (!scs) return 'A'; 
+  const crit = String(scs);
+
+  if (crit.match(/1\.2\.6|1\.2\.7|1\.2\.8|1\.2\.9|1\.3\.6|1\.4\.6|1\.4\.7|1\.4\.8|1\.4\.9|2\.1\.3|2\.2\.3|2\.2\.4|2\.2\.5|2\.2\.6|2\.3\.2|2\.3\.3|2\.4\.8|2\.4\.9|2\.4\.10|3\.1\.3|3\.1\.4|3\.1\.5|3\.1\.6|3\.2\.5|3\.3\.5|3\.3\.6/)) {
+    return 'AAA';
+  }
+
+  if (crit.match(/1\.2\.4|1\.2\.5|1\.3\.4|1\.3\.5|1\.4\.3|1\.4\.4|1\.4\.5|1\.4\.10|1\.4\.11|1\.4\.12|1\.4\.13|2\.4\.5|2\.4\.6|2\.4\.7|3\.1\.2|3\.2\.3|3\.2\.4|3\.3\.3|3\.3\.4|4\.1\.3/)) {
+    return 'AA';
+  }
+
+  return 'A';
+}
+
+function limparMarcacao(texto = '') {
+  const entidades = {
+    '&lt;': '<',
+    '&gt;': '>',
+    '&amp;': '&',
+    '&quot;': '"',
+    '&#39;': "'",
+    '&apos;': "'"
+  };
+
+  return String(texto)
+    .replace(/<[^>]*>/g, '')
+    .replace(/&(lt|gt|amp|quot|#39|apos);/g, entidade => entidades[entidade] || entidade);
+}
+
+/**
+ * Localiza um teste no catálogo oficial a partir do nome técnico e verdict.
+ * Mapeia (test name + verdict) → chave de tradução no catálogo (ex: 'img_01b').
+ * @param {string} nomeDaRegra - Nome técnico do teste (ex: 'imgAltNo')
+ * @param {string} verdict - Resultado do teste ('failed'|'warning'|'passed')
+ * @returns {Array|null} [chave, regraObject] ou null se não encontrado
+ * @example localizarRegra('imgAltNo', 'failed') → ['img_01b', { test: 'imgAltNo', level: 'A', ... }]
+ */
+function localizarRegra(nomeDaRegra, verdict) {
+  const esperado = STATUS_POR_VERDICT[verdict] || verdict;
+  const candidatas = Object.entries(testsCatalog).filter(([, regra]) =>
+    regra.test === nomeDaRegra && regra.result === esperado
+  );
+  return candidatas[0] || null;
+}
+
+/**
+ * Traduz um resultado de teste selecionando a forma singular/plural da mensagem.
+ * Substitui placeholders {{value}} pela contagem de ocorrências.
+ * @param {string} chave - Chave de tradução do TESTS_RESULTS (ex: 'img_01b')
+ * @param {number} ocorrencias - Número de elementos afetados
+ * @param {Object} dicionarioAMA - Dicionário de traduções carregado
+ * @returns {string} Mensagem traduzida e formatada (ex: "Encontrei 3 imagens sem alt")
+ * @example traduzirResultado('img_01b', 2, dict) → "Encontrei 2 imagens sem texto alternativo"
+ */
+function traduzirResultado(chave, ocorrencias, dicionarioAMA) {
+  const mensagens = dicionarioAMA?.TESTS_RESULTS?.[chave];
+  if (!mensagens) return '';
+  const plural = Number(ocorrencias) === 1 ? mensagens.s : mensagens.p;
+  return limparMarcacao(plural || mensagens.s || mensagens.p || '')
+    .replace(/\{\{value\}\}/g, String(ocorrencias));
+}
+
+/**
+ * Converte resposta JSON da API AMAWeb em formato normalizado para a UI.
+ * Aplica tradução, decodificação de critérios, mapeamento de cores e cálculo de níveis WCAG.
+ * 
+ * @param {Object} nodes - Objeto de resultados da API (chave=teste, valor=array de resultados)
+ * @param {string|number} scoreGeral - Pontuação geral de acessibilidade (0-100)
+ * @param {Object} dicionarioAMA - Dicionário com { ELEMS: {...}, TESTS_RESULTS: {...}, ... }
+ * @returns {Array} Array de objetos normalizados com estrutura:
+ *   { Criterio, Descricao, Tipo de erro, Numero de ocorrencias, Nivel de Conformidade, ... }
+ * @example
+ *   const resultado = adaptarJsonAmaWeb(
+ *     { imgAltNo: [{ verdict: 'failed', elements: [...] }] },
+ *     '85.5',
+ *     translations
+ *   );
+ *   // Retorna: [{ Criterio: '1.1.1 Imagens', Descricao: 'Encontrei 3 imagens...', ... }]
+ */
+export function adaptarJsonAmaWeb(nodes, scoreGeral, dicionarioAMA) {
+  const resultados = [];
+
+  for (const [nomeDaRegra, arrayDeResultados] of Object.entries(nodes || {})) {
+    if (!Array.isArray(arrayDeResultados)) continue;
+
+    const tituloTraduzido = dicionarioAMA?.ELEMS?.[nomeDaRegra] || nomeDaRegra;
+
+    arrayDeResultados.forEach(resultado => {
+      let status = 'manual';
+      if (resultado.verdict === 'failed') status = 'error';
+      else if (resultado.verdict === 'warning') status = 'warning';
+      else if (resultado.verdict === 'passed') status = 'success';
+
+      const regraOficial = localizarRegra(nomeDaRegra, resultado.verdict);
+      const chaveResultado = regraOficial?.[0];
+      const elementos = Array.isArray(resultado.elements) ? resultado.elements : [];
+      const ocorrencias = elementos.length || 1;
+      const descricaoTraduzida = chaveResultado
+        ? traduzirResultado(chaveResultado, ocorrencias, dicionarioAMA)
+        : '';
+
+      let descricaoLimpa = descricaoTraduzida|| "";
+
+      let tipoDeErroFormatado = "Para ver manualmente"; 
+            if (resultado.verdict === "failed") tipoDeErroFormatado = "Erro";
+            else if (resultado.verdict === "warning") tipoDeErroFormatado = "Aviso";
+            else if (resultado.verdict === "passed") tipoDeErroFormatado = "Sucesso";
+
+      resultados.push({
+        'Pontuação': scoreGeral,
+        'Tipo de erro': tipoDeErroFormatado,
+        'Criterio': limparMarcacao(dicionarioAMA?.ELEMS?.[regraOficial?.[1]?.test || nomeDaRegra] || tituloTraduzido),
+        'Descricao': descricaoLimpa.trim(),
+        'Numero de ocorrencias': ocorrencias,
+        'Valor': ocorrencias,
+        'Regra': chaveResultado || nomeDaRegra,
+        'Referencia': regraOficial?.[1]?.ref || '',
+        'CriteriosRelacionados': regraOficial?.[1]?.scs || '',
+        'Nivel de Conformidade': regraOficial?.[1]?.level?.toUpperCase() || 
+                         resultado.level?.toUpperCase() || 
+                         descobrirNivelWCAG(regraOficial?.[1]?.scs),
+        'Elementos': {
+          'elementosHtml': elementos
+        }
+      });
+    });
+  }
+
+  return resultados;
+}

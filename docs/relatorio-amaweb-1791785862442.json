@@ -1,0 +1,776 @@
+[
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Título da página",
+    "Descricao": "Encontrei um título na página e ele me parece correto.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "title_06",
+    "Referencia": "H25",
+    "CriteriosRelacionados": "2.4.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<title>Pagina limpa</title>",
+          "pointer": "html > head:nth-child(1) > title:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Idioma principal da página",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "lang",
+    "Referencia": "",
+    "CriteriosRelacionados": "",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<html lang=\"pt-BR\"><head></head><body></body></html>",
+          "pointer": "html"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "button tem nome acessível não vazio",
+    "Descricao": "Verifiquei que todos os elementos <button> têm nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "button_01",
+    "Referencia": "97a4e1",
+    "CriteriosRelacionados": "4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button type=\"submit\">Pesquisar</button>",
+          "pointer": "html > body:nth-child(2) > main:nth-child(2) > form:nth-child(4) > button:nth-child(3)",
+          "accessibleName": "Pesquisar"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Hiperligações com nome acessível não vazio",
+    "Descricao": "Verifiquei que todos os links têm nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "a_10",
+    "Referencia": "G91",
+    "CriteriosRelacionados": "4.1.2,2.4.4,2.4.9",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<a href=\"#conteudo\">Ir para o conteudo</a>",
+          "pointer": "html > body:nth-child(2) > header:nth-child(1) > nav:nth-child(2) > a:nth-child(1)",
+          "accessibleName": "Ir para o conteudo"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Valores de estados e propriedades ARIA permitidos",
+    "Descricao": "Verifiquei que todos os estados e todas as propriedades ARIA são permitidos.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_05",
+    "Referencia": "5c01ea",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<nav aria-label=\"Navegacao principal\">Ir para o conteudo</nav>",
+          "pointer": "html > body:nth-child(2) > header:nth-child(1) > nav:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Atributos aria-* definidos",
+    "Descricao": "Verifiquei que todos os atributos aria-* estão de acordo com a especificação ARIA.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_07",
+    "Referencia": "5f99a7",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<nav aria-label=\"Navegacao principal\">Ir para o conteudo</nav>",
+          "pointer": "html > body:nth-child(2) > header:nth-child(1) > nav:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Valores de estados e propriedades ARIA de tipo válido",
+    "Descricao": "Verifiquei que todos os estados e todas as propriedades ARIA têm um tipo de valor válido.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_03",
+    "Referencia": "6a7281",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<nav aria-label=\"Navegacao principal\">Ir para o conteudo</nav>",
+          "pointer": "html > body:nth-child(2) > header:nth-child(1) > nav:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Controles de formulário com nome acessível",
+    "Descricao": "Constatei que todos os controles de formulário têm um nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "input_02b",
+    "Referencia": "H44",
+    "CriteriosRelacionados": "1.1.1,1.3.1,3.3.2,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<input id=\"busca\" type=\"search\">",
+          "pointer": "html > body:nth-child(2) > main:nth-child(2) > form:nth-child(4) > input:nth-child(2)",
+          "accessibleName": "Buscar"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Imagens com texto alternativo preenchido",
+    "Descricao": "Constatei que todas a imagem da página tem o necessário equivalente alternativo em texto.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "img_01a",
+    "Referencia": "H37",
+    "CriteriosRelacionados": "1.1.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<img src=\"missing-image.png\" alt=\"Ponto decorativo\">",
+          "pointer": "html > body:nth-child(2) > main:nth-child(2) > img:nth-child(3)",
+          "accessibleName": "Ponto decorativo"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Cabeçalhos com nome acessível",
+    "Descricao": "Constatei que todos os cabeçalhos desta página têm nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "heading_01",
+    "Referencia": "H42",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h1>Pagina limpa de referencia</h1>",
+          "pointer": "html > body:nth-child(2) > header:nth-child(1) > h1:nth-child(1)",
+          "accessibleName": "Pagina limpa de referencia"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Cabeçalhos com nome acessível",
+    "Descricao": "Constatei que todos os cabeçalhos desta página têm nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "heading_01",
+    "Referencia": "H42",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Conteudo</h2>",
+          "pointer": "html > body:nth-child(2) > main:nth-child(2) > h2:nth-child(1)",
+          "accessibleName": "Conteudo"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h1>Pagina limpa de referencia</h1>",
+          "pointer": "html > body:nth-child(2) > header:nth-child(1) > h1:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<a href=\"#conteudo\">Ir para o conteudo</a>",
+          "pointer": "html > body:nth-child(2) > header:nth-child(1) > nav:nth-child(2) > a:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Conteudo</h2>",
+          "pointer": "html > body:nth-child(2) > main:nth-child(2) > h2:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<p>Esta pagina possui uma estrutura basica e elementos nomeados.</p>",
+          "pointer": "html > body:nth-child(2) > main:nth-child(2) > p:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<label for=\"busca\">Buscar</label>",
+          "pointer": "html > body:nth-child(2) > main:nth-child(2) > form:nth-child(4) > label:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button type=\"submit\">Pesquisar</button>",
+          "pointer": "html > body:nth-child(2) > main:nth-child(2) > form:nth-child(4) > button:nth-child(3)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Elementos com descendentes decorativos",
+    "Descricao": "Constatei que todos os elementos com um papel semântico que confere aos seus descendentes um papel decorativo, não têm descendentes focáveis",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "element_08",
+    "Referencia": "307n5z",
+    "CriteriosRelacionados": "4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<img src=\"missing-image.png\" alt=\"Ponto decorativo\">",
+          "pointer": "html > body:nth-child(2) > main:nth-child(2) > img:nth-child(3)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Elementos com descendentes decorativos",
+    "Descricao": "Constatei que todos os elementos com um papel semântico que confere aos seus descendentes um papel decorativo, não têm descendentes focáveis",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "element_08",
+    "Referencia": "307n5z",
+    "CriteriosRelacionados": "4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button type=\"submit\">Pesquisar</button>",
+          "pointer": "html > body:nth-child(2) > main:nth-child(2) > form:nth-child(4) > button:nth-child(3)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h1>Pagina limpa de referencia</h1>",
+          "pointer": "html > body:nth-child(2) > header:nth-child(1) > h1:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<a href=\"#conteudo\">Ir para o conteudo</a>",
+          "pointer": "html > body:nth-child(2) > header:nth-child(1) > nav:nth-child(2) > a:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Conteudo</h2>",
+          "pointer": "html > body:nth-child(2) > main:nth-child(2) > h2:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<p>Esta pagina possui uma estrutura basica e elementos nomeados.</p>",
+          "pointer": "html > body:nth-child(2) > main:nth-child(2) > p:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<label for=\"busca\">Buscar</label>",
+          "pointer": "html > body:nth-child(2) > main:nth-child(2) > form:nth-child(4) > label:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button type=\"submit\">Pesquisar</button>",
+          "pointer": "html > body:nth-child(2) > main:nth-child(2) > form:nth-child(4) > button:nth-child(3)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Aviso",
+    "Criterio": "Link para pular para o conteúdo principal",
+    "Descricao": "Constatei que o primeiro link da página nos permite saltar para o conteúdo principal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "a_01a",
+    "Referencia": "G1",
+    "CriteriosRelacionados": "2.4.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<a href=\"#conteudo\">Ir para o conteudo</a>",
+          "pointer": "html > body:nth-child(2) > header:nth-child(1) > nav:nth-child(2) > a:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Formulários com botão de envio",
+    "Descricao": "Constatei que todos os formulários têm um botão para submeter os dados ao servidor.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "form_01a",
+    "Referencia": "H32",
+    "CriteriosRelacionados": "3.2.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<form>\n      Buscar\n      \n      Pesquisar\n    </form>",
+          "pointer": "html > body:nth-child(2) > main:nth-child(2) > form:nth-child(4)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Atributos id",
+    "Descricao": "Constatei que nesta página não há atributos id repetidos.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "id_01",
+    "Referencia": "H93",
+    "CriteriosRelacionados": "4.1.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<main id=\"conteudo\">\n    Conteudo\n    Esta pagina possui uma estrutura basica e elementos nomeados.\n    \n    \n      Buscar\n      \n      Pesquisar\n    \n  </main>",
+          "pointer": "html > body:nth-child(2) > main:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Atributos id",
+    "Descricao": "Constatei que nesta página não há atributos id repetidos.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "id_01",
+    "Referencia": "H93",
+    "CriteriosRelacionados": "4.1.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<input id=\"busca\" type=\"search\">",
+          "pointer": "html > body:nth-child(2) > main:nth-child(2) > form:nth-child(4) > input:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Aviso",
+    "Criterio": "Cabeçalhos (h1 - h6)",
+    "Descricao": "Encontrei 1 cabeçalho na página.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "hx_01b",
+    "Referencia": "G141",
+    "CriteriosRelacionados": "1.3.1,2.4.10",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h1>Pagina limpa de referencia</h1>",
+          "pointer": "html > body:nth-child(2) > header:nth-child(1) > h1:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Aviso",
+    "Criterio": "Cabeçalhos (h1 - h6)",
+    "Descricao": "Encontrei 1 cabeçalho na página.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "hx_01b",
+    "Referencia": "G141",
+    "CriteriosRelacionados": "1.3.1,2.4.10",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Conteudo</h2>",
+          "pointer": "html > body:nth-child(2) > main:nth-child(2) > h2:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Elemento com semântica banner",
+    "Descricao": "Encontrei um elemento com a semântica de banner.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "landmark_09",
+    "Referencia": "ARIA11",
+    "CriteriosRelacionados": "1.3.1,2.4.1",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<header>\n    Pagina limpa de referencia\n    Ir para o conteudo\n  </header>",
+          "pointer": "html > body:nth-child(2) > header:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Elemento com semântica main",
+    "Descricao": "Encontrei um elemento com a semântica de main.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "landmark_13",
+    "Referencia": "ARIA11",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<main id=\"conteudo\">\n    Conteudo\n    Esta pagina possui uma estrutura basica e elementos nomeados.\n    \n    \n      Buscar\n      \n      Pesquisar\n    \n  </main>",
+          "pointer": "html > body:nth-child(2) > main:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "onlyOneh1",
+    "Descricao": "Identifiquei exatamente um cabeçalho de nível 1.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "heading_03",
+    "Referencia": "H42",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h1>Pagina limpa de referencia</h1>",
+          "pointer": "html > body:nth-child(2) > header:nth-child(1) > h1:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Aviso",
+    "Criterio": "Problemas de acessibilidade em Links",
+    "Descricao": "",
+    "Numero de ocorrencias": 2,
+    "Valor": 2,
+    "Regra": "a",
+    "Referencia": "",
+    "CriteriosRelacionados": "",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<a href=\"#conteudo\">Ir para o conteudo</a>",
+          "pointer": "html > body:nth-child(2) > header:nth-child(1) > nav:nth-child(2) > a:nth-child(1)"
+        },
+        {
+          "htmlCode": "<main id=\"conteudo\">\n    Conteudo\n    Esta pagina possui uma estrutura basica e elementos nomeados.\n    \n    \n      Buscar\n      \n      Pesquisar\n    \n  </main>",
+          "pointer": "html > body:nth-child(2) > main:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Aviso",
+    "Criterio": "Links para contornar blocos de conteúdo",
+    "Descricao": "Encontrei 2 links para contornar blocos de conteúdo.",
+    "Numero de ocorrencias": 2,
+    "Valor": 2,
+    "Regra": "a_02b",
+    "Referencia": "G123",
+    "CriteriosRelacionados": "2.4.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<a href=\"#conteudo\">Ir para o conteudo</a>",
+          "pointer": "html > body:nth-child(2) > header:nth-child(1) > nav:nth-child(2) > a:nth-child(1)"
+        },
+        {
+          "htmlCode": "<main id=\"conteudo\">\n    Conteudo\n    Esta pagina possui uma estrutura basica e elementos nomeados.\n    \n    \n      Buscar\n      \n      Pesquisar\n    \n  </main>",
+          "pointer": "html > body:nth-child(2) > main:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Elemento com semântica banner",
+    "Descricao": "Constatei que o elemento com a semântica de banner não está contido dentro de nenhum elemento com outra semântica",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "landmark_01",
+    "Referencia": "ARIA11",
+    "CriteriosRelacionados": "1.3.1,2.4.1",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<header>\n    Pagina limpa de referencia\n    Ir para o conteudo\n  </header>",
+          "pointer": "html > body:nth-child(2) > header:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Elemento com semântica main",
+    "Descricao": "Constatei que o elemento com a semântica de main não está contido dentro de nenhum elemento com outra semântica",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "landmark_07",
+    "Referencia": "ARIA11",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<main id=\"conteudo\">\n    Conteudo\n    Esta pagina possui uma estrutura basica e elementos nomeados.\n    \n    \n      Buscar\n      \n      Pesquisar\n    \n  </main>",
+          "pointer": "html > body:nth-child(2) > main:nth-child(2)"
+        }
+      ]
+    }
+  }
+]

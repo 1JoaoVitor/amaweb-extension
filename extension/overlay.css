@@ -1,0 +1,208 @@
+
+#amaweb-overlay-layer {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 2147483647 !important; 
+    pointer-events: none !important;
+}
+
+.amaweb-highlight-box {
+    position: absolute !important;
+     opacity: 0 !important;
+    opacity: 0 !important;
+    transition: opacity 0.2s ease-in-out !important;
+    background-color: transparent !important;
+    outline: none !important;
+    z-index: 1 !important; 
+}
+
+.amaweb-highlight-box.error {
+     background-color: rgba(255, 77, 77, 0.1) !important;
+    background-color: rgba(255, 77, 77, 0.1) !important;
+}
+
+.amaweb-highlight-box.warning {
+     background-color: rgba(255, 170, 0, 0.1) !important;
+    background-color: rgba(255, 170, 0, 0.1) !important;
+}
+
+.amaweb-highlight-box.ativa {
+    opacity: 1 !important;
+}
+
+.amaweb-badge-container {
+    position: absolute !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 4px !important;
+    pointer-events: none !important;
+    z-index: 3 !important; 
+}
+
+.amaweb-badge {
+    position: relative !important; 
+    color: white !important;
+    font-family: 'Segoe UI', Arial, sans-serif !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
+    width: 24px !important;
+    height: 24px !important;
+    border-radius: 50% !important;
+    border: 2px solid white !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    pointer-events: auto !important;
+    cursor: help !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.4) !important;
+    line-height: 1 !important;
+}
+
+.amaweb-badge.error {
+    background-color: #ff4d4d !important;
+}
+
+.amaweb-badge.warning {
+    background-color: #ffaa00 !important;
+    color: #333 !important;
+}
+
+
+.amaweb-badge-container > div {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.amaweb-badge-container > div.ativo {
+    z-index: 10 !important; 
+}
+
+.amaweb-tooltip-box {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    border: 2px solid #194f36;
+    border-radius: 4px;
+    padding: 10px 12px;
+    color: #333;
+    width: 220px;
+     opacity: 0;
+     visibility: hidden;
+  
+    opacity: 0;
+     z-index: 2147483647 !important; 
+    transition: opacity 0.2s ease-out, visibility 0.2s ease-out !important;
+    pointer-events: none;
+  
+    z-index: 2147483647 !important; 
+}
+
+.amaweb-tooltip-box::after {
+    content: '' !important;
+    position: absolute !important;
+    top: 100% !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    border-width: 8px !important;
+    border-style: solid !important;
+    border-color: #194f36 transparent transparent transparent !important;
+}
+
+.amaweb-badge-container > div.ativo .amaweb-tooltip-box {
+    opacity: 1;
+    visibility: visible;
+    display: block !important;
+}
+
+.amaweb-badge-container > div.ativo {
+    z-index: 2147483647 !important;
+}
+
+.amaweb-badge-container > div.flip .amaweb-tooltip-box {
+    bottom: auto !important;
+    top: calc(100% + 8px) !important;
+}
+
+.amaweb-badge-container > div.flip .amaweb-tooltip-box::after {
+    top: auto !important;
+    bottom: 100% !important;
+    border-color: transparent transparent #194f36 transparent !important;
+}
+
+.amaweb-highlight-box.amaweb-focado {
+    outline: 5px solid #00f2fe !important;
+    box-shadow: 0 0 15px 5px rgba(0, 242, 254, 0.8) !important;
+    background-color: rgba(0, 242, 254, 0.2) !important;
+    transition: all 0.3s ease-in-out !important;
+    z-index: 2 !important; 
+}
+
+.amaweb-badge.amaweb-focado {
+    transform: scale(1.15) !important;
+    box-shadow: 0 0 15px 3px rgba(0, 242, 254, 0.8) !important;
+    border: 2px solid white !important;
+}
+
+.amaweb-piscar-foco {
+    outline: 4px solid #FF5722 !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 15px rgba(255, 87, 34, 0.6) !important;
+    transition: outline 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.amaweb-badge-container > div .amaweb-tooltip-box.align-left {
+    left: 0 !important;
+    transform: none !important;
+}
+.amaweb-badge-container > div .amaweb-tooltip-box.align-left::after {
+    left: 12px !important;
+    transform: none !important;
+}
+
+.amaweb-badge-container > div .amaweb-tooltip-box.align-right {
+    left: auto !important;
+    right: 0 !important;
+    transform: none !important;
+}
+.amaweb-badge-container > div .amaweb-tooltip-box.align-right::after {
+    left: auto !important;
+    right: 12px !important;
+    transform: none !important;
+}
+
+#amaweb-focus-order-wrapper {
+    position: absolute;
+    inset: 0;
+    z-index: 2147483647;
+    pointer-events: none;
+}
+
+.amaweb-focus-order-marker {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: 2px solid #ffffff;
+    border-radius: 4px;
+    background: #1769aa;
+    color: #ffffff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+    font: 700 12px/1 Arial, sans-serif;
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+.amaweb-focus-order-marker:hover,
+.amaweb-focus-order-marker:focus-visible {
+    background: #d23b00;
+    outline: 3px solid #ffffff;
+    outline-offset: 1px;
+}

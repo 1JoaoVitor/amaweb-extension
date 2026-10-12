@@ -1,0 +1,770 @@
+[
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Título da página",
+    "Descricao": "Encontrei um título na página e ele me parece correto.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "title_06",
+    "Referencia": "H25",
+    "CriteriosRelacionados": "2.4.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<title>Problemas conhecidos</title>",
+          "pointer": "html > head:nth-child(1) > title:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Idioma principal da página",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "lang",
+    "Referencia": "",
+    "CriteriosRelacionados": "",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<html lang=\"pt-BR\"><head></head><body></body></html>",
+          "pointer": "html"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Erro",
+    "Criterio": "button sem nome acessível não vazio",
+    "Descricao": "Encontrei 1 elemento <button> sem nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "button_02",
+    "Referencia": "97a4e1",
+    "CriteriosRelacionados": "4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button type=\"button\"></button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > button:nth-child(3)",
+          "accessibleName": ""
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Erro",
+    "Criterio": "Hiperligações sem conteúdo acessível ('nome acessível')",
+    "Descricao": "Encontrei 1 links sem nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "a_11",
+    "Referencia": "G91",
+    "CriteriosRelacionados": "4.1.2,2.4.4,2.4.9",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<a href=\"#\"></a>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(4) > a:nth-child(2)",
+          "accessibleName": ""
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Erro",
+    "Criterio": "Controles de formulário sem um nome acessível",
+    "Descricao": "Encontrei 1 controle de formulário sem nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "input_02",
+    "Referencia": "H44",
+    "CriteriosRelacionados": "1.1.1,1.3.1,3.3.2,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<input type=\"text\" value=\"Campo sem label\">",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > input:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Imagens com texto alternativo preenchido",
+    "Descricao": "Constatei que todas a imagem da página tem o necessário equivalente alternativo em texto.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "img_01a",
+    "Referencia": "H37",
+    "CriteriosRelacionados": "1.1.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<img src=\"missing-image.png\" alt=\"\">",
+          "pointer": "html > body:nth-child(2) > div:nth-child(2) > img:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Imagens com alt vazio",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "imgAltNull",
+    "Referencia": "",
+    "CriteriosRelacionados": "",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<img src=\"missing-image.png\" alt=\"\">",
+          "pointer": "html > body:nth-child(2) > div:nth-child(2) > img:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Cabeçalhos com nome acessível",
+    "Descricao": "Constatei que todos os cabeçalhos desta página têm nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "heading_01",
+    "Referencia": "H42",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h1>Pagina com problemas conhecidos</h1>",
+          "pointer": "html > body:nth-child(2) > h1:nth-child(1)",
+          "accessibleName": "Pagina com problemas conhecidos"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Cabeçalhos com nome acessível",
+    "Descricao": "Constatei que todos os cabeçalhos desta página têm nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "heading_01",
+    "Referencia": "H42",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Imagem sem texto alternativo</h2>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(2) > h2:nth-child(1)",
+          "accessibleName": "Imagem sem texto alternativo"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Cabeçalhos com nome acessível",
+    "Descricao": "Constatei que todos os cabeçalhos desta página têm nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "heading_01",
+    "Referencia": "H42",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Campos e botoes sem nome adequado</h2>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > h2:nth-child(1)",
+          "accessibleName": "Campos e botoes sem nome adequado"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Cabeçalhos com nome acessível",
+    "Descricao": "Constatei que todos os cabeçalhos desta página têm nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "heading_01",
+    "Referencia": "H42",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Link sem texto</h2>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(4) > h2:nth-child(1)",
+          "accessibleName": "Link sem texto"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Cabeçalhos com nome acessível",
+    "Descricao": "Constatei que todos os cabeçalhos desta página têm nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "heading_01",
+    "Referencia": "H42",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Contraste reduzido</h2>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(5) > h2:nth-child(1)",
+          "accessibleName": "Contraste reduzido"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Cabeçalhos com nome acessível",
+    "Descricao": "Constatei que todos os cabeçalhos desta página têm nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "heading_01",
+    "Referencia": "H42",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h4>Heading fora da sequencia</h4>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6) > h4:nth-child(1)",
+          "accessibleName": "Heading fora da sequencia"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Elementos marcados como decorativos",
+    "Descricao": "Não encontrei elementos marcados como decorativos que tenham sido expostos a Tecnolgias Assistivas",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "element_04",
+    "Referencia": "46ca7f",
+    "CriteriosRelacionados": "4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<img src=\"missing-image.png\" alt=\"\">",
+          "pointer": "html > body:nth-child(2) > div:nth-child(2) > img:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h1>Pagina com problemas conhecidos</h1>",
+          "pointer": "html > body:nth-child(2) > h1:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Imagem sem texto alternativo</h2>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(2) > h2:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Campos e botoes sem nome adequado</h2>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > h2:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Link sem texto</h2>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(4) > h2:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Contraste reduzido</h2>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(5) > h2:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<p>Este texto foi criado para um teste visual de contraste.</p>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(5) > p:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h4>Heading fora da sequencia</h4>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6) > h4:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Elementos com descendentes decorativos",
+    "Descricao": "Constatei que todos os elementos com um papel semântico que confere aos seus descendentes um papel decorativo, não têm descendentes focáveis",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "element_08",
+    "Referencia": "307n5z",
+    "CriteriosRelacionados": "4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button type=\"button\"></button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > button:nth-child(3)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h1>Pagina com problemas conhecidos</h1>",
+          "pointer": "html > body:nth-child(2) > h1:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Imagem sem texto alternativo</h2>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(2) > h2:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Campos e botoes sem nome adequado</h2>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > h2:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Link sem texto</h2>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(4) > h2:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Contraste reduzido</h2>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(5) > h2:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<p>Este texto foi criado para um teste visual de contraste.</p>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(5) > p:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h4>Heading fora da sequencia</h4>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6) > h4:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Erro",
+    "Criterio": "Cabeçalhos com salto(s) de nível hierárquico incorreto(s)",
+    "Descricao": "Encontrei 1 caso em que se viola a sequência hierárquica dos níveis de cabeçalho.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "hx_03",
+    "Referencia": "G141",
+    "CriteriosRelacionados": "1.3.1,2.4.10",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Contraste reduzido</h2>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(5) > h2:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Erro",
+    "Criterio": "Link que não pula para o conteúdo principal",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aSkipFirstNo",
+    "Referencia": "",
+    "CriteriosRelacionados": "",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<input type=\"text\" value=\"Campo sem label\">",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > input:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Aviso",
+    "Criterio": "Cabeçalhos (h1 - h6)",
+    "Descricao": "Encontrei 1 cabeçalho na página.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "hx_01b",
+    "Referencia": "G141",
+    "CriteriosRelacionados": "1.3.1,2.4.10",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h1>Pagina com problemas conhecidos</h1>",
+          "pointer": "html > body:nth-child(2) > h1:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Aviso",
+    "Criterio": "Cabeçalhos (h1 - h6)",
+    "Descricao": "Encontrei 1 cabeçalho na página.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "hx_01b",
+    "Referencia": "G141",
+    "CriteriosRelacionados": "1.3.1,2.4.10",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Imagem sem texto alternativo</h2>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(2) > h2:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Aviso",
+    "Criterio": "Cabeçalhos (h1 - h6)",
+    "Descricao": "Encontrei 1 cabeçalho na página.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "hx_01b",
+    "Referencia": "G141",
+    "CriteriosRelacionados": "1.3.1,2.4.10",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Campos e botoes sem nome adequado</h2>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > h2:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Aviso",
+    "Criterio": "Cabeçalhos (h1 - h6)",
+    "Descricao": "Encontrei 1 cabeçalho na página.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "hx_01b",
+    "Referencia": "G141",
+    "CriteriosRelacionados": "1.3.1,2.4.10",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Link sem texto</h2>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(4) > h2:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Aviso",
+    "Criterio": "Cabeçalhos (h1 - h6)",
+    "Descricao": "Encontrei 1 cabeçalho na página.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "hx_01b",
+    "Referencia": "G141",
+    "CriteriosRelacionados": "1.3.1,2.4.10",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Contraste reduzido</h2>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(5) > h2:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Aviso",
+    "Criterio": "Cabeçalhos (h1 - h6)",
+    "Descricao": "Encontrei 1 cabeçalho na página.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "hx_01b",
+    "Referencia": "G141",
+    "CriteriosRelacionados": "1.3.1,2.4.10",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h4>Heading fora da sequencia</h4>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6) > h4:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "6.9",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "onlyOneh1",
+    "Descricao": "Identifiquei exatamente um cabeçalho de nível 1.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "heading_03",
+    "Referencia": "H42",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h1>Pagina com problemas conhecidos</h1>",
+          "pointer": "html > body:nth-child(2) > h1:nth-child(1)"
+        }
+      ]
+    }
+  }
+]

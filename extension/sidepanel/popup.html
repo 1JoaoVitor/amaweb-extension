@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <main class="container">
+    <header class="header">
+      <h3>AMAWeb Avaliador</h3>
+    </header>
+
+    <nav class="tabs-container" aria-label="Visualização dos resultados">
+      <button id="tab-geral" class="tab-btn active" type="button">Visão Geral</button>
+      <button id="tab-detalhes" class="tab-btn" type="button">Lista de Erros</button>
+      <button id="tab-foco" class="tab-btn" type="button">Ordem de Foco</button>
+    </nav>
+
+    <section id="view-geral" class="tab-content active">
+      
+      <div class="actions-grid">
+        <button id="btn-analisar" class="btn-solid" type="button">Avaliar Página</button>
+        <button id="btn-limpar" class="btn-outline-danger" type="button">Limpar Tela</button>
+        <button id="btn-amaweb" class="btn-outline" type="button">Portal AMAWeb</button>
+        <button id="btn-baixar-json" class="btn-outline" type="button" disabled>Baixar JSON</button>
+      </div>
+
+      <section class="privacy-notice" role="alert" aria-labelledby="privacy-notice-title">
+        <div class="privacy-notice-header">
+          <h4 id="privacy-notice-title">Antes de avaliar</h4>
+          <button id="fechar-aviso-privacidade" class="privacy-notice-close" type="button" aria-label="Fechar aviso e não mostrar novamente" hidden>×</button>
+        </div>
+        <p>O HTML da página atual será enviado ao servidor AMAWeb para análise. Evite avaliar páginas com informações sensíveis.</p>
+        <label class="privacy-confirmation">
+          <input type="checkbox" id="aceite-privacidade">
+          <span>Entendi e quero continuar</span>
+        </label>
+      </section>
+
+      <div class="settings-group">
+        <div class="options-row">
+          <label for="toggle-contagem" class="options-label">
+            Mostrar total de elementos no gráfico
+            <span>Desative para contar por regras</span>
+          </label>
+          <label class="am-switch">
+            <input type="checkbox" id="toggle-contagem" checked>
+            <span class="am-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div id="loading-panel" class="loading-panel" role="status" aria-live="polite">
+        <div class="spinner" aria-hidden="true"></div>
+        <h3 class="loading-title">Avaliando Acessibilidade...</h3>
+        <p class="loading-description">O AMAWeb está analisando a estrutura desta página. Isso pode levar alguns segundos dependendo do tamanho do site.</p>
+      </div>
+
+      <section id="error-panel" class="error-panel" role="alert" aria-live="assertive">
+        <h4 class="error-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+          Erro na Avaliação
+        </h4>
+        <p id="error-message" class="error-message"></p>
+      </section>
+
+      <section id="results-panel" class="results-panel">
+        
+        <div class="score-box">
+          <div id="score-value" class="score-value">--</div>
+          <div class="score-label">Nota de Conformidade</div>
+        </div>
+
+        <div class="tabela-resumo">
+          <div class="tabela-header">Tipo de prática</div>
+          
+          <div class="linha-resumo">
+            <div class="linha-titulo sucesso"><div class="icone-circulo"><span aria-hidden="true">✓</span></div>Aceitáveis (<span id="count-sucesso-total">0</span>)</div>
+            <div class="niveis-grid"><div class="nivel-col"><span>A</span><b id="count-sucesso-a">0</b></div><div class="nivel-col"><span>AA</span><b id="count-sucesso-aa">0</b></div><div class="nivel-col sem-borda"><span>AAA</span><b id="count-sucesso-aaa">0</b></div></div>
+          </div>
+          
+          <div class="linha-resumo">
+            <div class="linha-titulo aviso"><div class="icone-circulo"><span aria-hidden="true">!</span></div>Revisar manualmente (<span id="count-aviso-total">0</span>)</div>
+            <div class="niveis-grid"><div class="nivel-col"><span>A</span><b id="count-aviso-a">0</b></div><div class="nivel-col"><span>AA</span><b id="count-aviso-aa">0</b></div><div class="nivel-col sem-borda"><span>AAA</span><b id="count-aviso-aaa">0</b></div></div>
+          </div>
+          
+          <div class="linha-resumo">
+            <div class="linha-titulo erro"><div class="icone-circulo"><span aria-hidden="true">✕</span></div>Erros (<span id="count-erro-total">0</span>)</div>
+            <div class="niveis-grid"><div class="nivel-col"><span>A</span><b id="count-erro-a">0</b></div><div class="nivel-col"><span>AA</span><b id="count-erro-aa">0</b></div><div class="nivel-col sem-borda"><span>AAA</span><b id="count-erro-aaa">0</b></div></div>
+          </div>
+          
+          <div class="linha-resumo total-geral">
+            <div class="linha-titulo">Total (<span id="count-geral-total">0</span>)</div>
+            <div class="niveis-grid"><div class="nivel-col"><span>A</span><b id="count-geral-a">0</b></div><div class="nivel-col"><span>AA</span><b id="count-geral-aa">0</b></div><div class="nivel-col sem-borda"><span>AAA</span><b id="count-geral-aaa">0</b></div></div>
+          </div>
+        </div>
+        
+      </section>
+    </section>
+
+    <section id="view-detalhes" class="tab-content">
+      <div class="am-filtros-container">
+        <select id="filtro-tipo" class="am-select">
+          <option value="todos">Todos os problemas</option>
+          <option value="error">Apenas Erros</option>
+          <option value="warning">Apenas Avisos</option>
+        </select>
+        <select id="filtro-nivel" class="am-select">
+          <option value="todos">Todos os Níveis</option>
+          <option value="A">Nível A</option>
+          <option value="AA">Nível AA</option>
+          <option value="AAA">Nível AAA</option>
+        </select>
+        <select id="ordenacao" class="am-select">
+          <option value="padrao">Ordem Padrão</option>
+          <option value="ocorrencias-desc">Mais ocorrências</option>
+          <option value="ocorrencias-asc">Menos ocorrências</option>
+        </select>
+
+        <select id="filtro-visibilidade" class="am-select">
+          <option value="todos">Qualquer visibilidade</option>
+          <option value="visiveis">Apenas itens visíveis</option>
+          <option value="ocultos">Apenas itens ocultos</option>
+          <option value="contem_ocultos">Contém itens ocultos</option>
+        </select>
+      </div>
+      
+      <div id="lista-detalhada">
+        <p class="empty-state">Execute a avaliação na aba "Visão Geral" primeiro.</p>
+      </div>
+    </section>
+
+    <section id="view-foco" class="tab-content">
+      <section class="focus-order-panel" aria-labelledby="focus-order-title">
+        <h3 id="focus-order-title">Ordem de Foco</h3>
+        <p class="focus-order-description">Numere os elementos focáveis visíveis da página e clique em um marcador para mover o foco até ele.</p>
+        <button id="btn-alternar-ordem-foco" class="btn-solid" type="button">Ativar Ordem de Foco</button>
+        <p class="focus-order-status" id="focus-order-status" role="status" aria-live="polite">Modo desativado.</p>
+        <div id="focus-order-list" class="focus-order-list" hidden aria-label="Elementos focáveis"></div>
+      </section>
+    </section>
+  </main>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

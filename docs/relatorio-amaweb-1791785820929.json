@@ -1,0 +1,824 @@
+[
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Título da página",
+    "Descricao": "Encontrei um título na página e ele me parece correto.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "title_06",
+    "Referencia": "H25",
+    "CriteriosRelacionados": "2.4.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<title>Teste de formulario</title>",
+          "pointer": "html > head:nth-child(1) > title:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Idioma principal da página",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "lang",
+    "Referencia": "",
+    "CriteriosRelacionados": "",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<html lang=\"pt-BR\"><head></head><body></body></html>",
+          "pointer": "html"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "button tem nome acessível não vazio",
+    "Descricao": "Verifiquei que todos os elementos <button> têm nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "button_01",
+    "Referencia": "97a4e1",
+    "CriteriosRelacionados": "4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button type=\"submit\">Enviar formulario</button>",
+          "pointer": "html > body:nth-child(2) > form:nth-child(3) > button:nth-child(7)",
+          "accessibleName": "Enviar formulario"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Controles de formulário com nome acessível",
+    "Descricao": "Constatei que todos os controles de formulário têm um nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "input_02b",
+    "Referencia": "H44",
+    "CriteriosRelacionados": "1.1.1,1.3.1,3.3.2,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<input id=\"nome\" name=\"nome\" type=\"text\">",
+          "pointer": "html > body:nth-child(2) > form:nth-child(3) > label:nth-child(1) > input:nth-child(1)",
+          "accessibleName": "Nome completo"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Controles de formulário com nome acessível",
+    "Descricao": "Constatei que todos os controles de formulário têm um nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "input_02b",
+    "Referencia": "H44",
+    "CriteriosRelacionados": "1.1.1,1.3.1,3.3.2,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<input id=\"email\" name=\"email\" type=\"email\">",
+          "pointer": "html > body:nth-child(2) > form:nth-child(3) > label:nth-child(2) > input:nth-child(1)",
+          "accessibleName": "E-mail"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Controles de formulário com nome acessível",
+    "Descricao": "Constatei que todos os controles de formulário têm um nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "input_02b",
+    "Referencia": "H44",
+    "CriteriosRelacionados": "1.1.1,1.3.1,3.3.2,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<textarea id=\"mensagem\" name=\"mensagem\">Conteudo privado de teste</textarea>",
+          "pointer": "html > body:nth-child(2) > form:nth-child(3) > label:nth-child(4) > textarea:nth-child(1)",
+          "accessibleName": "Mensagem"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Controles de formulário com nome acessível",
+    "Descricao": "Constatei que todos os controles de formulário têm um nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "input_02b",
+    "Referencia": "H44",
+    "CriteriosRelacionados": "1.1.1,1.3.1,3.3.2,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<select id=\"categoria\" name=\"categoria\">\n        Geral\n        Suporte\n      </select>",
+          "pointer": "html > body:nth-child(2) > form:nth-child(3) > label:nth-child(5) > select:nth-child(1)",
+          "accessibleName": "Categoria"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Controles de formulário com nome acessível",
+    "Descricao": "Constatei que todos os controles de formulário têm um nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "input_02b",
+    "Referencia": "H44",
+    "CriteriosRelacionados": "1.1.1,1.3.1,3.3.2,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<input type=\"checkbox\" checked=\"\" value=\"\">",
+          "pointer": "html > body:nth-child(2) > form:nth-child(3) > label:nth-child(6) > input:nth-child(1)",
+          "accessibleName": "Aceito os termos de teste"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Cabeçalhos com nome acessível",
+    "Descricao": "Constatei que todos os cabeçalhos desta página têm nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "heading_01",
+    "Referencia": "H42",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h1>Formulario com dados de teste</h1>",
+          "pointer": "html > body:nth-child(2) > h1:nth-child(1)",
+          "accessibleName": "Formulario com dados de teste"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h1>Formulario com dados de teste</h1>",
+          "pointer": "html > body:nth-child(2) > h1:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<p>Os valores abaixo devem desaparecer apenas no HTML enviado quando a sanitizacao estiver ativada.</p>",
+          "pointer": "html > body:nth-child(2) > p:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<label for=\"nome\">Nome completo\n      \n    </label>",
+          "pointer": "html > body:nth-child(2) > form:nth-child(3) > label:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<label for=\"email\">E-mail\n      \n    </label>",
+          "pointer": "html > body:nth-child(2) > form:nth-child(3) > label:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<label for=\"senha\">Senha\n      \n    </label>",
+          "pointer": "html > body:nth-child(2) > form:nth-child(3) > label:nth-child(3)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<label for=\"mensagem\">Mensagem\n      Conteudo privado de teste\n    </label>",
+          "pointer": "html > body:nth-child(2) > form:nth-child(3) > label:nth-child(4)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<textarea id=\"mensagem\" name=\"mensagem\">Conteudo privado de teste</textarea>",
+          "pointer": "html > body:nth-child(2) > form:nth-child(3) > label:nth-child(4) > textarea:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<label for=\"categoria\">Categoria\n      \n        Geral\n        Suporte\n      \n    </label>",
+          "pointer": "html > body:nth-child(2) > form:nth-child(3) > label:nth-child(5)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<label> Aceito os termos de teste</label>",
+          "pointer": "html > body:nth-child(2) > form:nth-child(3) > label:nth-child(6)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button type=\"submit\">Enviar formulario</button>",
+          "pointer": "html > body:nth-child(2) > form:nth-child(3) > button:nth-child(7)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Elementos com descendentes decorativos",
+    "Descricao": "Constatei que todos os elementos com um papel semântico que confere aos seus descendentes um papel decorativo, não têm descendentes focáveis",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "element_08",
+    "Referencia": "307n5z",
+    "CriteriosRelacionados": "4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<input type=\"checkbox\" checked=\"\" value=\"\">",
+          "pointer": "html > body:nth-child(2) > form:nth-child(3) > label:nth-child(6) > input:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Elementos com descendentes decorativos",
+    "Descricao": "Constatei que todos os elementos com um papel semântico que confere aos seus descendentes um papel decorativo, não têm descendentes focáveis",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "element_08",
+    "Referencia": "307n5z",
+    "CriteriosRelacionados": "4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button type=\"submit\">Enviar formulario</button>",
+          "pointer": "html > body:nth-child(2) > form:nth-child(3) > button:nth-child(7)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h1>Formulario com dados de teste</h1>",
+          "pointer": "html > body:nth-child(2) > h1:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<p>Os valores abaixo devem desaparecer apenas no HTML enviado quando a sanitizacao estiver ativada.</p>",
+          "pointer": "html > body:nth-child(2) > p:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<label for=\"nome\">Nome completo\n      \n    </label>",
+          "pointer": "html > body:nth-child(2) > form:nth-child(3) > label:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<label for=\"email\">E-mail\n      \n    </label>",
+          "pointer": "html > body:nth-child(2) > form:nth-child(3) > label:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<label for=\"senha\">Senha\n      \n    </label>",
+          "pointer": "html > body:nth-child(2) > form:nth-child(3) > label:nth-child(3)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<label for=\"mensagem\">Mensagem\n      Conteudo privado de teste\n    </label>",
+          "pointer": "html > body:nth-child(2) > form:nth-child(3) > label:nth-child(4)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<textarea id=\"mensagem\" name=\"mensagem\">Conteudo privado de teste</textarea>",
+          "pointer": "html > body:nth-child(2) > form:nth-child(3) > label:nth-child(4) > textarea:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<label for=\"categoria\">Categoria\n      \n        Geral\n        Suporte\n      \n    </label>",
+          "pointer": "html > body:nth-child(2) > form:nth-child(3) > label:nth-child(5)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<label> Aceito os termos de teste</label>",
+          "pointer": "html > body:nth-child(2) > form:nth-child(3) > label:nth-child(6)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button type=\"submit\">Enviar formulario</button>",
+          "pointer": "html > body:nth-child(2) > form:nth-child(3) > button:nth-child(7)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Erro",
+    "Criterio": "Link que não pula para o conteúdo principal",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aSkipFirstNo",
+    "Referencia": "",
+    "CriteriosRelacionados": "",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<input id=\"nome\" name=\"nome\" type=\"text\">",
+          "pointer": "html > body:nth-child(2) > form:nth-child(3) > label:nth-child(1) > input:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Formulários com botão de envio",
+    "Descricao": "Constatei que todos os formulários têm um botão para submeter os dados ao servidor.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "form_01a",
+    "Referencia": "H32",
+    "CriteriosRelacionados": "3.2.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<form>\n    Nome completo\n      \n    \n    E-mail\n      \n    \n    Senha\n      \n    \n    Mensagem\n      Conteudo privado de teste\n    \n    Categoria\n      \n        Geral\n        Suporte\n      \n    \n     Aceito os termos de teste\n    Enviar formulario\n  </form>",
+          "pointer": "html > body:nth-child(2) > form:nth-child(3)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Atributos id",
+    "Descricao": "Constatei que nesta página não há atributos id repetidos.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "id_01",
+    "Referencia": "H93",
+    "CriteriosRelacionados": "4.1.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<input id=\"nome\" name=\"nome\" type=\"text\">",
+          "pointer": "html > body:nth-child(2) > form:nth-child(3) > label:nth-child(1) > input:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Atributos id",
+    "Descricao": "Constatei que nesta página não há atributos id repetidos.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "id_01",
+    "Referencia": "H93",
+    "CriteriosRelacionados": "4.1.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<input id=\"email\" name=\"email\" type=\"email\">",
+          "pointer": "html > body:nth-child(2) > form:nth-child(3) > label:nth-child(2) > input:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Atributos id",
+    "Descricao": "Constatei que nesta página não há atributos id repetidos.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "id_01",
+    "Referencia": "H93",
+    "CriteriosRelacionados": "4.1.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<input id=\"senha\" name=\"senha\" type=\"password\">",
+          "pointer": "html > body:nth-child(2) > form:nth-child(3) > label:nth-child(3) > input:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Atributos id",
+    "Descricao": "Constatei que nesta página não há atributos id repetidos.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "id_01",
+    "Referencia": "H93",
+    "CriteriosRelacionados": "4.1.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<textarea id=\"mensagem\" name=\"mensagem\">Conteudo privado de teste</textarea>",
+          "pointer": "html > body:nth-child(2) > form:nth-child(3) > label:nth-child(4) > textarea:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Atributos id",
+    "Descricao": "Constatei que nesta página não há atributos id repetidos.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "id_01",
+    "Referencia": "H93",
+    "CriteriosRelacionados": "4.1.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<select id=\"categoria\" name=\"categoria\">\n        Geral\n        Suporte\n      </select>",
+          "pointer": "html > body:nth-child(2) > form:nth-child(3) > label:nth-child(5) > select:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Aviso",
+    "Criterio": "Cabeçalhos (h1 - h6)",
+    "Descricao": "Encontrei 1 cabeçalho na página.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "hx_01b",
+    "Referencia": "G141",
+    "CriteriosRelacionados": "1.3.1,2.4.10",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h1>Formulario com dados de teste</h1>",
+          "pointer": "html > body:nth-child(2) > h1:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "onlyOneh1",
+    "Descricao": "Identifiquei exatamente um cabeçalho de nível 1.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "heading_03",
+    "Referencia": "H42",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h1>Formulario com dados de teste</h1>",
+          "pointer": "html > body:nth-child(2) > h1:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.2",
+    "Tipo de erro": "Erro",
+    "Criterio": "Sem links para contornar blocos de conteúdo",
+    "Descricao": "Não encontrei link para saltar blocos de texto.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "a_02a",
+    "Referencia": "G123",
+    "CriteriosRelacionados": "2.4.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": []
+    }
+  }
+]
