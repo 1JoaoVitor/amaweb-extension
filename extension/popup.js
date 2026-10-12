@@ -101,6 +101,34 @@ document.getElementById('tab-foco').addEventListener('click', () => {
   document.getElementById('view-detalhes').classList.remove('active');
 });
 
+function limparListaOrdemFoco() {
+  const lista = document.getElementById('focus-order-list');
+  lista.replaceChildren();
+  lista.hidden = true;
+}
+
+function renderizarListaOrdemFoco(count, tabId) {
+  const lista = document.getElementById('focus-order-list');
+  lista.replaceChildren();
+  lista.hidden = false;
+
+  for (let index = 0; index < count; index++) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'focus-order-item';
+    button.textContent = String(index + 1);
+    button.title = `Focar no elemento ${index + 1}`;
+    button.addEventListener('click', async () => {
+      try {
+        await chrome.tabs.sendMessage(tabId, { action: 'FOCUS_ORDER_ITEM', index });
+      } catch (error) {
+        registrarFalhaDeMensagem('foco pela lista de ordem', error);
+      }
+    });
+    lista.appendChild(button);
+  }
+}
+
 // LÓGICA PRINCIPAL DE AVALIAÇÃO
 document.getElementById('btn-analisar').addEventListener('click', async () => {
   const btn = document.getElementById('btn-analisar');
@@ -258,6 +286,8 @@ document.getElementById('btn-alternar-ordem-foco').addEventListener('click', asy
     button.dataset.ativo = String(ativar);
     button.textContent = ativar ? 'Desativar Ordem de Foco' : 'Ativar Ordem de Foco';
     status.textContent = ativar ? `${response?.count || 0} elementos focáveis identificados.` : 'Modo desativado.';
+    if (ativar) renderizarListaOrdemFoco(response?.count || 0, tab.id);
+    else limparListaOrdemFoco();
   } catch (error) {
     registrarFalhaDeMensagem('ordem de foco', error);
     status.textContent = 'Não foi possível comunicar com a página atual.';

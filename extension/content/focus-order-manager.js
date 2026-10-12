@@ -108,5 +108,18 @@
       sendResponse({ status: 'ok' });
       return true;
     }
+
+    if (message.action === 'FOCUS_ORDER_ITEM') {
+      const elemento = itensFocaveis[message.index];
+      if (!elemento || !elemento.isConnected || !elementoFocavel(elemento)) {
+        sendResponse({ status: 'not_found' });
+        return true;
+      }
+
+      elemento.focus({ preventScroll: true });
+      elemento.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      sendResponse({ status: 'ok' });
+      return true;
+    }
   });
 })();

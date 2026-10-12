@@ -84,6 +84,24 @@ body {
 .focus-order-panel h3 { margin: 0 0 8px; color: var(--ama-green-dark); font-size: 17px; }
 .focus-order-description { color: var(--color-muted); font-size: 13px; line-height: 1.5; margin: 0 0 16px; }
 .focus-order-status { color: var(--color-muted); font-size: 12px; margin: 12px 0 0; }
+.focus-order-list {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--color-border);
+}
+.focus-order-list[hidden] { display: none; }
+.focus-order-item {
+  min-width: 0;
+  padding: 8px 4px;
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  color: var(--ama-green-primary);
+}
+.focus-order-item:hover,
+.focus-order-item:focus-visible { background: var(--ama-green-light); border-color: var(--ama-green-primary); }
 
 /* === BOTÕES GERAIS (ESTILO PORTAL) === */
 .actions-grid {
