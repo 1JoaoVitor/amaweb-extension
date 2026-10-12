@@ -43,34 +43,25 @@ export function generateJsonReport(dadosBrutos) {
  *   // Download: relatorio-site-exemplo.json
  */
 export function downloadJsonReport(conteudoJson, nomeArquivo) {
-  // Validação básica
   if (!conteudoJson || typeof conteudoJson !== 'string') {
     console.error('[ExportReport] Conteúdo JSON inválido');
     return;
   }
 
-  // Define nome padrão se não fornecido
   const nome = nomeArquivo || `relatorio-amaweb-${new Date().getTime()}`;
 
   try {
-    // 1. Cria um Blob a partir do string JSON
     const blob = new Blob([conteudoJson], { type: 'application/json; charset=utf-8' });
-    
-    // 2. Gera uma URL temporária para o Blob
     const urlVirtual = URL.createObjectURL(blob);
-    
-    // 3. Cria um elemento <a> invisível para simular click de download
     const linkInvisivel = document.createElement('a');
     linkInvisivel.href = urlVirtual;
     linkInvisivel.download = `${nome}.json`;
     linkInvisivel.style.display = 'none';
     
-    // 4. Adiciona o link ao DOM, clica e remove
     document.body.appendChild(linkInvisivel);
     linkInvisivel.click();
     document.body.removeChild(linkInvisivel);
     
-    // 5. Limpa a URL temporária da memória
     URL.revokeObjectURL(urlVirtual);
     
     console.log(`[ExportReport] Download iniciado: ${nome}.json`);

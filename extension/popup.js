@@ -59,7 +59,6 @@ chrome.storage.local.get(CHAVE_AVISO_PRIVACIDADE).then(preferencias => {
   console.warn('[Extension] Não foi possível carregar a preferência do aviso:', error);
 });
 
-// LÓGICA DAS ABAS
 document.getElementById('tab-geral').addEventListener('click', () => {
   document.getElementById('tab-geral').classList.add('active');
   document.getElementById('tab-detalhes').classList.remove('active');
@@ -115,7 +114,6 @@ function renderizarListaOrdemFoco(count, tabId) {
   }
 }
 
-// LÓGICA PRINCIPAL DE AVALIAÇÃO
 document.getElementById('btn-analisar').addEventListener('click', async () => {
   const btn = document.getElementById('btn-analisar');
   const resultsPanel = document.getElementById('results-panel');
@@ -183,7 +181,6 @@ document.getElementById('btn-analisar').addEventListener('click', async () => {
     const scoreGeral = String(validacao.data.score) || "0.0";
     const dadosAvaliacao = adaptarJsonAmaWeb(validacao.data.nodes, scoreGeral, dicionarioAMA);
 
-    // Evita aplicar uma resposta antiga depois que a página mudou durante a avaliação.
     const abaAtual = await chrome.tabs.get(tab.id).catch(() => null);
     if (!abaAtual || abaAtual.url !== tab.url) return;
 
@@ -192,10 +189,8 @@ document.getElementById('btn-analisar').addEventListener('click', async () => {
     limparRegraAtiva();
     let notaGeral = scoreGeral; 
 
-    // Regista no DOM a aba que estamos a avaliar atualmente
     listaDetalhada.dataset.tabId = tab.id;
 
-    // Só re-desenha os overlays de raiz ao clicar no botão Avaliar Página!
     await chrome.tabs.sendMessage(tab.id, { 
       action: "RENDER_OVERLAYS", 
       data: dadosAvaliacao 
@@ -299,7 +294,6 @@ async function resetarPainel(limparAbaId = true) {
   }
 }
 
-// === LÓGICA DE CACHE SUPER OTIMIZADA ===
 function restaurarDoCache(tabId, tab) {
   const cache = cacheAvaliacoes.get(tabId);
   if (!cache || !tab) return;
@@ -313,14 +307,11 @@ function restaurarDoCache(tabId, tab) {
 
   const listaDetalhada = document.getElementById('lista-detalhada');
   
-  // Apenas reconstruímos o HTML do painel se estivéssemos noutra aba
-  // NÃO enviamos mais mensagens para a página! Ela já está exatamente como a deixámos.
   if (listaDetalhada.dataset.tabId !== String(tabId) || listaDetalhada.children.length === 0) {
       listaDetalhada.dataset.tabId = tabId;
       limparRegraAtiva();
       listaDetalhada.replaceChildren();
       
-      // Isto vai criar os cartões. Se havia um botão ativo, ele nasce logo vermelho.
       atualizarListaDeResultados(cache.dados, tab);
   }
 
@@ -369,7 +360,6 @@ chrome.tabs.onRemoved.addListener((tabId) => {
   cacheAvaliacoes.delete(tabId);
 });
 
-// LÓGICA DE EXPORTAÇÃO (DOWNLOAD)
 document.getElementById('btn-baixar-json').addEventListener('click', async () => {
   await cachePronto;
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -385,7 +375,6 @@ document.getElementById('btn-baixar-json').addEventListener('click', async () =>
   exportarRelatorio(dadosBrutos, nomeArquivo);
 });
 
-// OUVINTE PARA CLIQUE NO OVERLAY DA PÁGINA
 chrome.runtime.onMessage.addListener((message) => {
   if (message.action === 'SCROLL_TO_ERROR' && message.titulo) {
     

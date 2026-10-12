@@ -155,7 +155,6 @@ function renderizarCardResultado(item, index, tab) {
   });
 
   if (ponteiros.length === 0) {
-    // --- NOVO: Aplica o filtro aos erros globais ---
     const filtroVis = document.getElementById('filtro-visibilidade')?.value || 'todos';
     if (filtroVis === 'ocultos' || filtroVis === 'contem_ocultos') {
         card.style.display = 'none';
@@ -172,7 +171,6 @@ function renderizarCardResultado(item, index, tab) {
     
     footer.append(globalError, botoesAcao);
   } else {
-    // 1. PRIMEIRA LINHA
     const countWrapper = document.createElement('div');
     countWrapper.className = 'am-card-counter-wrapper';
 
@@ -196,7 +194,6 @@ function renderizarCardResultado(item, index, tab) {
         button.textContent = 'Destacar';
     }
 
-    // ======== NAVEGAÇÃO ========
     const navContainer = document.createElement('div');
     navContainer.className = 'am-nav-destaque';
     let currentIndex = 0;
@@ -250,12 +247,9 @@ function renderizarCardResultado(item, index, tab) {
 
       navContainer.append(btnPrev, txtCount, btnNext);
 
-      // SOLUÇÃO: Se este botão foi recuperado do cache como ativo, 
-      // ordena imediatamente que as setinhas apareçam.
       if (regraAtivaIndex === index) {
         navContainer.classList.add('show');
         
-        // Verifica o estado do primeiro elemento para o texto "Oculto" aparecer se for caso disso
         chrome.tabs.sendMessage(tab.id, { 
            action: 'FOCUS_V2', pointer: ponteiros[0], dicasHtml: dicasHtml 
         }).then(res => {
@@ -267,7 +261,6 @@ function renderizarCardResultado(item, index, tab) {
     
     countWrapper.append(count, countLabel, navContainer);
 
-    // ======== PRÉ-VERIFICAÇÃO DE ITENS OCULTOS ========
     chrome.tabs.sendMessage(tab.id, {
       action: 'FILTER_V2',
       pointers: ponteiros,
@@ -277,7 +270,6 @@ function renderizarCardResultado(item, index, tab) {
         const visiveis = response.validPointers.length;
         const total = ponteiros.length;
         
-        // --- NOVA LÓGICA DO FILTRO DE VISIBILIDADE ---
         const filtroVis = document.getElementById('filtro-visibilidade')?.value || 'todos';
         let mostrarCard = true;
 
@@ -288,7 +280,7 @@ function renderizarCardResultado(item, index, tab) {
         if (!mostrarCard) {
           card.style.display = 'none';
           verificarEstadoVazio();
-          return; // Aborta a pintura dos botões e bloqueios
+          return;
         }
 
         if (visiveis === 0) {
@@ -301,20 +293,16 @@ function renderizarCardResultado(item, index, tab) {
           if (regraAtivaIndex === index) navContainer.classList.remove('show');
         } else if (visiveis < ponteiros.length) {
           const ocultos = ponteiros.length - visiveis;
-          // SOLUÇÃO: Atualizamos sempre o texto "(X ocultos)", quer o botão esteja ativo ou não!
           countLabel.textContent = ` elementos (${ocultos} oculto${ocultos > 1 ? 's' : ''})`;
         }
       }
     }).catch(error => registrarFalhaDeMensagem('filtro de visibilidade', error));
     
-    // ======== CLIQUE NO BOTÃO ========
     button.addEventListener('click', async () => {
       const cache = cacheAvaliacoes.get(tab.id);
       
-      // Limpa TODAS as caixas de setinhas ativas no painel
       document.querySelectorAll('.am-nav-destaque').forEach(el => el.classList.remove('show'));
 
-      // DESATIVAR DESTAQUE
       if (regraAtivaIndex === index) {
         regraAtivaIndex = null;
         if (cache) { cache.regraAtivaIndex = null; cacheAvaliacoes.set(tab.id, cache); }
@@ -340,7 +328,6 @@ function renderizarCardResultado(item, index, tab) {
         return;
       }
       
-      // ATIVAR DESTAQUE
       regraAtivaIndex = index;
       if (cache) { cache.regraAtivaIndex = index; cacheAvaliacoes.set(tab.id, cache); }
 
@@ -410,7 +397,6 @@ function renderizarCardResultado(item, index, tab) {
       }
     });
 
-    // 2. SEGUNDA LINHA
     const botoesAcao = document.createElement('div');
     botoesAcao.className = 'am-card-actions'; 
     botoesAcao.append(button, btnExpandir); 
@@ -423,7 +409,6 @@ function renderizarCardResultado(item, index, tab) {
   document.getElementById('lista-detalhada').appendChild(card);
 } 
 
-// ... (O restante da função atualizarEstatisticas mantém-se igual) ...
 export function atualizarEstatisticas(dados, modo = 'elementos') {
   const stats = {
     sucesso: { total: 0, A: 0, AA: 0, AAA: 0, regrasUnicas: new Set(), regrasA: new Set(), regrasAA: new Set(), regrasAAA: new Set() },

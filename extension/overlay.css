@@ -1,6 +1,3 @@
-/* ==========================================================================
-   ESTILOS GLOBAIS DE OVERLAY (AMAWeb)
-   ========================================================================== */
 
 #amaweb-overlay-layer {
     position: absolute !important;
@@ -12,11 +9,10 @@
     pointer-events: none !important;
 }
 
-/* --- ESTILOS DA CAIXA (MODO WAVE: INVISÍVEL POR PADRÃO) --- */
 .amaweb-highlight-box {
     position: absolute !important;
-    pointer-events: none !important;
-    opacity: 0 !important; /* Totalmente invisível até passar o mouse */
+     opacity: 0 !important;
+    opacity: 0 !important;
     transition: opacity 0.2s ease-in-out !important;
     background-color: transparent !important;
     outline: none !important;
@@ -24,21 +20,19 @@
 }
 
 .amaweb-highlight-box.error {
-    border: 3px dashed #ff4d4d !important;
-    background-color: rgba(255, 77, 77, 0.1) !important; /* Fundo avermelhado leve */
+     background-color: rgba(255, 77, 77, 0.1) !important;
+    background-color: rgba(255, 77, 77, 0.1) !important;
 }
 
 .amaweb-highlight-box.warning {
-    border: 3px dashed #ffaa00 !important;
-    background-color: rgba(255, 170, 0, 0.1) !important; /* Fundo amarelado leve */
+     background-color: rgba(255, 170, 0, 0.1) !important;
+    background-color: rgba(255, 170, 0, 0.1) !important;
 }
 
-/* Quando o mouse passa no ícone, o JS adiciona esta classe na caixa */
 .amaweb-highlight-box.ativa {
     opacity: 1 !important;
 }
 
-/* --- ESTILOS DO CONTÊINER DE ETIQUETAS --- */
 .amaweb-badge-container {
     position: absolute !important;
     display: flex !important;
@@ -48,7 +42,6 @@
     z-index: 3 !important; 
 }
 
-/* --- ESTILOS DO ÍCONE (NOVO BADGE MINIMALISTA) --- */
 .amaweb-badge {
     position: relative !important; 
     color: white !important;
@@ -57,8 +50,8 @@
     font-weight: bold !important;
     width: 24px !important;
     height: 24px !important;
-    border-radius: 50% !important; /* Transforma em círculo perfeito */
-    border: 2px solid white !important; /* Borda branca para destacar do fundo */
+    border-radius: 50% !important;
+    border: 2px solid white !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -74,12 +67,9 @@
 
 .amaweb-badge.warning {
     background-color: #ffaa00 !important;
-    color: #333 !important; /* Melhor contraste no fundo amarelo */
+    color: #333 !important;
 }
 
-/* ==========================================================================
-   ESTILOS DO TOOLTIP (O BALÃO DE TEXTO)
-   ========================================================================== */
 
 .amaweb-badge-container > div {
     position: relative !important;
@@ -92,33 +82,31 @@
 
 .amaweb-tooltip-box {
     position: absolute;
-    bottom: calc(100% + 8px); /* Força a abrir sempre para CIMA por padrão */
+    bottom: calc(100% + 8px);
     left: 50%;
-    transform: translateX(-50%); /* Mantém o balão centrado em relação à bolinha */
+    transform: translateX(-50%);
     background-color: white;
     border: 2px solid #194f36;
     border-radius: 4px;
     padding: 10px 12px;
     color: #333;
     width: 220px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+     opacity: 0;
+     visibility: hidden;
   
-    /* Escondido por padrão */
     opacity: 0;
-    visibility: hidden;
+     z-index: 2147483647 !important; 
     transition: opacity 0.2s ease-out, visibility 0.2s ease-out !important;
     pointer-events: none;
   
-    /* Garante que NUNCA fica atrás de nada */
     z-index: 2147483647 !important; 
 }
 
-/* Seta apontando para BAIXO (balão acima da bolinha) */
 .amaweb-tooltip-box::after {
     content: '' !important;
     position: absolute !important;
     top: 100% !important;
-    left: 50% !important; /* Centralizado perfeitamente */
+    left: 50% !important;
     transform: translateX(-50%) !important;
     border-width: 8px !important;
     border-style: solid !important;
@@ -135,22 +123,17 @@
     z-index: 2147483647 !important;
 }
 
-/* --- INVERSÃO (FLIP): Quando a bolinha está no topo da tela --- */
 .amaweb-badge-container > div.flip .amaweb-tooltip-box {
     bottom: auto !important;
-    top: calc(100% + 8px) !important; /* Abre para BAIXO, mantendo respiro de 8px */
+    top: calc(100% + 8px) !important;
 }
 
-/* Inverte a seta para apontar para CIMA */
 .amaweb-badge-container > div.flip .amaweb-tooltip-box::after {
     top: auto !important;
     bottom: 100% !important;
     border-color: transparent transparent #194f36 transparent !important;
 }
 
-/* ==========================================================================
-   EFEITOS DE FOCO / DESTAQUE CIRÚRGICO
-   ========================================================================== */
 .amaweb-highlight-box.amaweb-focado {
     outline: 5px solid #00f2fe !important;
     box-shadow: 0 0 15px 5px rgba(0, 242, 254, 0.8) !important;
@@ -165,25 +148,22 @@
     border: 2px solid white !important;
 }
 
-/* Classe que faz o elemento piscar ao clicar em Destacar ou nas Setinhas */
 .amaweb-piscar-foco {
     outline: 4px solid #FF5722 !important;
     outline-offset: 2px !important;
-    box-shadow: 0 0 15px rgba(255, 87, 34, 0.6) !important; /* Brilho laranja */
+    box-shadow: 0 0 15px rgba(255, 87, 34, 0.6) !important;
     transition: outline 0.2s ease, box-shadow 0.2s ease !important;
 }
 
-/* Quando bate na borda ESQUERDA da tela */
 .amaweb-badge-container > div .amaweb-tooltip-box.align-left {
-    left: 0 !important; /* Alinha exatamente com a borda da bolinha */
+    left: 0 !important;
     transform: none !important;
 }
 .amaweb-badge-container > div .amaweb-tooltip-box.align-left::after {
-    left: 12px !important; /* Aponta para o centro exato da bolinha */
+    left: 12px !important;
     transform: none !important;
 }
 
-/* Quando bate na borda DIREITA da tela */
 .amaweb-badge-container > div .amaweb-tooltip-box.align-right {
     left: auto !important;
     right: 0 !important;

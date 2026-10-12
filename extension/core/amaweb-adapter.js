@@ -126,8 +126,6 @@ export function adaptarJsonAmaWeb(nodes, scoreGeral, dicionarioAMA) {
 
       let descricaoLimpa = descricaoTraduzida|| "";
 
-      // Remove textos dinâmicos em inglês comuns injetados pelo motor
-
       let tipoDeErroFormatado = "Para ver manualmente"; 
             if (resultado.verdict === "failed") tipoDeErroFormatado = "Erro";
             else if (resultado.verdict === "warning") tipoDeErroFormatado = "Aviso";

@@ -8,6 +8,8 @@ Registro da arquitetura atual, melhorias implementadas, correções prioritária
 
 > Atualização: a auditoria de segurança, separação de CSS, validação da API, exportação, JSDoc, sanitização seletiva e testes automatizados já foram implementados. Itens ainda marcados como pendentes devem ser lidos como histórico ou roadmap futuro.
 
+> A descrição consolidada do desenvolvimento, dos desafios técnicos, da investigação da sanitização e das correções está em `docs/RELATORIO-FINAL-TCC.md`.
+
 ### ✅ Implementado
 
 **Arquitetura modular e funcional:**

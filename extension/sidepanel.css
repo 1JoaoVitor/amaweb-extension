@@ -1,12 +1,11 @@
-/* === VARIÁVEIS DE IDENTIDADE AMAWEB OFICIAL === */
 :root {
-  --ama-green-dark: #0f3f2d;     /* Verde profundo do cabeçalho */
-  --ama-green-primary: #1b6345;  /* Verde botões principais */
-  --ama-green-light: #eaf3ef;    /* Verde fundo sucesso */
+  --ama-green-dark: #0f3f2d;
+  --ama-green-primary: #1b6345;
+  --ama-green-light: #eaf3ef;
   
-  --color-danger: #d93025;       /* Vermelho oficial erros */
+  --color-danger: #d93025;
   --color-danger-light: #fce8e6;
-  --color-warning: #f29900;      /* Amarelo/Laranja oficial avisos */
+  --color-warning: #f29900;
   --color-warning-light: #fef0d9;
   
   --color-surface: #ffffff;
@@ -16,7 +15,6 @@
   --color-border: #dadce0;
 }
 
-/* === BASE E TIPOGRAFIA === */
 body {
   margin: 0;
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -32,7 +30,6 @@ body {
   gap: 16px;
 }
 
-/* === HEADER === */
 .header {
   border-bottom: 2px solid var(--ama-green-primary);
   padding-bottom: 12px;
@@ -46,7 +43,6 @@ body {
   font-weight: 700;
 }
 
-/* === NAVEGAÇÃO (ABAS) === */
 .tabs-container {
   display: flex;
   border-bottom: 1px solid var(--color-border);
@@ -103,7 +99,6 @@ body {
 .focus-order-item:hover,
 .focus-order-item:focus-visible { background: var(--ama-green-light); border-color: var(--ama-green-primary); }
 
-/* === BOTÕES GERAIS (ESTILO PORTAL) === */
 .actions-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -146,7 +141,6 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
 }
 .btn-outline-danger:hover:not(:disabled) { background-color: var(--color-danger-light); }
 
-/* === AVISO DE PRIVACIDADE === */
 .privacy-notice {
   background-color: #fff8e1;
   border: 1px solid #f2c94c;
@@ -165,7 +159,6 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
 .privacy-notice-close:hover { background: transparent; color: var(--color-text); }
 
 
-/* === BLOCO DE CONFIGURAÇÕES (BORDAS RETAS) === */
 .settings-group {
   background: white;
   border: 1px solid var(--color-border);
@@ -193,7 +186,6 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
 }
 .options-label span { font-size: 11px; font-weight: 400; color: var(--color-muted); margin-top: 2px; }
 
-/* Toggle Switch Quadrado */
 .am-switch { position: relative; display: inline-block; width: 36px; height: 20px; flex-shrink: 0; }
 .am-switch input { opacity: 0; width: 0; height: 0; }
 .am-slider { position: absolute; cursor: pointer; inset: 0; background-color: #cbd5e1; transition: 0.2s; border-radius: 2px; }
@@ -202,7 +194,6 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
 .am-switch input:checked + .am-slider::before { transform: translateX(16px); }
 
 
-/* === FILTROS MODERNOS === */
 .am-filtros-container { display: flex; flex-direction: column; gap: 8px; margin-bottom: 5px; }
 .am-select {
   appearance: none; -webkit-appearance: none; width: 100%;
@@ -214,7 +205,6 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
 .am-select:focus { border-color: var(--ama-green-primary); outline: none; }
 
 
-/* === TABELA E RESULTADOS === */
 .results-panel { display: none; flex-direction: column; gap: 16px; }
 
 .score-box {
@@ -258,7 +248,6 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
 .nivel-col b { font-size: 16px; color: var(--color-text); margin-top: 2px; }
 
 
-/* === CARDS DE DETALHES === */
 #lista-detalhada { display: flex; flex-direction: column; gap: 12px; }
 
 .am-card {
@@ -278,10 +267,9 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
 .am-card-description { font-weight: 400; font-size: 13px; color: var(--color-muted); display: block; margin-top: 4px; }
 .am-card-level { font-size: 12px; color: var(--ama-green-primary); margin: 0; font-weight: 700; }
 
-/* --- RODAPÉ DOS CARDS (DUAS LINHAS VIA CSS E BLINDADO) --- */
 .am-card-footer {
   display: flex;
-  flex-wrap: wrap; /* A MÁGICA: Permite que os botões caiam para a linha de baixo */
+  flex-wrap: wrap;
   align-items: baseline; 
   margin-top: 12px; 
   padding-top: 12px; 
@@ -295,24 +283,22 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
   margin-right: 4px;
 }
 
-/* O texto "elementos (1 oculto)" */
 .am-card-count-label { 
   font-size: 12px; 
   font-weight: 400; 
   color: var(--color-muted); 
-  white-space: nowrap; /* IMPEDE que a palavra quebre para a linha de baixo! */
-  text-overflow: ellipsis; /* Põe "..." se não couber tudo na tela */
+  white-space: nowrap;
+  text-overflow: ellipsis;
   overflow: hidden;
-  flex-shrink: 1; /* Permite que o texto encolha se a caixa das setas precisar de espaço */
+  flex-shrink: 1;
 }
 
-/* Ocupa 100% do espaço, forçando a descer para a segunda linha */
 .am-card-actions { 
   display: flex; 
   width: 100%; 
   align-items: center; 
-  justify-content: space-between; /* "Destacar" à esquerda, "Detalhes" à direita */
-  margin-top: 12px; /* Espaçamento entre o texto e os botões */
+  justify-content: space-between;
+  margin-top: 12px;
   gap: 12px;
 }
 
@@ -359,12 +345,11 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
   flex-direction: row; 
   align-items: center; 
   flex-wrap: nowrap;
-  gap: 6px; /* Aumentei um pouco o gap para os elementos respirarem */
+  gap: 6px;
   width: 100%;
-  overflow: hidden; /* Se o texto for gigante, esconde em vez de empurrar o resto */
+  overflow: hidden;
 }
 
-/* NAVEGAÇÃO DE SETINHAS (A caixa inteira) */
 .am-nav-destaque { 
   display: none; 
   align-items: center; 
@@ -373,9 +358,9 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
   border: 1px solid var(--color-border); 
   padding: 0 4px; 
   border-radius: 4px; 
-  margin-left: auto; /* Empurra a caixinha das setas totalmente para a DIREITA */
+  margin-left: auto;
   height: 24px; 
-  flex-shrink: 0; /* IMPEDE a caixinha de ser esmagada pelo texto */
+  flex-shrink: 0;
 }
 
 .am-nav-destaque.show { 
@@ -384,17 +369,15 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
 
 .am-nav-btn { background: none; border: none; color: var(--color-muted); font-size: 12px; padding: 4px 6px; width: auto; }
 .am-nav-btn:hover { color: var(--ama-green-primary); }
-/* O texto dentro das setinhas (ex: "2/2 (Oculto)") */
 .am-nav-txt { 
   font-size: 11px; 
   font-weight: 600; 
   min-width: 40px; 
   text-align: center; 
-  white-space: nowrap; /* IMPEDE que o "(Oculto)" desça para a segunda linha */
+  white-space: nowrap;
   padding: 0 4px;
 }
 
-/* === ESTADOS (LOADING / ERROR) === */
 .empty-state { font-size: 13px; color: var(--color-muted); text-align: center; margin-top: 20px; padding: 20px; background: white; border-radius: 4px; border: 1px dashed var(--color-border); }
 
 .loading-panel { display: none; text-align: center; padding: 30px 10px; }

@@ -4,7 +4,6 @@
   function obterCaixaVisivel(elemento) {
     const tag = elemento.tagName.toLowerCase();
 
-    // Elementos de estrutura que nunca são visíveis
     if (['html', 'body', 'head', 'meta', 'title', 'script', 'style', 'link'].includes(tag)) {
       return { rect: { top: 15, left: 15, width: 0, height: 0 }, oculto: false, ignorarRenderizacao: false };
     }
@@ -15,7 +14,6 @@
     const absoluteLeft = rect.left + window.scrollX;
     const absoluteTop = rect.top + window.scrollY;
 
-    // A MÁGICA: Deteta se o elemento foi atirado para fora do documento (o clássico truque dos skip links)
     const isOffDocument = (absoluteLeft < -10 || absoluteTop < -10);
     
     const isClipped = (estilo.clip && estilo.clip !== 'auto' && estilo.clip !== 'none') || 
@@ -31,7 +29,6 @@
       isClipped
     );
 
-    // REGRA DE OURO: Se é invisível, avisa o painel (Oculto) e NUNCA renderiza a bolinha no overlay
     return { rect, oculto: isHiddenVisually, ignorarRenderizacao: isHiddenVisually };
   }
 
@@ -200,19 +197,14 @@
     caixa.style.top = `0px`;
     caixa.style.left = `0px`;
     
-    // Garante que a caixa nunca seja menor que 24x24 (para não sumir em elementos 1x1)
     caixa.style.width = `${Math.max(rect.width, 24)}px`;
     caixa.style.height = `${Math.max(rect.height, 24)}px`;
-    // Trava a caixa para que nunca fuja para fora do limite superior ou esquerdo
     let boxX = targetX < 2 ? 2 : targetX;
     let boxY = targetY < 2 ? 2 : targetY;
     caixa.style.transform = `translate3d(${boxX}px, ${boxY}px, 0)`;
 
-    // Removemos o limite de 95% para revelar a caixa de elementos estruturais gigantes!
-    // Como a caixa tem pointer-events: none e position: absolute, NÃO estraga o layout.
     camadaAtiva.appendChild(caixa);
 
-    // A bolinha deve ficar ancorada, mas NUNCA vazar pelas bordas superior e esquerda da página
     let badgeX = targetX - 12;
     let badgeY = targetY - 12;
     if (badgeX < 10) badgeX = 10;
@@ -230,24 +222,19 @@
       containers.push(container);
     }
 
-    // --- NOVA DESDUPLICAÇÃO FÍSICA E INTELIGENTE ---
-    // Compara os ELEMENTOS FÍSICOS REAIS em vez dos seletores de texto
     const badgeDuplicado = Array.from(container.elemento.children).find(wrapper => {
-      const isMesmoAlvo = wrapper.alvoDOM === alvoDOM; // O Nó HTML é o mesmo?
+      const isMesmoAlvo = wrapper.alvoDOM === alvoDOM;
       const isMesmoTitulo = wrapper.querySelector('.amaweb-tooltip-box strong')?.textContent.trim() === texto.trim();
       return isMesmoAlvo && isMesmoTitulo;
     });
 
     if (badgeDuplicado) {
-      // Se já existe, regista este novo pointer na bolinha existente para que 
-      // as setinhas de ambos os cartões do painel consigam encontrar e clicar nela.
       let pointersSalvos = badgeDuplicado.getAttribute('data-pointer') || '';
       if (!pointersSalvos.includes(seletorCss)) {
         badgeDuplicado.setAttribute('data-pointer', pointersSalvos + ',' + seletorCss);
       }
-      return; // Aborta a criação da bolinha gémea
+      return;
     }
-    // -----------------------------------------------
 
     const badgeWrapper = document.createElement('div');
     badgeWrapper.style.position = 'relative';
@@ -271,7 +258,6 @@
     span.textContent = descricao;
     tooltip.appendChild(span);
 
-    // NOVO MOTOR INSTANTÂNEO DE BALÕES (Sem Timeout)
     const ajustarPosicaoTooltip = () => {
       const badgeRect = badge.getBoundingClientRect();
       
@@ -283,7 +269,7 @@
 
       tooltip.classList.remove('align-left', 'align-right');
       
-      void tooltip.offsetHeight; // Hack de Reflow
+      void tooltip.offsetHeight;
       
       const rectT = tooltip.getBoundingClientRect();
       if (rectT.left < 5) {
@@ -315,18 +301,16 @@
         badgeWrapper.style.setProperty('z-index', '999999', 'important');
         container.elemento.style.setProperty('z-index', '999999', 'important'); 
         
-        // A caixa VAI aparecer sempre que for ativada (removido o if !oculto)
         caixa.classList.add('ativa');
         caixa.style.setProperty('z-index', '999998', 'important'); 
 
-        // A MÁGICA: Forçar o foco no elemento para que o site revele menus e skip links
+        // Focus may reveal collapsed menus and skip links.
         if (alvoDOM && typeof alvoDOM.focus === 'function') {
            alvoDOM.focus({ preventScroll: true });
         }
 
         ajustarPosicaoTooltip();
         
-        // Atualiza as posições da caixa imediatamente para acompanhar o elemento que acabou de aparecer
         setTimeout(atualizarPosicoes, 50);
         setTimeout(atualizarPosicoes, 250);
 
@@ -342,17 +326,14 @@
     badgeWrapper.setAttribute('data-box-id', boxId);
     badgeWrapper.setAttribute('data-pointer', seletorCss);
 
-    // 1. FORÇA OS INATIVOS PARA O FUNDO
     badgeWrapper.style.setProperty('z-index', '1', 'important');
 
     if (forcarAtivo) { 
       badgeWrapper.classList.add('ativo'); 
       
-      // A caixa VAI aparecer sempre que for ativada (removido o if !oculto)
       caixa.classList.add('ativa');
       caixa.style.setProperty('z-index', '999998', 'important'); 
       
-      // 2. ELEVAÇÃO DUPLA
       badgeWrapper.style.setProperty('z-index', '999999', 'important');
       container.elemento.style.setProperty('z-index', '999999', 'important');
 
@@ -504,30 +485,26 @@
   }
 
   function removerDestaque() {
-    // 1. Remove a camada de destaque (vermelha)
     document.getElementById('amaweb-highlight-wrapper')?.remove();
     
     const wrapperAntigo = document.getElementById('amaweb-overlay-wrapper');
     if (wrapperAntigo) {
-      // 2. Devolve a visibilidade às bolinhas normais (amarelas)
       wrapperAntigo.style.removeProperty('display');
       
-      // 3. LIMPEZA FORÇADA: Finge um "clique fora" para fechar qualquer balão ou borda 
-      // que tenha ficado esquecido aberto nesta camada.
       wrapperAntigo.querySelectorAll('.amaweb-badge-container').forEach(cont => {
         cont.style.setProperty('z-index', '3', 'important');
       }); 
 
       wrapperAntigo.querySelectorAll('.amaweb-badge-container > div.ativo').forEach(el => {
         el.classList.remove('ativo', 'flip');
-        el.style.setProperty('z-index', '1', 'important'); // Rebaixa bolinhas
+        el.style.setProperty('z-index', '1', 'important');
         
         const boxAssociada = el.getAttribute('data-box-id');
         if (boxAssociada) {
           const caixaDom = document.getElementById(boxAssociada);
           if (caixaDom) {
             caixaDom.classList.remove('ativa');
-            caixaDom.style.setProperty('z-index', '1', 'important'); // Remove a borda pontilhada
+            caixaDom.style.setProperty('z-index', '1', 'important');
           }
         }
       });
@@ -545,8 +522,6 @@
   globalThis.AmawebOverlayManager = { renderizar, destacar, removerDestaque, limparTudo, obterCaixaVisivel };
 
   document.addEventListener('click', (e) => {
-    // PROTEÇÃO INFALÍVEL: Se clicou em qualquer parte da nossa extensão (bolinha, balão, caixa), ignora.
-    // Só fecha se o clique for puramente no fundo do site (o que cobre o Alt+Tab seguro).
     if (e.target.closest('#amaweb-overlay-wrapper, #amaweb-highlight-wrapper, .amaweb-badge-container')) {
        return; 
     }
@@ -557,12 +532,12 @@
 
     document.querySelectorAll('.amaweb-badge-container > div.ativo').forEach(el => {
       el.classList.remove('ativo', 'flip');
-      el.style.setProperty('z-index', '1', 'important'); // Rebaixa bolinhas vizinhas
+      el.style.setProperty('z-index', '1', 'important');
       const boxAssociada = el.getAttribute('data-box-id');
       const caixaDom = document.getElementById(boxAssociada);
       if(caixaDom) {
         caixaDom.classList.remove('ativa');
-        caixaDom.style.setProperty('z-index', '1', 'important'); // Rebaixa borda tracejada
+        caixaDom.style.setProperty('z-index', '1', 'important');
       }
     });
   });
@@ -637,7 +612,6 @@
         let encontrou = false;
         
         todasBolinhas.forEach(badgeWrapper => {
-          // Agora lê a lista de pointers separados por vírgula que gravámos
           const pointers = (badgeWrapper.getAttribute('data-pointer') || '').split(',');
           
           if (pointers.includes(cleanPointer)) {

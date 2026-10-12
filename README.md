@@ -16,6 +16,10 @@ npm test
 
 O processo de investigação está documentado em `docs/INVESTIGACAO-SANITIZACAO-E-CAPTURA.md`, e as páginas de teste estão em `docs/test-pages/`.
 
+O resumo da arquitetura, dos desafios técnicos, das soluções e da sequência sugerida para o TCC está em `docs/RESUMO-DESENVOLVIMENTO-TCC.md`.
+
+O documento consolidado, com todos os problemas encontrados, correções, investigação da sanitização, testes, limitações e decisões finais, está em `docs/RELATORIO-FINAL-TCC.md`.
+
 ### Limitações Conhecidas
 
 - Shadow DOM não é percorrido completamente; Shadow Roots fechados permanecem inacessíveis.

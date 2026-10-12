@@ -4,6 +4,8 @@
 
 A extensão **AMAWeb** é uma solução para navegadores baseados na arquitetura Chromium (Manifest V3), desenvolvida com o propósito de automatizar, estruturar e simplificar o processo de auditoria de acessibilidade em aplicações web. Integrando-se via chamadas RESTful assíncronas à API do ecossistema AMAWeb, o sistema realiza a análise heurística do Modelo de Objeto do Documento (DOM), identificando desconformidades em relação às diretrizes internacionais da *Web Content Accessibility Guidelines* (WCAG).
 
+> Para o estado final do projeto, problemas corrigidos, investigação da sanitização, testes, limitações e modo de Ordem de Foco, consulte `docs/RELATORIO-FINAL-TCC.md`. Este documento mantém a descrição técnica detalhada da arquitetura.
+
 O diferencial arquitetural do projeto reside em seu mecanismo de **feedback visual não-intrusivo**. A extensão injeta uma camada de interface dinamicamente sobreposta (*overlay*) ao DOM da página auditada, mapeando visualmente as inconsistências encontradas diretamente nos elementos afetados, sem alterar a árvore DOM original da página host, sem quebrar os estilos CSS preexistentes ou comprometer a navegação do usuário.
 
 # **2\. Arquitetura de Renderização: O Sistema de Duas Camadas**
