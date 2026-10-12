@@ -4,28 +4,34 @@
   function obterCaixaVisivel(elemento) {
     const tag = elemento.tagName.toLowerCase();
 
-    // 1. TRATAMENTO DE CAIXA FANTASMA (Tags globais ou de cabeçalho)
+    // Elementos de estrutura que nunca são visíveis
     if (['html', 'body', 'head', 'meta', 'title', 'script', 'style', 'link'].includes(tag)) {
-      // Retorna uma coordenada fixa no canto da tela com tamanho 0x0
-      return { 
-        rect: { top: 15, left: 15, width: 0, height: 0 }, 
-        oculto: false, 
-        ignorarRenderizacao: false 
-      };
+      return { rect: { top: 15, left: 15, width: 0, height: 0 }, oculto: false, ignorarRenderizacao: false };
     }
 
-    // 2. Elementos normais
     const rect = elemento.getBoundingClientRect();
     const estilo = window.getComputedStyle(elemento);
+    
+    const absoluteLeft = rect.left + window.scrollX;
+    const absoluteTop = rect.top + window.scrollY;
+
+    // A MÁGICA: Deteta se o elemento foi atirado para fora do documento (o clássico truque dos skip links)
+    const isOffDocument = (absoluteLeft < -10 || absoluteTop < -10);
+    
+    const isClipped = (estilo.clip && estilo.clip !== 'auto' && estilo.clip !== 'none') || 
+                      (estilo.clipPath && estilo.clipPath !== 'none');
 
     const isHiddenVisually = (
-      rect.width < 2 || 
-      rect.height < 2 || 
+      rect.width <= 2 || 
+      rect.height <= 2 || 
       estilo.display === 'none' || 
       estilo.visibility === 'hidden' || 
-      estilo.opacity === '0'
+      parseFloat(estilo.opacity) < 0.1 ||
+      isOffDocument ||
+      isClipped
     );
 
+    // REGRA DE OURO: Se é invisível, avisa o painel (Oculto) e NUNCA renderiza a bolinha no overlay
     return { rect, oculto: isHiddenVisually, ignorarRenderizacao: isHiddenVisually };
   }
 
@@ -39,7 +45,6 @@
     }
   }
 
-  // Descobre se o elemento é estático ou preso na tela (fixed/sticky)
   function ehFixoOuSticky(elemento) {
     let curr = elemento;
     while (curr && curr !== document.body && curr !== document.documentElement) {
@@ -157,9 +162,6 @@
     return null;
   }
 
-  // =======================================================================
-  // ARQUITETURA DE DUAS CAMADAS: O Fim do Delay e das Bolinhas Voadoras
-  // =======================================================================
   function criarCamadas(idPrefix) {
     document.getElementById(`${idPrefix}-wrapper`)?.remove();
     
@@ -167,12 +169,10 @@
     wrapper.id = `${idPrefix}-wrapper`;
     wrapper.style.cssText = 'position: static; z-index: 2147483647; pointer-events: none;';
 
-    // Camada que rola com o documento (zero delay nativo)
     const absolute = document.createElement('div');
     absolute.id = `${idPrefix}-absolute`;
     absolute.style.cssText = 'position: absolute !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 0 !important; overflow: visible !important; z-index: 2147483646 !important; pointer-events: none !important;';
 
-    // Camada que gruda na tela (zero delay para menus fixos/sticky)
     const fixed = document.createElement('div');
     fixed.id = `${idPrefix}-fixed`;
     fixed.style.cssText = 'position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; z-index: 2147483647 !important; pointer-events: none !important;';
@@ -195,30 +195,55 @@
     caixa.className = `amaweb-highlight-box ${tipo}`;
     caixa.style.top = `0px`;
     caixa.style.left = `0px`;
-    caixa.style.width = `${rect.width}px`;
-    caixa.style.height = `${rect.height}px`;
-    caixa.style.transform = `translate3d(${targetX}px, ${targetY}px, 0)`;
-
-    if (!oculto) camadaAtiva.appendChild(caixa);
-
-    // RAIO AUMENTADO PARA 60 PIXELS: "Engole" todos os botões próximos em um grupo só
-    let container = containers.find(item => Math.abs(item.targetX - targetX) < 60 && Math.abs(item.targetY - targetY) < 60 && item.isFixed === isFixed);
     
+    // Garante que a caixa nunca seja menor que 24x24 (para não sumir em elementos 1x1)
+    caixa.style.width = `${Math.max(rect.width, 24)}px`;
+    caixa.style.height = `${Math.max(rect.height, 24)}px`;
+    // Trava a caixa para que nunca fuja para fora do limite superior ou esquerdo
+    let boxX = targetX < 2 ? 2 : targetX;
+    let boxY = targetY < 2 ? 2 : targetY;
+    caixa.style.transform = `translate3d(${boxX}px, ${boxY}px, 0)`;
+
+    // Removemos o limite de 95% para revelar a caixa de elementos estruturais gigantes!
+    // Como a caixa tem pointer-events: none e position: absolute, NÃO estraga o layout.
+    camadaAtiva.appendChild(caixa);
+
+    // A bolinha deve ficar ancorada, mas NUNCA vazar pelas bordas superior e esquerda da página
+    let badgeX = targetX - 12;
+    let badgeY = targetY - 12;
+    if (badgeX < 10) badgeX = 10;
+    if (badgeY < 10) badgeY = 10;
+    
+    let container = containers.find(item => Math.abs(item.targetX - targetX) < 60 && Math.abs(item.targetY - targetY) < 60 && item.isFixed === isFixed);
+
     if (!container) {
       container = { targetX, targetY, isFixed, elemento: document.createElement('div') };
       container.elemento.className = 'amaweb-badge-container';
       container.elemento.style.top = `0px`; 
       container.elemento.style.left = `0px`;
-      container.elemento.style.transform = `translate3d(${targetX - 12}px, ${targetY - 12}px, 0)`;
+      container.elemento.style.transform = `translate3d(${badgeX}px, ${badgeY}px, 0)`;
       camadaAtiva.appendChild(container.elemento);
       containers.push(container);
     }
 
-    // BLOQUEIO TOTAL DE REPETIÇÃO: Se este grupo já tem um erro com esse nome, cancela a nova bolinha
-    const titulosNoContainer = Array.from(container.elemento.querySelectorAll('.amaweb-tooltip-box strong')).map(el => el.textContent.trim());
-    if (titulosNoContainer.includes(texto.trim())) {
-      return; 
+    // --- NOVA DESDUPLICAÇÃO FÍSICA E INTELIGENTE ---
+    // Compara os ELEMENTOS FÍSICOS REAIS em vez dos seletores de texto
+    const badgeDuplicado = Array.from(container.elemento.children).find(wrapper => {
+      const isMesmoAlvo = wrapper.alvoDOM === alvoDOM; // O Nó HTML é o mesmo?
+      const isMesmoTitulo = wrapper.querySelector('.amaweb-tooltip-box strong')?.textContent.trim() === texto.trim();
+      return isMesmoAlvo && isMesmoTitulo;
+    });
+
+    if (badgeDuplicado) {
+      // Se já existe, regista este novo pointer na bolinha existente para que 
+      // as setinhas de ambos os cartões do painel consigam encontrar e clicar nela.
+      let pointersSalvos = badgeDuplicado.getAttribute('data-pointer') || '';
+      if (!pointersSalvos.includes(seletorCss)) {
+        badgeDuplicado.setAttribute('data-pointer', pointersSalvos + ',' + seletorCss);
+      }
+      return; // Aborta a criação da bolinha gémea
     }
+    // -----------------------------------------------
 
     const badgeWrapper = document.createElement('div');
     badgeWrapper.style.position = 'relative';
@@ -242,37 +267,27 @@
     span.textContent = descricao;
     tooltip.appendChild(span);
 
-    // === NOVA FUNÇÃO: Calcula a posição do balão ===
+    // NOVO MOTOR INSTANTÂNEO DE BALÕES (Sem Timeout)
     const ajustarPosicaoTooltip = () => {
       const badgeRect = badge.getBoundingClientRect();
       
-      // Se a bolinha estiver muito perto do teto do ecrã, inverte para baixo
       if (badgeRect.top < 180) {
         badgeWrapper.classList.add('flip');
       } else {
         badgeWrapper.classList.remove('flip');
       }
 
-      // Evita cortes nas laterais do ecrã
-      setTimeout(() => {
-        // Zera os estilos inline primeiro para poder recalcular
-        tooltip.style.left = ''; 
-        tooltip.style.right = ''; 
-        tooltip.style.transform = ''; 
-        
-        const rectT = tooltip.getBoundingClientRect();
-        if (rectT.right > window.innerWidth) { 
-          tooltip.style.left = 'auto'; 
-          tooltip.style.right = '0px'; 
-          tooltip.style.transform = 'none'; 
-        } else if (rectT.left < 0) { 
-          tooltip.style.left = '0px'; 
-          tooltip.style.right = 'auto'; 
-          tooltip.style.transform = 'none'; 
-        }
-      }, 10);
+      tooltip.classList.remove('align-left', 'align-right');
+      
+      void tooltip.offsetHeight; // Hack de Reflow
+      
+      const rectT = tooltip.getBoundingClientRect();
+      if (rectT.left < 5) {
+        tooltip.classList.add('align-left');
+      } else if (rectT.right > window.innerWidth - 5) {
+        tooltip.classList.add('align-right');
+      }
     };
-    // ===============================================
 
     badge.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -282,23 +297,38 @@
       document.querySelectorAll('.amaweb-badge-container').forEach(cont => cont.style.setProperty('z-index', '3', 'important'));
       document.querySelectorAll('.amaweb-badge-container > div').forEach(el => {
         el.classList.remove('ativo', 'flip');
-        el.style.removeProperty('z-index');
-        const box = el.getAttribute('data-box-id');
-        if(box) document.getElementById(box)?.classList.remove('ativa');
-        const tt = el.querySelector('.amaweb-tooltip-box');
-        if (tt) { tt.style.left = ''; tt.style.right = ''; tt.style.transform = ''; }
+        el.style.setProperty('z-index', '1', 'important'); 
+        const boxId = el.getAttribute('data-box-id');
+        const caixaDom = document.getElementById(boxId);
+        if(caixaDom) {
+          caixaDom.classList.remove('ativa');
+          caixaDom.style.setProperty('z-index', '1', 'important');
+        }
       });
 
       if (!jaAtivo) {
         badgeWrapper.classList.add('ativo');
         badgeWrapper.style.setProperty('z-index', '999999', 'important');
         container.elemento.style.setProperty('z-index', '999999', 'important'); 
-        if (!oculto) caixa.classList.add('ativa');
+        
+        // A caixa VAI aparecer sempre que for ativada (removido o if !oculto)
+        caixa.classList.add('ativa');
+        caixa.style.setProperty('z-index', '999998', 'important'); 
 
-        ajustarPosicaoTooltip(); // 1. Executa no Clique Manual
+        // A MÁGICA: Forçar o foco no elemento para que o site revele menus e skip links
+        if (alvoDOM && typeof alvoDOM.focus === 'function') {
+           alvoDOM.focus({ preventScroll: true });
+        }
 
-        // Envia o Título e o Index Único do erro para evitar saltar para um card homônimo
-        chrome.runtime.sendMessage({ action: 'SCROLL_TO_ERROR', titulo: texto, index: indexErro }).catch(() => {});
+        ajustarPosicaoTooltip();
+        
+        // Atualiza as posições da caixa imediatamente para acompanhar o elemento que acabou de aparecer
+        setTimeout(atualizarPosicoes, 50);
+        setTimeout(atualizarPosicoes, 250);
+
+        if (e.isTrusted) {
+          chrome.runtime.sendMessage({ action: 'SCROLL_TO_ERROR', titulo: texto, index: indexErro }).catch(() => {});
+        }
       }
     });
 
@@ -307,15 +337,22 @@
     badgeWrapper.setAttribute('data-box-id', boxId);
     badgeWrapper.setAttribute('data-pointer', seletorCss);
 
-    if (forcarAtivo && !oculto) { 
+    // 1. FORÇA OS INATIVOS PARA O FUNDO
+    badgeWrapper.style.setProperty('z-index', '1', 'important');
+
+    if (forcarAtivo) { 
       badgeWrapper.classList.add('ativo'); 
-      caixa.classList.add('ativa'); 
       
-      ajustarPosicaoTooltip(); // 2. Executa imediatamente no Destacar do painel
+      // A caixa VAI aparecer sempre que for ativada (removido o if !oculto)
+      caixa.classList.add('ativa');
+      caixa.style.setProperty('z-index', '999998', 'important'); 
       
-      // 3. Executa novamente após meio segundo para corrigir a posição 
-      // caso o scroll suave (smooth scroll) mova o elemento de sítio
-      setTimeout(ajustarPosicaoTooltip, 500);
+      // 2. ELEVAÇÃO DUPLA
+      badgeWrapper.style.setProperty('z-index', '999999', 'important');
+      container.elemento.style.setProperty('z-index', '999999', 'important');
+
+      ajustarPosicaoTooltip();
+      setTimeout(ajustarPosicaoTooltip, 300); 
     }
 
     badgeWrapper.appendChild(badge);
@@ -323,7 +360,6 @@
     container.elemento.appendChild(badgeWrapper);
   }
 
-  // Motor Unificado: Atualiza apenas as modificações dinâmicas sem pesar a rolagem natural
   function atualizarPosicoes() {
     const containers = document.querySelectorAll('.amaweb-badge-container');
     
@@ -358,11 +394,18 @@
           const targetX = isFixed ? rect.left : rect.left + window.scrollX;
           const targetY = isFixed ? rect.top : rect.top + window.scrollY;
           
-          container.style.transform = `translate3d(${targetX - 12}px, ${targetY - 12}px, 0)`;
+          let badgeX = targetX - 12;
+          let badgeY = targetY - 12;
+          if (badgeX < 10) badgeX = 10;
+          if (badgeY < 10) badgeY = 10;
+
+          container.style.transform = `translate3d(${badgeX}px, ${badgeY}px, 0)`;
           if (caixa) {
-            caixa.style.transform = `translate3d(${targetX}px, ${targetY}px, 0)`;
-            caixa.style.width = `${rect.width}px`;
-            caixa.style.height = `${rect.height}px`;
+            let boxX = targetX < 2 ? 2 : targetX;
+            let boxY = targetY < 2 ? 2 : targetY;
+            caixa.style.transform = `translate3d(${boxX}px, ${boxY}px, 0)`;
+            caixa.style.width = `${Math.max(rect.width, 24)}px`;
+            caixa.style.height = `${Math.max(rect.height, 24)}px`;
           }
         }
       } else {
@@ -387,17 +430,22 @@
         if (elemento.htmlCode) memoriaHtml.set(elemento.pointer, elemento.htmlCode);
 
         try {
-          // CORREÇÃO AQUI: Limpa o pointer na renderização inicial também!
           const cleanPointer = elemento.pointer.replace(/:[a-zA-Z-]+/g, '');
           const alvo = encontrarElementoRobusto(cleanPointer, elemento.htmlCode);
           
           if (!alvo) return;
           
           const { rect, oculto, ignorarRenderizacao } = obterCaixaVisivel(alvo);
-          if (ignorarRenderizacao || rect.width > window.innerWidth * 0.9) return;
+          if (ignorarRenderizacao) return; 
 
           const titulo = `${item.Criterio || 'NBR 17225'}${oculto ? ' (Oculto)' : ''}`;
-          const desc = (item.Descricao || item.Elementos.descricao || '').replace(/\{\{value\}\}/g, item.Valor || item['Numero de ocorrencias'] || '1');
+          
+          let valorReal = item['Numero de ocorrencias'] || '1';
+          if (item.Valor !== undefined && item.Valor !== null && item.Valor !== '') {
+            valorReal = item.Valor;
+          }
+          let desc = (item.Descricao || item.Elementos.descricao || '').replace(/\{\{value\}\}/g, valorReal);
+          desc = desc.replace('1 cabeçalhos', '1 cabeçalho').replace('1 elementos', '1 elemento');
 
           adicionarMarcacao(camadas, rect, titulo, desc, tipo, oculto, containers, indexErro, false, cleanPointer, elemento.htmlCode, alvo);
         } catch (error) {
@@ -408,7 +456,8 @@
   }
 
   function destacar(pointers, tipo, criterio, descricao, dicasHtml = {}) {
-    document.getElementById('amaweb-overlay-wrapper')?.setAttribute('style', 'display: none !important');
+    const wrapperAntigo = document.getElementById('amaweb-overlay-wrapper');
+    if (wrapperAntigo) wrapperAntigo.style.setProperty('display', 'none', 'important');
     document.getElementById('amaweb-highlight-wrapper')?.remove(); 
     
     const camadas = criarCamadas('amaweb-highlight');
@@ -418,16 +467,16 @@
 
     pointers.forEach(pointer => {
       try {
-        // Limpa pseudoclasses que quebram o querySelector (ex: :hover, :focus, :active)
         const cleanPointer = pointer.replace(/:[a-zA-Z-]+/g, '');
         const alvo = encontrarElementoRobusto(cleanPointer, dicasHtml[pointer]);
         
         if (!alvo) return;
-        elementosEncontrados++;
         
         const { rect, oculto, ignorarRenderizacao } = obterCaixaVisivel(alvo);
         if (ignorarRenderizacao) return; 
 
+        elementosEncontrados++;
+        
         const deveAbrirTooltip = !abriuPrimeiroTooltip && !oculto;
         adicionarMarcacao(camadas, rect, criterio, descricao, tipo, oculto, containers, undefined, deveAbrirTooltip, cleanPointer, dicasHtml[pointer], alvo);
 
@@ -436,11 +485,8 @@
           window.setTimeout(() => {
             alvo.scrollIntoView({ behavior: 'smooth', block: 'center' });
             
-            // Dá um "piscar" na borda do elemento na página para saberes onde ele está!
-            const outlineOriginal = alvo.style.outline;
-            alvo.style.outline = '4px solid #FF5722'; 
-            alvo.style.outlineOffset = '2px';
-            setTimeout(() => { alvo.style.outline = outlineOriginal; }, 2000);
+            alvo.classList.add('amaweb-piscar-foco');
+            setTimeout(() => alvo.classList.remove('amaweb-piscar-foco'), 2000);
             
           }, 150);
         }
@@ -453,37 +499,69 @@
   }
 
   function removerDestaque() {
-    // Apaga apenas o destaque e restaura as bolinhas globais
+    // 1. Remove a camada de destaque (vermelha)
     document.getElementById('amaweb-highlight-wrapper')?.remove();
-    document.getElementById('amaweb-overlay-wrapper')?.removeAttribute('style');
+    
+    const wrapperAntigo = document.getElementById('amaweb-overlay-wrapper');
+    if (wrapperAntigo) {
+      // 2. Devolve a visibilidade às bolinhas normais (amarelas)
+      wrapperAntigo.style.removeProperty('display');
+      
+      // 3. LIMPEZA FORÇADA: Finge um "clique fora" para fechar qualquer balão ou borda 
+      // que tenha ficado esquecido aberto nesta camada.
+      wrapperAntigo.querySelectorAll('.amaweb-badge-container').forEach(cont => {
+        cont.style.setProperty('z-index', '3', 'important');
+      }); 
+
+      wrapperAntigo.querySelectorAll('.amaweb-badge-container > div.ativo').forEach(el => {
+        el.classList.remove('ativo', 'flip');
+        el.style.setProperty('z-index', '1', 'important'); // Rebaixa bolinhas
+        
+        const boxAssociada = el.getAttribute('data-box-id');
+        if (boxAssociada) {
+          const caixaDom = document.getElementById(boxAssociada);
+          if (caixaDom) {
+            caixaDom.classList.remove('ativa');
+            caixaDom.style.setProperty('z-index', '1', 'important'); // Remove a borda pontilhada
+          }
+        }
+      });
+    }
+    
+    document.querySelectorAll('.amaweb-piscar-foco').forEach(el => el.classList.remove('amaweb-piscar-foco'));
   }
 
   function limparTudo() {
-    // Apaga absolutamente tudo (usado pelo botão "Limpar Ecrã")
     document.getElementById('amaweb-highlight-wrapper')?.remove();
     document.getElementById('amaweb-overlay-wrapper')?.remove();
+    document.querySelectorAll('.amaweb-piscar-foco').forEach(el => el.classList.remove('amaweb-piscar-foco'));
   }
 
   globalThis.AmawebOverlayManager = { renderizar, destacar, removerDestaque, limparTudo, obterCaixaVisivel };
 
-  // =======================================================================
-  // EVENT LISTENERS 
-  // =======================================================================
-  document.addEventListener('click', () => {
+  document.addEventListener('click', (e) => {
+    // PROTEÇÃO INFALÍVEL: Se clicou em qualquer parte da nossa extensão (bolinha, balão, caixa), ignora.
+    // Só fecha se o clique for puramente no fundo do site (o que cobre o Alt+Tab seguro).
+    if (e.target.closest('#amaweb-overlay-wrapper, #amaweb-highlight-wrapper, .amaweb-badge-container')) {
+       return; 
+    }
+
     document.querySelectorAll('.amaweb-badge-container').forEach(cont => {
       cont.style.setProperty('z-index', '3', 'important');
-    });
+    }); 
 
     document.querySelectorAll('.amaweb-badge-container > div.ativo').forEach(el => {
       el.classList.remove('ativo', 'flip');
-      el.style.removeProperty('z-index');
+      el.style.setProperty('z-index', '1', 'important'); // Rebaixa bolinhas vizinhas
       const boxAssociada = el.getAttribute('data-box-id');
-      if(boxAssociada) document.getElementById(boxAssociada)?.classList.remove('ativa');
+      const caixaDom = document.getElementById(boxAssociada);
+      if(caixaDom) {
+        caixaDom.classList.remove('ativa');
+        caixaDom.style.setProperty('z-index', '1', 'important'); // Rebaixa borda tracejada
+      }
     });
   });
 
-  // O browser faz todo o trabalho nativamente agora! 
-  // Esse loop só ajusta mutações dinâmicas sutis de layout.
   let isScrolling = false;
   window.addEventListener('scroll', () => {
     if (!isScrolling) {
@@ -531,10 +609,6 @@
 
     if (message.action === 'FOCUS_V2') {
       try {
-        document.querySelectorAll('.amaweb-badge-container > div.ativo').forEach(el => {
-          el.classList.remove('ativo', 'flip');
-        });
-
         const dicaHtml = message.dicasHtml ? message.dicasHtml[message.pointer] : '';
         const alvo = encontrarElementoRobusto(message.pointer, dicaHtml);
         
@@ -549,31 +623,33 @@
           return true;
         }
 
-        const todasBolinhas = document.querySelectorAll('.amaweb-badge-container > div');
-        todasBolinhas.forEach(bolinha => {
-          if (bolinha.getAttribute('data-pointer') === message.pointer) {
-            bolinha.classList.add('ativo');
-            bolinha.parentElement.style.setProperty('z-index', '999999', 'important');
+        const cleanPointer = message.pointer.replace(/:[a-zA-Z-]+/g, '');
+        
+        const highlightWrapper = document.getElementById('amaweb-highlight-wrapper');
+        const activeWrapper = highlightWrapper ? highlightWrapper : document.getElementById('amaweb-overlay-wrapper');
+        
+        const todasBolinhas = activeWrapper ? activeWrapper.querySelectorAll('.amaweb-badge-container > div') : [];
+        let encontrou = false;
+        
+        todasBolinhas.forEach(badgeWrapper => {
+          // Agora lê a lista de pointers separados por vírgula que gravámos
+          const pointers = (badgeWrapper.getAttribute('data-pointer') || '').split(',');
+          
+          if (pointers.includes(cleanPointer)) {
+            encontrou = true;
+            const badgeIcon = badgeWrapper.querySelector('.amaweb-badge');
+            
+            if (badgeIcon && !badgeWrapper.classList.contains('ativo')) {
+              badgeIcon.click(); 
+            }
           }
         });
 
         alvo.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        
-        const outlineOriginal = alvo.style.outline;
-        const transitionOriginal = alvo.style.transition;
-        
-        alvo.style.transition = 'outline 0.3s ease-in-out';
-        alvo.style.outline = '4px solid #FF5722'; 
-        alvo.style.outlineOffset = '2px';
+        alvo.classList.add('amaweb-piscar-foco');
+        setTimeout(() => alvo.classList.remove('amaweb-piscar-foco'), 2000);
 
-        setTimeout(() => {
-          alvo.style.outline = outlineOriginal;
-          alvo.style.transition = transitionOriginal;
-          if (!outlineOriginal) alvo.style.removeProperty('outline');
-          if (!transitionOriginal) alvo.style.removeProperty('transition');
-        }, 2000);
-
-        sendResponse({ status: 'visible' });
+        sendResponse({ status: encontrou ? 'visible' : 'hidden' });
 
       } catch (e) {
         sendResponse({ status: 'error' });

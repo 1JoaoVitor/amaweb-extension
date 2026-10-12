@@ -123,7 +123,7 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
 .settings-group {
   background: white;
   border: 1px solid var(--color-border);
-  border-radius: 2px; /* Borda reta */
+  border-radius: 2px;
   display: flex;
   flex-direction: column;
 }
@@ -232,25 +232,69 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
 .am-card-description { font-weight: 400; font-size: 13px; color: var(--color-muted); display: block; margin-top: 4px; }
 .am-card-level { font-size: 12px; color: var(--ama-green-primary); margin: 0; font-weight: 700; }
 
+/* --- RODAPÉ DOS CARDS (DUAS LINHAS VIA CSS E BLINDADO) --- */
 .am-card-footer {
-  display: flex; flex-direction: row; justify-content: space-between; align-items: center;
-  margin-top: 12px; padding-top: 12px; border-top: 1px solid #f1f3f4;
+  display: flex;
+  flex-wrap: wrap; /* A MÁGICA: Permite que os botões caiam para a linha de baixo */
+  align-items: baseline; 
+  margin-top: 12px; 
+  padding-top: 12px; 
+  border-top: 1px solid #f1f3f4;
 }
 
-.am-card-count { font-size: 15px; font-weight: 700; color: var(--color-text); }
-.am-card-count-label { font-size: 12px; font-weight: 400; color: var(--color-muted); }
+.am-card-count { 
+  font-size: 15px; 
+  font-weight: 700; 
+  color: var(--color-text);
+  margin-right: 4px;
+}
 
-.am-card-actions { display: flex; align-items: center; gap: 8px; }
+/* Blindagem: Impede o JS ou o navegador de esconderem a palavra "elemento" ao clicar */
+.am-card-count-label { 
+  font-size: 12px; 
+  font-weight: 400; 
+  color: var(--color-muted); 
+  display: inline-block !important; 
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Ocupa 100% do espaço, forçando a descer para a segunda linha */
+.am-card-actions { 
+  display: flex; 
+  width: 100%; 
+  align-items: center; 
+  justify-content: space-between; /* "Destacar" à esquerda, "Detalhes" à direita */
+  margin-top: 12px; /* Espaçamento entre o texto e os botões */
+}
 
 .btn-destacar {
-  background-color: var(--ama-green-primary); color: white; border: none;
-  padding: 6px 12px; border-radius: 20px; font-size: 12px; width: auto; font-weight: 600;
+  background-color: var(--ama-green-primary);
+  color: white;
+  border: none !important;
+  outline: none !important;
+  padding: 6px 16px; 
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
 }
+
 .btn-destacar.ativo { background-color: var(--color-danger); }
+.btn-destacar.btn-inacessivel { background-color: var(--color-muted); cursor: not-allowed; opacity: 0.8; }
 
 .btn-expandir {
-  background: none; border: none; color: var(--color-muted); font-size: 12px;
-  padding: 0; width: auto; text-decoration: underline; text-underline-offset: 2px;
+  background: none; 
+  border: none; 
+  color: var(--color-muted); 
+  font-size: 12px;
+  padding: 0; 
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: underline; 
+  text-underline-offset: 2px;
 }
 .btn-expandir:hover { color: var(--ama-green-dark); }
 
@@ -262,9 +306,31 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
 .am-details-list { padding-left: 20px; margin: 6px 0 0; }
 .am-details-list li { margin-bottom: 4px; font-family: 'Consolas', monospace; background: #e8eaed; padding: 2px 6px; border-radius: 3px; word-break: break-all; }
 
+/* Primeira Linha: Contador + Navegação na mesma linha */
+.am-card-counter-wrapper {
+  display: flex;
+  flex-direction: row; /* Força a ficar na horizontal */
+  align-items: center; 
+  flex-wrap: nowrap; /* Proíbe expressamente de pular para a linha de baixo */
+  gap: 4px;
+}
+
 /* NAVEGAÇÃO DE SETINHAS */
-.am-nav-destaque { display: none; align-items: center; gap: 2px; background: white; border: 1px solid var(--color-border); padding: 0 4px; border-radius: 4px; }
-.am-nav-destaque.show { display: flex; }
+.am-nav-destaque { 
+  display: none; 
+  align-items: center; 
+  gap: 2px; 
+  background: white; 
+  border: 1px solid var(--color-border); 
+  padding: 0 6px; 
+  border-radius: 4px; 
+  margin-left: 8px; /* Dá um respiro lateral entre a palavra "elementos" e a caixinha */
+  height: 24px; /* Controla a altura para ficar simétrico com o texto */
+}
+.am-nav-destaque.show { 
+  display: flex; 
+}
+
 .am-nav-btn { background: none; border: none; color: var(--color-muted); font-size: 12px; padding: 4px 6px; width: auto; }
 .am-nav-btn:hover { color: var(--ama-green-primary); }
 .am-nav-txt { font-size: 11px; font-weight: 600; min-width: 40px; text-align: center; }

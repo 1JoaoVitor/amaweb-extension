@@ -230,7 +230,7 @@
         "areaAltNo": "Áreas de mapas de imagem sem <code>alt</code>",
         "inpImgAltYes": "Botões gráficos com <code>alt</code>",
         "inpImgAltNo": "Botões gráficos sem <code>alt</code>",
-        "a": "Página sem links",
+        "a": "Problemas de acessibilidade em Links",
         "aImgAltNo": "Links em que o único conteúdo é uma imagem com <code>alt</code> vazio ou sem legenda",
         "aTitleMatch": "Links com o mesmo texto no conteúdo e no atributo <code>title</code>",
         "aSameText": "Grupos de links com o mesmo texto que apontam para destinos diferentes",
@@ -388,7 +388,8 @@
         "descListElement": "Itens de lista utilizados dentro de listas de descrição",
         "notDescListElement": "Itens de lista utilizados fora de listas de descrição",
         "descList": "Listas de descrição só com itens de lista ordenados corretamente",
-        "notDescList": "Listas de descrição com elementos que não são itens de lista ou não estão ordenados corretamente"
+        "notDescList": "Listas de descrição com elementos que não são itens de lista ou não estão ordenados corretamente",
+        "notOneh1": "Cabeçalho principal (H1) ausente ou duplicado"
     },
     "CSV": {
         "scorerror": "Erro",

@@ -1,45 +1,21 @@
 /**
  * @fileoverview Renderizador de resultados de avaliação no side panel
- * 
- * Responsável por filtrar, ordenar e renderizar os cards de erros/avisos.
- * Gerencia estado de expansão dos cards e comunicação com content script para overlays.
- * 
- * Exports: atualizarListaDeResultados, limparRegraAtiva
  */
+
+import { cacheAvaliacoes } from '../core/cache-store.js';
 
 let regraAtivaIndex = null;
 
-/**
- * Limpa a regra ativa (remove destaque de sobreposição anterior)
- * @returns {void}
- */
 export function limparRegraAtiva() {
   regraAtivaIndex = null;
 }
 
-/**
- * Atualiza a lista de resultados com filtros e ordenação aplicados.
- * 
- * Lê os valores dos selects (#filtro-tipo, #filtro-nivel, #ordenacao),
- * filtra e ordena os dados, renderiza os cards individuais.
- * Comunica com content script para renderizar/limpar overlays.
- * 
- * @param {Array} dadosOriginais - Array de resultados do adaptador
- *   Cada item: { Criterio, Descricao, Tipo de erro, Nivel de Conformidade, ... }
- * @param {Object} tab - Objeto chrome.tabs.Tab com { id, url, ... }
- * @returns {void}
- * 
- * @example
- *   const dados = [
- *     { Criterio: "1.1.1", Descricao: "Alt text missing", Tipo de erro: "Erro", Nivel de Conformidade: "A" },
- *     ...
- *   ];
- *   atualizarListaDeResultados(dados, { id: 123, url: "https://..." });
- */
 export function atualizarListaDeResultados(dadosOriginais, tab) {
+  const cache = cacheAvaliacoes.get(tab.id);
+  regraAtivaIndex = cache && cache.regraAtivaIndex !== undefined ? cache.regraAtivaIndex : null;
+
   const listaDetalhada = document.getElementById('lista-detalhada');
   listaDetalhada.replaceChildren();
-  limparRegraAtiva();
 
   const filtroTipo = document.getElementById('filtro-tipo')?.value || 'todos';
   const filtroNivel = document.getElementById('filtro-nivel')?.value || 'todos';
@@ -93,7 +69,13 @@ function renderizarCardResultado(item, index, tab) {
   const dicasHtml = Object.fromEntries(mapaElementos); 
 
   const ocorrencias = item['Numero de ocorrencias'] || 1;
-  const descricao = (item.Descricao || item.Elementos?.descricao || '').replace(/\{\{value\}\}/g, item.Valor || ocorrencias);
+  let valorReal = ocorrencias;
+  if (item.Valor !== undefined && item.Valor !== null && item.Valor !== '') {
+    valorReal = item.Valor;
+  }
+  
+  let descricao = (item.Descricao || item.Elementos?.descricao || '').replace(/\{\{value\}\}/g, valorReal);
+  descricao = descricao.replace('1 cabeçalhos', '1 cabeçalho').replace('1 elementos', '1 elemento');
   
   const card = document.createElement('div');
   card.className = 'am-card';
@@ -166,7 +148,6 @@ function renderizarCardResultado(item, index, tab) {
     btnExpandir.textContent = card.classList.contains('expandido') ? 'Ocultar Detalhes ▲' : 'Ver Detalhes ▼';
   });
 
-  // CORREÇÃO DO CARD INVISÍVEL: Ignora a validação restrita e cria sempre o botão Destacar se houver ponteiros.
   if (ponteiros.length === 0) {
     const globalError = document.createElement('span');
     globalError.className = 'am-card-global';
@@ -178,6 +159,10 @@ function renderizarCardResultado(item, index, tab) {
     
     footer.append(globalError, botoesAcao);
   } else {
+    // 1. PRIMEIRA LINHA (Contador + Navegação)
+    const countWrapper = document.createElement('div');
+    countWrapper.className = 'am-card-counter-wrapper';
+
     const count = document.createElement('span');
     count.className = 'am-card-count';
     count.textContent = ponteiros.length;
@@ -185,20 +170,23 @@ function renderizarCardResultado(item, index, tab) {
     const countLabel = document.createElement('span');
     countLabel.className = 'am-card-count-label';
     countLabel.textContent = ponteiros.length === 1 ? ' elemento' : ' elementos';
-    count.appendChild(countLabel);
 
     const button = document.createElement('button');
     button.className = 'btn-destacar';
     button.type = 'button';
-    button.textContent = 'Destacar';
     button.dataset.index = index;
+
+    if (regraAtivaIndex === index) {
+        button.classList.add('ativo');
+        button.textContent = 'Remover Destaque';
+    } else {
+        button.textContent = 'Destacar';
+    }
 
     // ======== NAVEGAÇÃO ========
     const navContainer = document.createElement('div');
     navContainer.className = 'am-nav-destaque';
     let currentIndex = 0;
-    
-    // Deixamos TODOS os ponteiros, não apagamos os que estão ocultos
     let ponteirosAtivos = [...ponteiros];
     
     if (ponteiros.length > 1) {
@@ -217,7 +205,6 @@ function renderizarCardResultado(item, index, tab) {
       const focarAtual = async () => {
         txtCount.textContent = `...`; 
         try {
-          // Uso das actions _V2
           const response = await chrome.tabs.sendMessage(tab.id, { 
             action: 'FOCUS_V2', 
             pointer: ponteirosAtivos[currentIndex],
@@ -250,22 +237,34 @@ function renderizarCardResultado(item, index, tab) {
       navContainer.append(btnPrev, txtCount, btnNext);
     }
     
+    // --> MUDANÇA AQUI: Juntamos a navegação na mesma linha do "elemento"
+    countWrapper.append(count, countLabel, navContainer);
+    // -------------------------------------------------------------
+    
     button.addEventListener('click', async () => {
+      const cache = cacheAvaliacoes.get(tab.id);
+      const isRestoring = button.dataset.restoring === "true";
+      button.dataset.restoring = "false"; 
+
       document.querySelectorAll('.am-nav-destaque').forEach(el => el.classList.remove('show'));
 
-      if (regraAtivaIndex === index) {
+      if (regraAtivaIndex === index && !isRestoring) {
         regraAtivaIndex = null;
+        if (cache) { cache.regraAtivaIndex = null; cacheAvaliacoes.set(tab.id, cache); }
+
         button.classList.remove('ativo');
         button.textContent = 'Destacar';
+        
         count.textContent = ponteiros.length;
         countLabel.textContent = ponteiros.length === 1 ? ' elemento' : ' elementos';
         
-        // Uso das actions _V2 para apenas REMOVER o destaque (não apaga os originais)
         chrome.tabs.sendMessage(tab.id, { action: 'CLEAR_HIGHLIGHT' }).catch(()=>{});
         return;
       }
       
       regraAtivaIndex = index;
+      if (cache) { cache.regraAtivaIndex = index; cacheAvaliacoes.set(tab.id, cache); }
+
       document.querySelectorAll('.btn-destacar').forEach(otherButton => {
         otherButton.classList.remove('ativo');
         otherButton.textContent = 'Destacar';
@@ -275,7 +274,6 @@ function renderizarCardResultado(item, index, tab) {
 
       let qtdVisiveis = ponteiros.length;
       try {
-        // Uso das actions _V2
         const response = await chrome.tabs.sendMessage(tab.id, {
           action: 'FILTER_V2',
           pointers: ponteiros,
@@ -293,7 +291,7 @@ function renderizarCardResultado(item, index, tab) {
         countLabel.textContent = ponteiros.length === 1 ? ' elemento' : ' elementos';
       } else {
         const ocultos = ponteiros.length - qtdVisiveis;
-        countLabel.textContent = ` elementos (${ocultos} oculto/quebrado)`;
+        countLabel.textContent = ` elementos (${ocultos} oculto${ocultos > 1 ? 's' : ''})`;
       }
 
       if (ponteiros.length > 1) {
@@ -302,29 +300,20 @@ function renderizarCardResultado(item, index, tab) {
         const txtC = navContainer.querySelector('.am-nav-txt');
         txtC.textContent = `1 de ${ponteiros.length}`;
         
-        // Foca o primeiro automaticamente via _V2
         chrome.tabs.sendMessage(tab.id, { 
-           action: 'FOCUS_V2', 
-           pointer: ponteiros[0], 
-           dicasHtml: dicasHtml 
+           action: 'FOCUS_V2', pointer: ponteiros[0], dicasHtml: dicasHtml 
         }).then(res => {
            if (res?.status === 'not_found') txtC.textContent = `1/${ponteiros.length} (Ñ enc.)`;
            else if (res?.status === 'hidden') txtC.textContent = `1/${ponteiros.length} (Oculto)`;
         }).catch(()=>{});
       }
 
-      // Uso das actions _V2 com verificação de sucesso
       try {
         const hRes = await chrome.tabs.sendMessage(tab.id, {
-          action: 'HIGHLIGHT_V2',
-          pointers: ponteiros,
-          dicasHtml: dicasHtml,
-          criterio: item.Criterio || 'AMAWeb',
-          tipo: ehErro ? 'error' : 'warning',
-          descricao: descricao 
+          action: 'HIGHLIGHT_V2', pointers: ponteiros, dicasHtml: dicasHtml,
+          criterio: item.Criterio || 'AMAWeb', tipo: ehErro ? 'error' : 'warning', descricao: descricao 
         });
 
-        // Se a página responder que encontrou 0 elementos
         if (hRes && hRes.encontrados === 0) {
           button.textContent = 'Erro: Inacessível';
           button.style.backgroundColor = '#64748b';
@@ -332,18 +321,15 @@ function renderizarCardResultado(item, index, tab) {
           countLabel.textContent = ` elementos (Ocultos no DOM)`;
         }
       } catch (e) {
-        // Ignora erro se a página demorar a responder
       }
     });
-      
 
+    // 2. SEGUNDA LINHA (Apenas botões de ação isolados)
     const botoesAcao = document.createElement('div');
     botoesAcao.className = 'am-card-actions'; 
-    if (ponteiros.length > 1) botoesAcao.classList.add('has-nav');
+    botoesAcao.append(button, btnExpandir); // Sem a navegação aqui
     
-    botoesAcao.append(navContainer, button, btnExpandir);
-    
-    footer.append(count, botoesAcao);
+    footer.append(countWrapper, botoesAcao);
   }
 
   body.append(title, level, footer, painelDetalhes);
@@ -351,9 +337,6 @@ function renderizarCardResultado(item, index, tab) {
   document.getElementById('lista-detalhada').appendChild(card);
 } 
 
-/**
- * Atualiza a tabela de estatísticas com base no modo escolhido (Elementos vs Regras)
- */
 export function atualizarEstatisticas(dados, modo = 'elementos') {
   const stats = {
     sucesso: { total: 0, A: 0, AA: 0, AAA: 0, regrasUnicas: new Set(), regrasA: new Set(), regrasAA: new Set(), regrasAAA: new Set() },
@@ -375,7 +358,6 @@ export function atualizarEstatisticas(dados, modo = 'elementos') {
       const nomeRegra = item.Criterio || item.Regra || 'Regra Desconhecida';
       
       if (modo === 'elementos') {
-        // Soma a quantidade de vezes que o erro ocorreu no site
         const ocorrencias = parseInt(item['Numero de ocorrencias']) || 1;
         stats[cat].total += ocorrencias;
         stats.geral.total += ocorrencias;
@@ -385,7 +367,6 @@ export function atualizarEstatisticas(dados, modo = 'elementos') {
           stats.geral[nivel] += ocorrencias;
         }
       } else {
-        // MODO REGRAS: Guarda o nome da regra no Conjunto (Set). Ele ignora repetidas automaticamente.
         stats[cat].regrasUnicas.add(nomeRegra);
         stats.geral.regrasUnicas.add(nomeRegra);
         
@@ -396,7 +377,6 @@ export function atualizarEstatisticas(dados, modo = 'elementos') {
     }
   });
 
-  // Se for o Modo Regras, nós trocamos os totais pelo tamanho (size) dos Conjuntos Únicos
   if (modo === 'regras') {
     ['sucesso', 'aviso', 'erro', 'geral'].forEach(cat => {
       stats[cat].total = stats[cat].regrasUnicas.size;
@@ -415,17 +395,14 @@ export function atualizarEstatisticas(dados, modo = 'elementos') {
   atualizarDOM('count-sucesso-a', stats.sucesso.A);
   atualizarDOM('count-sucesso-aa', stats.sucesso.AA);
   atualizarDOM('count-sucesso-aaa', stats.sucesso.AAA);
-
   atualizarDOM('count-aviso-total', stats.aviso.total);
   atualizarDOM('count-aviso-a', stats.aviso.A);
   atualizarDOM('count-aviso-aa', stats.aviso.AA);
   atualizarDOM('count-aviso-aaa', stats.aviso.AAA);
-
   atualizarDOM('count-erro-total', stats.erro.total);
   atualizarDOM('count-erro-a', stats.erro.A);
   atualizarDOM('count-erro-aa', stats.erro.AA);
   atualizarDOM('count-erro-aaa', stats.erro.AAA);
-
   atualizarDOM('count-geral-total', stats.geral.total);
   atualizarDOM('count-geral-a', stats.geral.A);
   atualizarDOM('count-geral-aa', stats.geral.AA);

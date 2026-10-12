@@ -106,7 +106,7 @@
     /* Escondido por padrão */
     opacity: 0;
     visibility: hidden;
-    transition: all 0.2s ease-out;
+    transition: opacity 0.2s ease-out, visibility 0.2s ease-out !important;
     pointer-events: none;
   
     /* Garante que NUNCA fica atrás de nada */
@@ -163,4 +163,34 @@
     transform: scale(1.15) !important;
     box-shadow: 0 0 15px 3px rgba(0, 242, 254, 0.8) !important;
     border: 2px solid white !important;
+}
+
+/* Classe que faz o elemento piscar ao clicar em Destacar ou nas Setinhas */
+.amaweb-piscar-foco {
+    outline: 4px solid #FF5722 !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 15px rgba(255, 87, 34, 0.6) !important; /* Brilho laranja */
+    transition: outline 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+/* Quando bate na borda ESQUERDA da tela */
+.amaweb-badge-container > div .amaweb-tooltip-box.align-left {
+    left: 0 !important; /* Alinha exatamente com a borda da bolinha */
+    transform: none !important;
+}
+.amaweb-badge-container > div .amaweb-tooltip-box.align-left::after {
+    left: 12px !important; /* Aponta para o centro exato da bolinha */
+    transform: none !important;
+}
+
+/* Quando bate na borda DIREITA da tela */
+.amaweb-badge-container > div .amaweb-tooltip-box.align-right {
+    left: auto !important;
+    right: 0 !important;
+    transform: none !important;
+}
+.amaweb-badge-container > div .amaweb-tooltip-box.align-right::after {
+    left: auto !important;
+    right: 12px !important;
+    transform: none !important;
 }

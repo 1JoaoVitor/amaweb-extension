@@ -4,7 +4,6 @@ import { validateEvaluationResponse } from './core/validators.js';
 import { exportarRelatorio } from './core/export-report.js';
 import { atualizarListaDeResultados, limparRegraAtiva, atualizarEstatisticas} from './sidepanel/findings-renderer.js';
 
-// DICIONÁRIO DE ERROS DO SERVIDOR (AMAWeb)
 const MENSAGENS_ERRO_API = {
   "INVALID_URL": "A URL capturada é inválida para avaliação.",
   "DNS_LOOKUP_FAILED": "Não foi possível encontrar o servidor da página avaliada.",
@@ -34,10 +33,8 @@ document.getElementById('tab-detalhes').addEventListener('click', () => {
   document.getElementById('view-geral').classList.remove('active');
 });
 
-
 // LÓGICA PRINCIPAL DE AVALIAÇÃO
 document.getElementById('btn-analisar').addEventListener('click', async () => {
-  // 1. Declara as variáveis de interface UMA ÚNICA VEZ
   const btn = document.getElementById('btn-analisar');
   const resultsPanel = document.getElementById('results-panel');
   const errorPanel = document.getElementById('error-panel');
@@ -49,8 +46,16 @@ document.getElementById('btn-analisar').addEventListener('click', async () => {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     if (!tab) return;
 
-    // --- BLOQUEIO DE SEGURANÇA (EDGE CASES) ---
-    // Impede a execução em páginas protegidas do navegador e arquivos locais
+    if (!tab.url) {
+      if (errorPanel && errorMessage) {
+        errorMessage.innerText = "Não é possível avaliar esta página. Navegue para um site válido (ex: https://...), reabra a extensão e tente novamente.";
+        errorPanel.style.display = "block";
+      }
+      if (loadingPanel) loadingPanel.style.display = "none";
+      if (resultsPanel) resultsPanel.style.display = "none";
+      return; 
+    }
+
     const urlRestrita = tab.url.startsWith("chrome://") || 
                         tab.url.startsWith("edge://") || 
                         tab.url.startsWith("about:") ||
@@ -64,11 +69,9 @@ document.getElementById('btn-analisar').addEventListener('click', async () => {
       }
       if (loadingPanel) loadingPanel.style.display = "none";
       if (resultsPanel) resultsPanel.style.display = "none";
-      return; // Interrompe a função aqui
+      return; 
     }
-    // ------------------------------------------
 
-    // Prepara a tela para o carregamento
     btn.innerText = "Processando...";
     btn.disabled = true;
     
@@ -76,12 +79,10 @@ document.getElementById('btn-analisar').addEventListener('click', async () => {
     if (resultsPanel) resultsPanel.style.display = "none";
     if (loadingPanel) loadingPanel.style.display = "block";
 
-    // 1. Carrega as traduções locais da extensão
     const urlTraducoes = chrome.runtime.getURL('translations.json');
     const responseTraducoes = await fetch(urlTraducoes);
     const dicionarioAMA = await responseTraducoes.json();
 
-    // 2. Dispara a requisição para a API real via background.js
     const response = await new Promise((resolve) => {
       chrome.runtime.sendMessage({ action: "EVALUATE_API" }, resolve);
     });
@@ -91,8 +92,6 @@ document.getElementById('btn-analisar').addEventListener('click', async () => {
     }
     
     const jsonReal = response.dados;
-
-    // 3. Valida os códigos de erro e estructura da resposta
     const validacao = validateEvaluationResponse(jsonReal);
     if (!validacao.valid) {
         const mensagemTraduzida = MENSAGENS_ERRO_API[validacao.code] || validacao.error;
@@ -100,63 +99,47 @@ document.getElementById('btn-analisar').addEventListener('click', async () => {
     }
 
     const scoreGeral = String(validacao.data.score) || "0.0";
-    
-    // 4. O ADAPTADOR: Converte o JSON complexo para o formato da UI
     const dadosAvaliacao = adaptarJsonAmaWeb(validacao.data.nodes, scoreGeral, dicionarioAMA);
 
-    // Renderização e Contagem
     const listaDetalhada = document.getElementById('lista-detalhada');
     listaDetalhada.replaceChildren();
     limparRegraAtiva();
     let notaGeral = scoreGeral; 
 
-    const contagem = {
-      erros: { total: 0, A: 0, AA: 0, AAA: 0 },
-      avisos: { total: 0, A: 0, AA: 0, AAA: 0 },
-      sucessos: { total: 0, A: 0, AA: 0, AAA: 0 },
-      geral: { total: 0, A: 0, AA: 0, AAA: 0 }
-    };
+    // Regista no DOM a aba que estamos a avaliar atualmente
+    listaDetalhada.dataset.tabId = tab.id;
 
-    // 1. PRIMEIRO: Pede à página para desenhar os overlays e memorizar o HTML
-    // O 'await' faz a extensão esperar a pintura terminar antes de prosseguir
+    // Só re-desenha os overlays de raiz ao clicar no botão Avaliar Página!
     await chrome.tabs.sendMessage(tab.id, { 
       action: "RENDER_OVERLAYS", 
       data: dadosAvaliacao 
     }).catch(() => {});
 
-    // 2. SEGUNDO: Cria a lista (agora a página já tem o HTML na memória e achará os elementos)
     atualizarListaDeResultados(dadosAvaliacao, tab);
 
-    // 3. TERCEIRO: Atualiza os contadores
     document.getElementById('score-value').innerText = notaGeral;
     const modoAtual = document.getElementById('toggle-contagem')?.checked ? 'elementos' : 'regras';
     atualizarEstatisticas(dadosAvaliacao, modoAtual);
 
-    // 4. Exibe o painel de resultados finalizados
     if (loadingPanel) loadingPanel.style.display = "none";
     const btnDownload = document.getElementById('btn-baixar-json');
     if (btnDownload) btnDownload.disabled = false;  
     resultsPanel.style.display = "flex";
 
-    // ======== NOVO: SALVANDO NO CACHE ========
     await cacheAvaliacoes.set(tab.id, {
       url: tab.url,
-      dados: dadosAvaliacao, // Dados brutos para poder re-injetar os overlays
+      dados: dadosAvaliacao,
       scoreGeral: notaGeral,
+      regraAtivaIndex: null
     });
 
   } catch (error) {
     console.error("[Extension] Erro no fluxo de análise:", error);
-    
-    // Esconde o loading e resultados
     if (loadingPanel) loadingPanel.style.display = "none";
     if (resultsPanel) resultsPanel.style.display = "none";
 
-    // Mostra o painel de erro amigável na tela
     if (errorPanel && errorMessage) {
       let textoAmigavel = error.message || "Ocorreu um erro inesperado ao avaliar a página.";
-
-      // MAPEAMENTO DE ERROS AMIGÁVEIS
       
       if (textoAmigavel.includes("Receiving end does not exist")) {
         textoAmigavel = "A conexão com a página foi perdida. Por favor, atualize a aba (F5) e tente novamente."; }
@@ -172,7 +155,6 @@ document.getElementById('btn-analisar').addEventListener('click', async () => {
       errorPanel.style.display = "block";
     }
   } finally {
-    // Restaura o estado do botão (garantindo que btn existe no finally)
     const btnRefresh = document.getElementById('btn-analisar');
     if (btnRefresh) {
       btnRefresh.innerText = "Avaliar Página";
@@ -181,23 +163,18 @@ document.getElementById('btn-analisar').addEventListener('click', async () => {
   }
 });
 
-
-// LÓGICA DO BOTÃO LIMPAR
 document.getElementById('btn-limpar').addEventListener('click', async () => {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   if (!tab) return;
   chrome.tabs.sendMessage(tab.id, { action: "CLEAR_OVERLAYS" }).catch(() => {});
 });
 
-// ======== LÓGICA DE CACHE, RESET E EVENTOS ========
-
-async function resetarPainel(trocaDeAba = false) {
+async function resetarPainel(limparAbaId = true) {
   const resultsPanel = document.getElementById('results-panel');
   const errorPanel = document.getElementById('error-panel');
   const loadingPanel = document.getElementById('loading-panel');
   const btnAnalisar = document.getElementById('btn-analisar');
 
-  // Volta a interface para o estado inicial
   if (resultsPanel) resultsPanel.style.display = "none";
   if (errorPanel) errorPanel.style.display = "none";
   if (loadingPanel) loadingPanel.style.display = "none";
@@ -205,93 +182,71 @@ async function resetarPainel(trocaDeAba = false) {
   
   const listaDetalhada = document.getElementById('lista-detalhada');
   if (listaDetalhada) {
+    if (limparAbaId) listaDetalhada.dataset.tabId = "";
     listaDetalhada.replaceChildren();
     const emptyState = document.createElement('p');
     emptyState.className = 'empty-state';
     emptyState.textContent = 'Clique em Avaliar Página para avaliar o contexto atual.';
     listaDetalhada.appendChild(emptyState);
   }
-
-  // Verifica o Toggle do usuário antes de limpar as marcações na tela
-  const toggleLimpeza = document.getElementById('toggle-limpeza');
-  const deveLimpar = toggleLimpeza && toggleLimpeza.checked;
-
-  if (deveLimpar && trocaDeAba) {
-    try {
-      const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-      if (tab && !tab.url.startsWith("chrome://")) {
-        chrome.tabs.sendMessage(tab.id, { action: "CLEAR_OVERLAYS" }).catch(() => {});
-      }
-    } catch(e) {}
-  }
 }
 
-// Função para recriar a interface usando o Cache
+// === LÓGICA DE CACHE SUPER OTIMIZADA ===
 function restaurarDoCache(tabId, tab) {
   const cache = cacheAvaliacoes.get(tabId);
   if (!cache || !tab) return;
 
   document.getElementById('error-panel').style.display = "none";
   document.getElementById('loading-panel').style.display = "none";
-  
-  // Restaura a nota e os contadores
   document.getElementById('score-value').innerText = cache.scoreGeral;
   
-  // A mágica que automatiza a tabela:
   const modoAtual = document.getElementById('toggle-contagem')?.checked ? 'elementos' : 'regras';
   atualizarEstatisticas(cache.dados, modoAtual);
 
-  limparRegraAtiva();
   const listaDetalhada = document.getElementById('lista-detalhada');
-  listaDetalhada.replaceChildren();
-  atualizarListaDeResultados(cache.dados, tab);
+  
+  // Apenas reconstruímos o HTML do painel se estivéssemos noutra aba
+  // NÃO enviamos mais mensagens para a página! Ela já está exatamente como a deixámos.
+  if (listaDetalhada.dataset.tabId !== String(tabId) || listaDetalhada.children.length === 0) {
+      listaDetalhada.dataset.tabId = tabId;
+      limparRegraAtiva();
+      listaDetalhada.replaceChildren();
+      
+      // Isto vai criar os cartões. Se havia um botão ativo, ele nasce logo vermelho.
+      atualizarListaDeResultados(cache.dados, tab);
+  }
 
   document.getElementById('results-panel').style.display = "flex";
-  
-  // Habilita o botão de baixar JSON quando restaurar do cache
   const btnDownload = document.getElementById('btn-baixar-json');
   if (btnDownload) btnDownload.disabled = false;
 }
 
-// Quando o usuário troca de aba
 chrome.tabs.onActivated.addListener(async (activeInfo) => {
   await cachePronto;
   const tabId = activeInfo.tabId;
   const tab = await chrome.tabs.get(tabId);
-  
-  // Se essa aba já foi avaliada e a URL continua a mesma, puxa do Cache!
+
   const cache = cacheAvaliacoes.get(tabId);
   if (cache && cache.url === tab.url) {
     restaurarDoCache(tabId, tab);
   } else {
-    // Caso contrário, mostra a tela limpa indicando para avaliar
     resetarPainel(true);
   }
 });
 
-// Quando a página recarrega (F5) ou muda de URL dinamicamente (SPAs como React/Angular)
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-  // changeInfo.status === 'loading' -> Captura F5 e links tradicionais
-  // changeInfo.url -> Captura navegação dinâmica de SPAs (History API) sem reload
   if (changeInfo.status === 'loading' || changeInfo.url) {
-    
-    // Verifica se realmente houve uma mudança de contexto justificável
     const cache = cacheAvaliacoes.get(tabId);
     const urlDiferente = cache && cache.url !== tab.url;
 
     if (changeInfo.status === 'loading' || urlDiferente) {
-      // Apaga a memória dessa aba pois o conteúdo raiz ou a URL mudou
       cacheAvaliacoes.delete(tabId);
-      
-      // Se for apenas uma mudança de URL via SPA, o HTML antigo não foi destruído pelo navegador.
-      // Precisamos mandar um comando explícito para limpar as caixas antigas.
       const mudancaViaSPA = (changeInfo.url && changeInfo.status !== 'loading');
       
       if (mudancaViaSPA) {
         chrome.tabs.sendMessage(tabId, { action: "CLEAR_OVERLAYS" }).catch(() => {});
       }
-      
-      resetarPainel(false); 
+      resetarPainel(true); 
     }
   }
 });
@@ -300,13 +255,11 @@ chrome.tabs.onRemoved.addListener((tabId) => {
   cacheAvaliacoes.delete(tabId);
 });
 
-
 // LÓGICA DE EXPORTAÇÃO (DOWNLOAD)
 document.getElementById('btn-baixar-json').addEventListener('click', async () => {
   await cachePronto;
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   
-  // Verifica se temos os dados na memória para esta aba
   const cache = tab && cacheAvaliacoes.get(tab.id);
   if (!tab || !cache) {
     alert("Nenhum dado disponível para exportar nesta aba.");
@@ -315,8 +268,6 @@ document.getElementById('btn-baixar-json').addEventListener('click', async () =>
 
   const dadosBrutos = cache.dados;
   const nomeArquivo = `relatorio-amaweb-${new Date().getTime()}`;
-  
-  // Delega para o módulo de exportação
   exportarRelatorio(dadosBrutos, nomeArquivo);
 });
 
@@ -337,13 +288,11 @@ chrome.runtime.onMessage.addListener((message) => {
     setTimeout(() => {
       let card = null;
 
-      // 1ª TENTATIVA: Tenta achar o card EXATO usando o Index (resolve cards com nomes iguais)
       if (message.index !== undefined) {
         const btn = document.querySelector(`.btn-destacar[data-index="${message.index}"]`);
         if (btn) card = btn.closest('.am-card');
       }
 
-      // 2ª TENTATIVA (Fallback): Se falhou (ex: lista foi reordenada), busca pelo Título (resolve SPAs como YouTube)
       if (!card) {
         const cardsTitle = Array.from(document.querySelectorAll('.am-card-title'));
         let tituloEncontrado = cardsTitle.find(t => 
@@ -354,7 +303,6 @@ chrome.runtime.onMessage.addListener((message) => {
         if (tituloEncontrado) card = tituloEncontrado.closest('.am-card');
       }
 
-      // Se achou o card (por um método ou por outro), pisca-o!
       if (card) {
         card.scrollIntoView({ behavior: 'smooth', block: 'center' });
         
@@ -375,7 +323,7 @@ chrome.runtime.onMessage.addListener((message) => {
     }, 300); 
   }
 });
-// Ativa os filtros ao trocar as opções
+
 ['filtro-tipo', 'filtro-nivel', 'ordenacao'].forEach(id => {
   document.getElementById(id)?.addEventListener('change', async () => {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -386,7 +334,6 @@ chrome.runtime.onMessage.addListener((message) => {
   });
 });
 
-// OUVINTE DO TOGGLE DA TABELA DE ESTATÍSTICAS
 document.getElementById('toggle-contagem')?.addEventListener('change', async (e) => {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   const cache = tab && cacheAvaliacoes.get(tab.id);
@@ -397,7 +344,6 @@ document.getElementById('toggle-contagem')?.addEventListener('change', async (e)
   }
 });
 
-// ABRIR PORTAL AMAWEB
 document.getElementById('btn-amaweb')?.addEventListener('click', () => {
-  chrome.tabs.create({ url: 'https://amaweb.unifesp.br/' }); // Substitua pela URL exata, se for diferente
+  chrome.tabs.create({ url: 'https://amaweb.unifesp.br/' }); 
 });
