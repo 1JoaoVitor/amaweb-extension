@@ -1,8 +1,8 @@
-import { cacheAvaliacoes } from './core/cache-store.js';
-import { adaptarJsonAmaWeb } from './core/amaweb-adapter.js';
-import { validateEvaluationResponse } from './core/validators.js';
-import { exportarRelatorio } from './core/export-report.js';
-import { atualizarListaDeResultados, limparRegraAtiva, atualizarEstatisticas} from './sidepanel/findings-renderer.js';
+import { cacheAvaliacoes } from '../core/cache-store.js';
+import { adaptarJsonAmaWeb } from '../core/amaweb-adapter.js';
+import { validateEvaluationResponse } from '../core/validators.js';
+import { exportarRelatorio } from '../core/export-report.js';
+import { atualizarListaDeResultados, limparRegraAtiva, atualizarEstatisticas} from './findings-renderer.js';
 
 const MENSAGENS_ERRO_API = {
   "INVALID_URL": "A URL capturada é inválida para avaliação.",
