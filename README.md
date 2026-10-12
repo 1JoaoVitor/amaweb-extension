@@ -1,95 +1,96 @@
-faça a mesma coisa:
-
 # Avaliador AMAWeb - Extensão para Google Chrome
 
-## Estado Atual
+A extensão **AMAWeb** é uma ferramenta de auditoria de acessibilidade in-loco para navegadores baseados em Chromium (Manifest V3). Desenvolvida como Trabalho de Conclusão de Curso (TCC), ela atua como uma ponte direta entre o navegador do usuário e o motor de avaliação da Unifesp, permitindo identificar e visualizar problemas de acessibilidade diretamente na interface da página.
 
-A versão atual inclui validação da API, timeout de 300 segundos, cache por aba, overlays sem contaminação da captura, sanitização obrigatória e seletiva de formulários, aviso de privacidade, exportação JSON, separação de CSS e testes automatizados.
+## Como Instalar e Testar (Modo do Desenvolvedor)
 
-Também inclui um protótipo independente de **Ordem de Foco**, que numera elementos focáveis visíveis e permite mover o foco ao clicar em um marcador.
+Para instalar a versão final em formato `.zip` no seu navegador Google Chrome, siga estes passos:
 
-Execute os testes com:
+1. **Extrair o arquivo:** Clique com o botão direito do mouse sobre o arquivo `.zip` da extensão e selecione **"Extrair tudo..."** (ou "Extrair aqui"), salvando os arquivos em uma pasta no seu computador.
+2. **Abrir a página de Extensões:** No Google Chrome, digite `chrome://extensions/` na barra de endereços e aperte `Enter`, ou clique no ícone de quebra-cabeça no canto superior direito e selecione **"Gerenciar extensões"**.
+3. **Ativar o Modo do Desenvolvedor:** No canto superior direito da página de extensões, ative a chave **"Modo do desenvolvedor"** (Developer mode).
+4. **Carregar a extensão:** Aparecerão novos botões no canto superior esquerdo. Clique no botão **"Carregar sem compactação"** (ou "Load unpacked").
+5. **Selecionar a pasta:** Na janela que abrir, navegue até a pasta extraída no Passo 1, selecione a pasta raiz (a que contém o arquivo `manifest.json`) e clique em **"Selecionar pasta"**.
+6. **Fixar a extensão (Opcional):** Para facilitar o uso, clique no ícone de quebra-cabeça na barra do navegador, procure a extensão "AMAWeb" e clique no ícone de alfinete para deixá-la sempre visível.
 
+---
+
+## A Ideia do Projeto e Motivação
+
+Muitas ferramentas de avaliação exigem que o usuário saia do seu contexto de navegação, cole URLs em portais externos e interprete relatórios textuais densos. Além disso, páginas modernas (fechadas por login, intranets ou rodando localmente) não podem ser avaliadas por avaliadores tradicionais baseados em URL.
+
+A extensão AMAWeb democratiza e simplifica a auditoria ao trazer a avaliação para *dentro* do ambiente de desenvolvimento:
+* **Auditoria Visual:** O usuário clica em "Destacar" e a extensão desenha marcações visuais exatas (overlays) em cima do elemento na própria página.
+* **Contextos Fechados:** Captura o HTML já renderizado no navegador, superando barreiras de autenticação.
+* **Tradução de Complexidade:** Transforma o JSON técnico gerado pelo backend em uma interface amigável, categorizada por Sucessos, Avisos e Erros (Níveis A, AA, AAA).
+
+---
+
+## Principais Funcionalidades
+
+* **Avaliação Integrada:** Análise do HTML renderizado utilizando a API oficial do AMAWeb.
+* **Sistema Avançado de Filtros:** Filtragem em tempo real por tipo, nível de conformidade WCAG e **estado de visibilidade** (itens ocultos vs visíveis).
+* **Feedback Visual Inteligente:** Destaque de elementos na página com scroll automático suave e navegação paginada entre múltiplas ocorrências da mesma regra.
+* **Detecção JIT de Elementos Ocultos:** Pré-verificação de elementos invisíveis no DOM (ex: *skip links* ou menus recolhidos) para bloqueio preventivo de destaques inacessíveis.
+* **Ordem de Foco (Modo Independente):** Protótipo de inspeção de navegação por teclado, que numera elementos focáveis visíveis e permite mover o foco clicando nos marcadores.
+* **Exportação:** Geração de relatórios completos em formato `.json` diretamente no lado do cliente (Client-side).
+
+---
+
+## Arquitetura e Inovações Técnicas
+
+O projeto foi construído seguindo as melhores práticas de Engenharia de Software e design modular, mitigando problemas clássicos de injeção de DOM.
+
+### 1. Sistema de Renderização em Duas Camadas (Mitigação de Layout Thrashing)
+A injeção de elementos visuais diretamente no fluxo da página auditada pode causar degradação de performance (*Layout Thrashing*). A extensão resolve isso utilizando:
+* **Camadas Isoladas:** Uma camada `absolute` (para elementos estáticos) e uma `fixed` (para elementos *sticky*).
+* **Aceleração de Hardware:** Uso de `transform: translate3d(x, y, 0)` para forçar a GPU a processar a movimentação dos *badges*, ignorando as etapas custosas de Paint/Layout do navegador.
+* **Clustering Euclidiano:** Agrupamento espacial de *badges* em um raio de 60px para evitar poluição visual em áreas de alta densidade de erros.
+
+### 2. Motor de Busca de Elementos Resiliente
+Em Single Page Applications (SPAs), os seletores CSS retornados pela API podem se tornar obsoletos devido à mutação do DOM. O algoritmo `encontrarElementoRobusto` implementa 5 níveis de fallback:
+1. Sanitização do seletor (remoção de pseudoclasses como `:hover`).
+2. Busca exata (`querySelector`).
+3. Busca por identificador único (`getElementById`).
+4. Assinatura estrutural (verificação cruzada de atributos `href`, `src`, etc.).
+5. **Scoring System:** Um sistema de pontuação baseado na distância de Levenshtein entre o `textContent` e a taxonomia hierárquica do DOM.
+
+### 3. Sincronização de Estado (Prevenção de Race Conditions)
+A arquitetura do Chrome destrói o Painel Lateral ao trocar de abas. A extensão utiliza um Cache Manager associado ao `tabId`. Ao retornar para uma aba, o painel é reconstruído silenciosamente a partir da memória (`chrome.storage.session`), sincronizando os botões da interface com o DOM da página auditada sem causar repinturas (flickering).
+
+### 4. Sanitização e Segurança (Prevenção de Payload Excessivo e Privacidade)
+* **Prevenção do Erro 413:** O script captura o DOM e aplica um *strip* em imagens Base64 (esvaziando atributos `src` e fundos CSS), reduzindo o payload em até 80%.
+* **Privacidade Seletiva:** Formulários têm seus valores (`input`, seleção de `select`) sanitizados antes do envio à API. No entanto, elementos `textarea` e `contenteditable` são preservados de forma cirúrgica para não quebrar a avaliação heurística de contraste e conteúdo.
+* **Prevenção de Contaminação:** Varredura que remove artefatos visuais da própria extensão (`amaweb-*`) antes da captura, impedindo que a ferramenta se auto-avalie em execuções subsequentes.
+
+---
+
+## Desenvolvimento e Testes
+
+A arquitetura modular permitiu a implementação de testes unitários robustos cobrindo a adaptação de dados, cache, exportação JSON, validadores e higienização de DOM.
+
+Para rodar a suíte de testes localmente:
 ```bash
+npm install
 npm test
 ```
 
-O processo de investigação está documentado em `docs/INVESTIGACAO-SANITIZACAO-E-CAPTURA.md`, e as páginas de teste estão em `docs/test-pages/`.
+---
 
-O resumo da arquitetura, dos desafios técnicos, das soluções e da sequência sugerida para o TCC está em `docs/RESUMO-DESENVOLVIMENTO-TCC.md`.
+## ⚠️ Limitações Conhecidas
 
-O documento consolidado, com todos os problemas encontrados, correções, investigação da sanitização, testes, limitações e decisões finais, está em `docs/RELATORIO-FINAL-TCC.md`.
+Como *trade-off* das restrições de segurança dos navegadores modernos:
+* **Shadow DOM:** Componentes web fechados em *Shadow Roots* não são inspecionados completamente.
+* **Iframes Cross-Origin:** O conteúdo interno de iframes de domínios terceiros (ex: widgets de pagamento externos) não é avaliado devido à Política de Mesma Origem (SOP / CORS).
+* **Páginas do Navegador:** Endereços restritos como `chrome://`, `edge://` e lojas de extensões bloqueiam nativamente a execução de *Content Scripts*.
+* **Dom Dinâmico:** A análise representa uma "fotografia" do DOM no instante da captura. Mutações posteriores exigem uma nova requisição.
 
-### Limitações Conhecidas
+---
 
-- Shadow DOM não é percorrido completamente; Shadow Roots fechados permanecem inacessíveis.
-- Conteúdo interno de iframes cross-origin não é garantidamente avaliável por causa da política de mesma origem do navegador.
-- Páginas `chrome://`, `edge://`, páginas de extensões e lojas do navegador são bloqueadas pelo próprio navegador.
-- A análise representa o DOM no momento da captura; mudanças posteriores ou estados que dependem de interação podem exigir uma nova avaliação.
+## Documentação Complementar
 
-Este documento descreve a concepção, arquitetura e implementação da extensão do Avaliador AMAWeb para Google Chrome, projeto desenvolvido como Trabalho de Conclusão de Curso (TCC).
-
-## 1. A Ideia do Projeto e Motivação (O TCC)
-
-### O Problema
-
-A acessibilidade na web é um direito fundamental, garantido por diretrizes internacionais (como a WCAG) e normas brasileiras (NBR 17225). No entanto, desenvolvedores e auditores de acessibilidade enfrentam grandes desafios no processo de validação de páginas web.
-Muitas ferramentas de avaliação exigem que o usuário saia do seu contexto de navegação, cole URLs em portais externos e interprete relatórios textuais densos, que muitas vezes não deixam claro *onde* exatamente o erro está ocorrendo na interface. Além disso, páginas modernas (fechadas por login ou rodando localmente) não podem ser avaliadas por avaliadores tradicionais baseados em URL.
-
-### A Solução: A Extensão AMAWeb
-
-A extensão AMAWeb atua como uma ponte direta entre o navegador do usuário e o poderoso motor de avaliação da Unifesp. A ideia central do projeto é **democratizar e simplificar a auditoria de acessibilidade**, trazendo a avaliação para *dentro* do ambiente de desenvolvimento e navegação.
-
-**Os principais pilares da ideia são:**
-
-1. **Auditoria Visual e In-Loco:** Em vez de ler um relatório abstrato, o usuário clica em "Destacar" e a extensão desenha uma caixa visual exata (overlay) em cima do elemento com problema na própria página web.
-2. **Avaliação de Contextos Fechados:** Como a extensão captura o HTML que já está renderizado no navegador, ela consegue avaliar páginas protegidas por senha, intranets e sistemas em desenvolvimento (localhost).
-3. **Tradução de Complexidade:** A ferramenta pega o JSON técnico gerado pelo backend e o traduz para uma interface amigável, dividindo os resultados em Sucessos, Avisos e Erros, categorizados por níveis de conformidade (A, AA, AAA).
-
-## 2. Arquitetura e Engenharia de Software
-
-O projeto foi construído utilizando as tecnologias mais recentes para extensões web, focando em performance, resiliência e segurança.
-
-### 2.1. Manifest V3 e Service Workers
-
-A extensão foi construída nativamente no padrão **Manifest V3** do Google Chrome. Toda a orquestração de chamadas de rede foi delegada ao `background.js` (Service Worker), que atua de forma assíncrona e dorme quando não está em uso, economizando memória do usuário.
-
-### 2.2. Integração Direta (Sem Intermediários)
-
-A arquitetura foi simplificada para eliminar a necessidade de um servidor intermediário (BFF - Backend For Frontend). O Service Worker se comunica diretamente com a API do AMAWeb via requisições `POST` (Fetch API), enviando a árvore DOM sanitizada como *payload*.
-
-### 2.3. Sistema de Cache em Memória e SPAs
-
-Para evitar sobrecarga no servidor e melhorar a percepção de performance (UX), foi implementado um sistema de cache (`cacheAvaliacoes`).
-
-- **Economia de Rede:** Ao trocar de abas, o painel lateral reconstruí a interface instantaneamente a partir da memória.
-- **Invalidação Inteligente (SPAs):** A extensão "ouve" eventos da *History API* do navegador (`changeInfo.url`). Se o usuário navegar dinamicamente por um site moderno (como React ou Angular) sem recarregar a página, a extensão percebe a mudança de contexto, destrói o cache antigo e limpa as marcações visuais automaticamente.
-
-## 3. Manipulação do DOM e Feedback Visual
-
-O maior desafio técnico da extensão era desenhar marcações visuais na página do usuário sem quebrar o CSS original do site avaliado.
-
-- **Isolamento de Camadas:** Todos os overlays e *badges* informativos são criados em uma camada absoluta (`amaweb-overlay-layer`) injetada no final do `<body>`. Isso impede que o CSS da extensão interfira no layout da página.
-- **Cálculo Espacial Cirúrgico:** Utiliza-se a API `getBoundingClientRect()` somada ao deslocamento atual da janela (`window.scrollY`) para calcular as coordenadas exatas de elementos com erro, mesmo se a página for responsiva ou estiver "rolada".
-- **Scroll Matemático e Suave:** Ao pedir para destacar um erro, a ferramenta não usa o `scrollIntoView` de forma forçada, o que poderia quebrar layouts. Ela calcula o centro vertical da tela e move o `window` suavemente até a coordenada do erro, oferecendo uma experiência fluida.
-
-## 4. Otimização, Resiliência e UX
-
-### 4.1. Limpeza Agressiva de Payload (Mitigação do Erro 413)
-
-O motor de acessibilidade analisa a estrutura (tags e atributos), não os pixels. Para evitar o Erro HTTP 413 (Payload Too Large), o *Content Script* faz uma sanitização profunda antes de enviar o HTML:
-
-- Remove tags desnecessárias (`<script>`, `<style>`, `<canvas>`, `<video>`).
-- **Strip de Base64:** Varrer o DOM em busca de imagens renderizadas em *Base64* (que geram megabytes de texto inútil) e esvazia seus atributos `src`, `srcset` e fundos CSS inline, reduzindo o tamanho da requisição em até 80%.
-
-### 4.2. Tratamento de Exceções e Edge Cases
-
-A ferramenta é blindada contra falhas:
-
-- **Bloqueio de Segurança:** Impede a execução em páginas restritas do sistema (`chrome://`) e locais sem permissão, avisando o usuário educadamente via interface em vez de gerar falhas silenciosas.
-- **Tradução de Erros de Rede:** Códigos HTTP puros (como 405 Method Not Allowed ou falhas de CORS) são interceptados pelo `catch` e transformados em mensagens úteis e amigáveis no painel visual da extensão.
-
-### 4.3. Empoderamento do Usuário
-
-- **Toggle Switch:** Um interruptor visual permite que o usuário decida se as marcações de erro devem permanecer na tela ao trocar de abas ou se devem ser limpas automaticamente.
-- **Exportação Client-Side:** Os usuários podem baixar um relatório completo em formato `.json` com um clique. A geração do arquivo ocorre inteiramente no cliente (via interface `Blob`), sem requisições adicionais ao servidor.
+Para aprofundamento nos processos de engenharia, consulte o diretório `docs/`:
+* `RELATORIO-FINAL-TCC.md`: Histórico completo de desenvolvimento, desafios solucionados e limitações da versão final.
+* `RESUMO-DESENVOLVIMENTO-TCC.md`: Guia focado na arquitetura e resolução de problemas estruturais.
+* `INVESTIGACAO-SANITIZACAO-E-CAPTURA.md`: Estudo aprofundado sobre o impacto da sanitização nos resultados do motor de avaliação.
+* `MELHORIAS.md` / `RELATORIO-REVISAO-E-MELHORIAS.md`: Roadmap histórico de correções aplicadas.
