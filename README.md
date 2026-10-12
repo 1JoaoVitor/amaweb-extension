@@ -2,6 +2,25 @@ faça a mesma coisa:
 
 # Avaliador AMAWeb - Extensão para Google Chrome
 
+## Estado Atual
+
+A versão atual inclui validação da API, timeout de 300 segundos, cache por aba, overlays sem contaminação da captura, sanitização seletiva de formulários, aviso de privacidade, exportação JSON, separação de CSS e testes automatizados.
+
+Execute os testes com:
+
+```bash
+npm test
+```
+
+O processo de investigação está documentado em `docs/INVESTIGACAO-SANITIZACAO-E-CAPTURA.md`, e as páginas de teste estão em `docs/test-pages/`.
+
+### Limitações Conhecidas
+
+- Shadow DOM não é percorrido completamente; Shadow Roots fechados permanecem inacessíveis.
+- Conteúdo interno de iframes cross-origin não é garantidamente avaliável por causa da política de mesma origem do navegador.
+- Páginas `chrome://`, `edge://`, páginas de extensões e lojas do navegador são bloqueadas pelo próprio navegador.
+- A análise representa o DOM no momento da captura; mudanças posteriores ou estados que dependem de interação podem exigir uma nova avaliação.
+
 Este documento descreve a concepção, arquitetura e implementação da extensão do Avaliador AMAWeb para Google Chrome, projeto desenvolvido como Trabalho de Conclusão de Curso (TCC).
 
 ## 1. A Ideia do Projeto e Motivação (O TCC)

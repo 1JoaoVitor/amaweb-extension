@@ -6,6 +6,12 @@ import { cacheAvaliacoes } from '../core/cache-store.js';
 
 let regraAtivaIndex = null;
 
+function registrarFalhaDeMensagem(contexto, error) {
+  const mensagem = error?.message || String(error);
+  const log = mensagem.includes('Receiving end does not exist') ? console.debug : console.warn;
+  log(`[SidePanel] Falha em ${contexto}:`, error);
+}
+
 export function limparRegraAtiva() {
   regraAtivaIndex = null;
 }
@@ -149,6 +155,13 @@ function renderizarCardResultado(item, index, tab) {
   });
 
   if (ponteiros.length === 0) {
+    // --- NOVO: Aplica o filtro aos erros globais ---
+    const filtroVis = document.getElementById('filtro-visibilidade')?.value || 'todos';
+    if (filtroVis === 'ocultos' || filtroVis === 'contem_ocultos') {
+        card.style.display = 'none';
+        setTimeout(verificarEstadoVazio, 50);
+    }
+
     const globalError = document.createElement('span');
     globalError.className = 'am-card-global';
     globalError.textContent = 'Erro global';
@@ -159,7 +172,7 @@ function renderizarCardResultado(item, index, tab) {
     
     footer.append(globalError, botoesAcao);
   } else {
-    // 1. PRIMEIRA LINHA (Contador + Navegação)
+    // 1. PRIMEIRA LINHA
     const countWrapper = document.createElement('div');
     countWrapper.className = 'am-card-counter-wrapper';
 
@@ -221,7 +234,8 @@ function renderizarCardResultado(item, index, tab) {
             txtCount.textContent = `${currentIndex + 1} de ${ponteirosAtivos.length}`;
             txtCount.title = "";
           }
-        } catch (e) {
+        } catch (error) {
+          registrarFalhaDeMensagem('foco da ocorrência', error);
           txtCount.textContent = `${currentIndex + 1} de ${ponteirosAtivos.length}`;
         }
       };
@@ -235,40 +249,108 @@ function renderizarCardResultado(item, index, tab) {
       });
 
       navContainer.append(btnPrev, txtCount, btnNext);
+
+      // SOLUÇÃO: Se este botão foi recuperado do cache como ativo, 
+      // ordena imediatamente que as setinhas apareçam.
+      if (regraAtivaIndex === index) {
+        navContainer.classList.add('show');
+        
+        // Verifica o estado do primeiro elemento para o texto "Oculto" aparecer se for caso disso
+        chrome.tabs.sendMessage(tab.id, { 
+           action: 'FOCUS_V2', pointer: ponteiros[0], dicasHtml: dicasHtml 
+        }).then(res => {
+           if (res?.status === 'not_found') txtCount.textContent = `1/${ponteiros.length} (Ñ enc.)`;
+           else if (res?.status === 'hidden') txtCount.textContent = `1/${ponteiros.length} (Oculto)`;
+        }).catch(error => registrarFalhaDeMensagem('restauração do foco da ocorrência', error));
+      }
     }
     
-    // --> MUDANÇA AQUI: Juntamos a navegação na mesma linha do "elemento"
     countWrapper.append(count, countLabel, navContainer);
-    // -------------------------------------------------------------
+
+    // ======== PRÉ-VERIFICAÇÃO DE ITENS OCULTOS ========
+    chrome.tabs.sendMessage(tab.id, {
+      action: 'FILTER_V2',
+      pointers: ponteiros,
+      dicasHtml: dicasHtml
+    }).then(response => {
+      if (response && response.validPointers) {
+        const visiveis = response.validPointers.length;
+        const total = ponteiros.length;
+        
+        // --- NOVA LÓGICA DO FILTRO DE VISIBILIDADE ---
+        const filtroVis = document.getElementById('filtro-visibilidade')?.value || 'todos';
+        let mostrarCard = true;
+
+        if (filtroVis === 'visiveis' && visiveis !== total) mostrarCard = false;
+        if (filtroVis === 'ocultos' && visiveis !== 0) mostrarCard = false;
+        if (filtroVis === 'contem_ocultos' && visiveis === total) mostrarCard = false;
+
+        if (!mostrarCard) {
+          card.style.display = 'none';
+          verificarEstadoVazio();
+          return; // Aborta a pintura dos botões e bloqueios
+        }
+
+        if (visiveis === 0) {
+          button.textContent = 'Oculto no DOM';
+          button.classList.remove('ativo');
+          button.classList.add('btn-inacessivel');
+          button.disabled = true;
+          countLabel.textContent = ponteiros.length === 1 ? ' elemento (Oculto)' : ' elementos (Ocultos)';
+          
+          if (regraAtivaIndex === index) navContainer.classList.remove('show');
+        } else if (visiveis < ponteiros.length) {
+          const ocultos = ponteiros.length - visiveis;
+          // SOLUÇÃO: Atualizamos sempre o texto "(X ocultos)", quer o botão esteja ativo ou não!
+          countLabel.textContent = ` elementos (${ocultos} oculto${ocultos > 1 ? 's' : ''})`;
+        }
+      }
+    }).catch(error => registrarFalhaDeMensagem('filtro de visibilidade', error));
     
+    // ======== CLIQUE NO BOTÃO ========
     button.addEventListener('click', async () => {
       const cache = cacheAvaliacoes.get(tab.id);
-      const isRestoring = button.dataset.restoring === "true";
-      button.dataset.restoring = "false"; 
-
+      
+      // Limpa TODAS as caixas de setinhas ativas no painel
       document.querySelectorAll('.am-nav-destaque').forEach(el => el.classList.remove('show'));
 
-      if (regraAtivaIndex === index && !isRestoring) {
+      // DESATIVAR DESTAQUE
+      if (regraAtivaIndex === index) {
         regraAtivaIndex = null;
         if (cache) { cache.regraAtivaIndex = null; cacheAvaliacoes.set(tab.id, cache); }
 
         button.classList.remove('ativo');
         button.textContent = 'Destacar';
-        
         count.textContent = ponteiros.length;
-        countLabel.textContent = ponteiros.length === 1 ? ' elemento' : ' elementos';
         
-        chrome.tabs.sendMessage(tab.id, { action: 'CLEAR_HIGHLIGHT' }).catch(()=>{});
+        chrome.tabs.sendMessage(tab.id, { action: 'FILTER_V2', pointers: ponteiros, dicasHtml: dicasHtml }).then(res => {
+          if (res && res.validPointers && res.validPointers.length < ponteiros.length) {
+            const ocultos = ponteiros.length - res.validPointers.length;
+            countLabel.textContent = ` elementos (${ocultos} oculto${ocultos > 1 ? 's' : ''})`;
+          } else {
+            countLabel.textContent = ponteiros.length === 1 ? ' elemento' : ' elementos';
+          }
+        }).catch(error => {
+          registrarFalhaDeMensagem('atualização da visibilidade', error);
+          countLabel.textContent = ponteiros.length === 1 ? ' elemento' : ' elementos';
+        });
+        
+        chrome.tabs.sendMessage(tab.id, { action: 'CLEAR_HIGHLIGHT' })
+          .catch(error => registrarFalhaDeMensagem('remoção do destaque', error));
         return;
       }
       
+      // ATIVAR DESTAQUE
       regraAtivaIndex = index;
       if (cache) { cache.regraAtivaIndex = index; cacheAvaliacoes.set(tab.id, cache); }
 
       document.querySelectorAll('.btn-destacar').forEach(otherButton => {
         otherButton.classList.remove('ativo');
-        otherButton.textContent = 'Destacar';
+        if (!otherButton.classList.contains('btn-inacessivel')) {
+            otherButton.textContent = 'Destacar';
+        }
       });
+      
       button.classList.add('ativo');
       button.textContent = 'Buscando...'; 
 
@@ -282,7 +364,9 @@ function renderizarCardResultado(item, index, tab) {
         if (response && response.validPointers) {
           qtdVisiveis = response.validPointers.length;
         }
-      } catch (e) {}
+      } catch (error) {
+        registrarFalhaDeMensagem('consulta de visibilidade', error);
+      }
 
       button.textContent = 'Remover Destaque';
       count.textContent = ponteiros.length;
@@ -305,7 +389,7 @@ function renderizarCardResultado(item, index, tab) {
         }).then(res => {
            if (res?.status === 'not_found') txtC.textContent = `1/${ponteiros.length} (Ñ enc.)`;
            else if (res?.status === 'hidden') txtC.textContent = `1/${ponteiros.length} (Oculto)`;
-        }).catch(()=>{});
+        }).catch(error => registrarFalhaDeMensagem('foco da primeira ocorrência', error));
       }
 
       try {
@@ -315,19 +399,21 @@ function renderizarCardResultado(item, index, tab) {
         });
 
         if (hRes && hRes.encontrados === 0) {
-          button.textContent = 'Erro: Inacessível';
-          button.style.backgroundColor = '#64748b';
-          button.style.borderColor = '#64748b';
-          countLabel.textContent = ` elementos (Ocultos no DOM)`;
+          button.textContent = 'Oculto no DOM';
+          button.classList.remove('ativo');
+          button.classList.add('btn-inacessivel');
+          button.disabled = true;
+          countLabel.textContent = ponteiros.length === 1 ? ' elemento (Oculto)' : ' elementos (Ocultos)';
         }
-      } catch (e) {
+      } catch (error) {
+        registrarFalhaDeMensagem('destaque da regra', error);
       }
     });
 
-    // 2. SEGUNDA LINHA (Apenas botões de ação isolados)
+    // 2. SEGUNDA LINHA
     const botoesAcao = document.createElement('div');
     botoesAcao.className = 'am-card-actions'; 
-    botoesAcao.append(button, btnExpandir); // Sem a navegação aqui
+    botoesAcao.append(button, btnExpandir); 
     
     footer.append(countWrapper, botoesAcao);
   }
@@ -337,6 +423,7 @@ function renderizarCardResultado(item, index, tab) {
   document.getElementById('lista-detalhada').appendChild(card);
 } 
 
+// ... (O restante da função atualizarEstatisticas mantém-se igual) ...
 export function atualizarEstatisticas(dados, modo = 'elementos') {
   const stats = {
     sucesso: { total: 0, A: 0, AA: 0, AAA: 0, regrasUnicas: new Set(), regrasA: new Set(), regrasAA: new Set(), regrasAAA: new Set() },
@@ -407,4 +494,22 @@ export function atualizarEstatisticas(dados, modo = 'elementos') {
   atualizarDOM('count-geral-a', stats.geral.A);
   atualizarDOM('count-geral-aa', stats.geral.AA);
   atualizarDOM('count-geral-aaa', stats.geral.AAA);
+}
+
+function verificarEstadoVazio() {
+  const lista = document.getElementById('lista-detalhada');
+  if (!lista) return;
+  const cardsVisiveis = lista.querySelectorAll('.am-card:not([style*="display: none"])');
+  let emptyMsg = lista.querySelector('.empty-state');
+  
+  if (cardsVisiveis.length === 0) {
+    if (!emptyMsg) {
+      emptyMsg = document.createElement('p');
+      emptyMsg.className = 'empty-state';
+      emptyMsg.textContent = 'Nenhum problema corresponde aos filtros aplicados.';
+      lista.appendChild(emptyMsg);
+    }
+  } else {
+    if (emptyMsg) emptyMsg.remove();
+  }
 }

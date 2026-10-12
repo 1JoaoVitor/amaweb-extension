@@ -73,7 +73,9 @@
           src = el.getAttribute('src');
           id = el.id;
         }
-      } catch(e){}
+      } catch (error) {
+        console.debug('[Content Script] HTML de referência inválido:', error);
+      }
     }
 
     try {
@@ -87,7 +89,9 @@
         }
         if (isValido) return exato;
       }
-    } catch(e) {}
+    } catch (error) {
+      console.debug('[Content Script] Seletor de referência inválido:', error);
+    }
 
     if (!htmlOriginal || !tag) return null;
 
@@ -327,7 +331,8 @@
         setTimeout(atualizarPosicoes, 250);
 
         if (e.isTrusted) {
-          chrome.runtime.sendMessage({ action: 'SCROLL_TO_ERROR', titulo: texto, index: indexErro }).catch(() => {});
+          chrome.runtime.sendMessage({ action: 'SCROLL_TO_ERROR', titulo: texto, index: indexErro })
+            .catch(error => console.debug('[Content Script] Painel indisponível para rolagem:', error));
         }
       }
     });

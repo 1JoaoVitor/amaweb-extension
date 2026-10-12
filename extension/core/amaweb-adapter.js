@@ -38,7 +38,18 @@ function descobrirNivelWCAG(scs) {
 }
 
 function limparMarcacao(texto = '') {
-  return String(texto).replace(/<[^>]*>/g, '');
+  const entidades = {
+    '&lt;': '<',
+    '&gt;': '>',
+    '&amp;': '&',
+    '&quot;': '"',
+    '&#39;': "'",
+    '&apos;': "'"
+  };
+
+  return String(texto)
+    .replace(/<[^>]*>/g, '')
+    .replace(/&(lt|gt|amp|quot|#39|apos);/g, entidade => entidades[entidade] || entidade);
 }
 
 /**

@@ -118,6 +118,24 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
 }
 .btn-outline-danger:hover:not(:disabled) { background-color: var(--color-danger-light); }
 
+/* === AVISO DE PRIVACIDADE === */
+.privacy-notice {
+  background-color: #fff8e1;
+  border: 1px solid #f2c94c;
+  border-radius: 4px;
+  color: #5f4500;
+  padding: 12px 14px;
+}
+.privacy-notice[hidden] { display: none; }
+.privacy-notice-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.privacy-notice-close[hidden] { display: none; }
+.privacy-notice h4 { margin: 0 0 6px; font-size: 13px; }
+.privacy-notice p { margin: 0; font-size: 12px; line-height: 1.4; }
+.privacy-confirmation { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 12px; font-weight: 600; cursor: pointer; }
+.privacy-confirmation input { margin: 0; accent-color: var(--ama-green-primary); }
+.privacy-notice-close { width: auto; padding: 0 4px; border: none; background: transparent; color: #5f4500; font-size: 20px; line-height: 1; }
+.privacy-notice-close:hover { background: transparent; color: var(--color-text); }
+
 
 /* === BLOCO DE CONFIGURAÇÕES (BORDAS RETAS) === */
 .settings-group {
@@ -249,14 +267,15 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
   margin-right: 4px;
 }
 
-/* Blindagem: Impede o JS ou o navegador de esconderem a palavra "elemento" ao clicar */
+/* O texto "elementos (1 oculto)" */
 .am-card-count-label { 
   font-size: 12px; 
   font-weight: 400; 
   color: var(--color-muted); 
-  display: inline-block !important; 
-  visibility: visible !important;
-  opacity: 1 !important;
+  white-space: nowrap; /* IMPEDE que a palavra quebre para a linha de baixo! */
+  text-overflow: ellipsis; /* Põe "..." se não couber tudo na tela */
+  overflow: hidden;
+  flex-shrink: 1; /* Permite que o texto encolha se a caixa das setas precisar de espaço */
 }
 
 /* Ocupa 100% do espaço, forçando a descer para a segunda linha */
@@ -266,6 +285,7 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
   align-items: center; 
   justify-content: space-between; /* "Destacar" à esquerda, "Detalhes" à direita */
   margin-top: 12px; /* Espaçamento entre o texto e os botões */
+  gap: 12px;
 }
 
 .btn-destacar {
@@ -273,7 +293,7 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
   color: white;
   border: none !important;
   outline: none !important;
-  padding: 6px 16px; 
+  padding: 6px 12px; 
   border-radius: 20px;
   font-size: 12px;
   font-weight: 600;
@@ -306,34 +326,45 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
 .am-details-list { padding-left: 20px; margin: 6px 0 0; }
 .am-details-list li { margin-bottom: 4px; font-family: 'Consolas', monospace; background: #e8eaed; padding: 2px 6px; border-radius: 3px; word-break: break-all; }
 
-/* Primeira Linha: Contador + Navegação na mesma linha */
 .am-card-counter-wrapper {
   display: flex;
-  flex-direction: row; /* Força a ficar na horizontal */
+  flex-direction: row; 
   align-items: center; 
-  flex-wrap: nowrap; /* Proíbe expressamente de pular para a linha de baixo */
-  gap: 4px;
+  flex-wrap: nowrap;
+  gap: 6px; /* Aumentei um pouco o gap para os elementos respirarem */
+  width: 100%;
+  overflow: hidden; /* Se o texto for gigante, esconde em vez de empurrar o resto */
 }
 
-/* NAVEGAÇÃO DE SETINHAS */
+/* NAVEGAÇÃO DE SETINHAS (A caixa inteira) */
 .am-nav-destaque { 
   display: none; 
   align-items: center; 
   gap: 2px; 
   background: white; 
   border: 1px solid var(--color-border); 
-  padding: 0 6px; 
+  padding: 0 4px; 
   border-radius: 4px; 
-  margin-left: 8px; /* Dá um respiro lateral entre a palavra "elementos" e a caixinha */
-  height: 24px; /* Controla a altura para ficar simétrico com o texto */
+  margin-left: auto; /* Empurra a caixinha das setas totalmente para a DIREITA */
+  height: 24px; 
+  flex-shrink: 0; /* IMPEDE a caixinha de ser esmagada pelo texto */
 }
+
 .am-nav-destaque.show { 
   display: flex; 
 }
 
 .am-nav-btn { background: none; border: none; color: var(--color-muted); font-size: 12px; padding: 4px 6px; width: auto; }
 .am-nav-btn:hover { color: var(--ama-green-primary); }
-.am-nav-txt { font-size: 11px; font-weight: 600; min-width: 40px; text-align: center; }
+/* O texto dentro das setinhas (ex: "2/2 (Oculto)") */
+.am-nav-txt { 
+  font-size: 11px; 
+  font-weight: 600; 
+  min-width: 40px; 
+  text-align: center; 
+  white-space: nowrap; /* IMPEDE que o "(Oculto)" desça para a segunda linha */
+  padding: 0 4px;
+}
 
 /* === ESTADOS (LOADING / ERROR) === */
 .empty-state { font-size: 13px; color: var(--color-muted); text-align: center; margin-top: 20px; padding: 20px; background: white; border-radius: 4px; border: 1px dashed var(--color-border); }

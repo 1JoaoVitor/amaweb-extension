@@ -1,5 +1,5 @@
 const API_URL = 'https://amaweb.unifesp.br/server/amp/eval/html';
-const REQUEST_TIMEOUT_MS = 3000000;
+const REQUEST_TIMEOUT_MS = 300000;
 
 export async function avaliarHtml(html) {
   const controller = new AbortController();

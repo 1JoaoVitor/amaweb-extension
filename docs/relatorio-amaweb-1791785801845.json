@@ -1,0 +1,515 @@
+[
+  {
+    "Pontuação": "8.1",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Título da página",
+    "Descricao": "Encontrei um título na página e ele me parece correto.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "title_06",
+    "Referencia": "H25",
+    "CriteriosRelacionados": "2.4.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<title>Teste de conteudo editavel</title>",
+          "pointer": "html > head:nth-child(1) > title:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "8.1",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Idioma principal da página",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "lang",
+    "Referencia": "",
+    "CriteriosRelacionados": "",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<html lang=\"pt-BR\"><head></head><body></body></html>",
+          "pointer": "html"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "8.1",
+    "Tipo de erro": "Erro",
+    "Criterio": "Valores de estados e propriedades ARIA não permitidos",
+    "Descricao": "Encontrei 1 estado ou propriedade ARIA que não é permitido.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_06",
+    "Referencia": "5c01ea",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<div contenteditable=\"true\" aria-label=\"Descricao do produto\">Descricao editavel do produto.</div>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "8.1",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Atributos aria-* definidos",
+    "Descricao": "Verifiquei que todos os atributos aria-* estão de acordo com a especificação ARIA.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_07",
+    "Referencia": "5f99a7",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<div contenteditable=\"true\" aria-label=\"Descricao do produto\">Descricao editavel do produto.</div>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "8.1",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Valores de estados e propriedades ARIA de tipo válido",
+    "Descricao": "Verifiquei que todos os estados e todas as propriedades ARIA têm um tipo de valor válido.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_03",
+    "Referencia": "6a7281",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<div contenteditable=\"true\" aria-label=\"Descricao do produto\">Descricao editavel do produto.</div>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "8.1",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Cabeçalhos com nome acessível",
+    "Descricao": "Constatei que todos os cabeçalhos desta página têm nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "heading_01",
+    "Referencia": "H42",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h1>Conteudo editavel</h1>",
+          "pointer": "html > body:nth-child(2) > h1:nth-child(1)",
+          "accessibleName": "Conteudo editavel"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "8.1",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Cabeçalhos com nome acessível",
+    "Descricao": "Constatei que todos os cabeçalhos desta página têm nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "heading_01",
+    "Referencia": "H42",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Editor sem nome acessivel</h2>",
+          "pointer": "html > body:nth-child(2) > h2:nth-child(3)",
+          "accessibleName": "Editor sem nome acessivel"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "8.1",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Cabeçalhos com nome acessível",
+    "Descricao": "Constatei que todos os cabeçalhos desta página têm nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "heading_01",
+    "Referencia": "H42",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Editor com nome acessivel</h2>",
+          "pointer": "html > body:nth-child(2) > h2:nth-child(5)",
+          "accessibleName": "Editor com nome acessivel"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "8.1",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h1>Conteudo editavel</h1>",
+          "pointer": "html > body:nth-child(2) > h1:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "8.1",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<p>Compare especialmente os resultados desta pagina com a sanitizacao ligada e desligada.</p>",
+          "pointer": "html > body:nth-child(2) > p:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "8.1",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Editor sem nome acessivel</h2>",
+          "pointer": "html > body:nth-child(2) > h2:nth-child(3)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "8.1",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<div contenteditable=\"true\">Texto editavel que pode ser avaliado.</div>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(4)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "8.1",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Editor com nome acessivel</h2>",
+          "pointer": "html > body:nth-child(2) > h2:nth-child(5)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "8.1",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<div contenteditable=\"true\" aria-label=\"Descricao do produto\">Descricao editavel do produto.</div>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "8.1",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h1>Conteudo editavel</h1>",
+          "pointer": "html > body:nth-child(2) > h1:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "8.1",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<p>Compare especialmente os resultados desta pagina com a sanitizacao ligada e desligada.</p>",
+          "pointer": "html > body:nth-child(2) > p:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "8.1",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Editor sem nome acessivel</h2>",
+          "pointer": "html > body:nth-child(2) > h2:nth-child(3)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "8.1",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<div contenteditable=\"true\">Texto editavel que pode ser avaliado.</div>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(4)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "8.1",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Editor com nome acessivel</h2>",
+          "pointer": "html > body:nth-child(2) > h2:nth-child(5)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "8.1",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<div contenteditable=\"true\" aria-label=\"Descricao do produto\">Descricao editavel do produto.</div>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "8.1",
+    "Tipo de erro": "Erro",
+    "Criterio": "Link que não pula para o conteúdo principal",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aSkipFirstNo",
+    "Referencia": "",
+    "CriteriosRelacionados": "",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": []
+    }
+  },
+  {
+    "Pontuação": "8.1",
+    "Tipo de erro": "Aviso",
+    "Criterio": "Cabeçalhos (h1 - h6)",
+    "Descricao": "Encontrei 1 cabeçalho na página.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "hx_01b",
+    "Referencia": "G141",
+    "CriteriosRelacionados": "1.3.1,2.4.10",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h1>Conteudo editavel</h1>",
+          "pointer": "html > body:nth-child(2) > h1:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "8.1",
+    "Tipo de erro": "Aviso",
+    "Criterio": "Cabeçalhos (h1 - h6)",
+    "Descricao": "Encontrei 1 cabeçalho na página.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "hx_01b",
+    "Referencia": "G141",
+    "CriteriosRelacionados": "1.3.1,2.4.10",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Editor sem nome acessivel</h2>",
+          "pointer": "html > body:nth-child(2) > h2:nth-child(3)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "8.1",
+    "Tipo de erro": "Aviso",
+    "Criterio": "Cabeçalhos (h1 - h6)",
+    "Descricao": "Encontrei 1 cabeçalho na página.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "hx_01b",
+    "Referencia": "G141",
+    "CriteriosRelacionados": "1.3.1,2.4.10",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Editor com nome acessivel</h2>",
+          "pointer": "html > body:nth-child(2) > h2:nth-child(5)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "8.1",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "onlyOneh1",
+    "Descricao": "Identifiquei exatamente um cabeçalho de nível 1.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "heading_03",
+    "Referencia": "H42",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h1>Conteudo editavel</h1>",
+          "pointer": "html > body:nth-child(2) > h1:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "8.1",
+    "Tipo de erro": "Erro",
+    "Criterio": "Sem links para contornar blocos de conteúdo",
+    "Descricao": "Não encontrei link para saltar blocos de texto.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "a_02a",
+    "Referencia": "G123",
+    "CriteriosRelacionados": "2.4.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": []
+    }
+  }
+]

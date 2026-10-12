@@ -1,0 +1,1622 @@
+[
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Título da página",
+    "Descricao": "Encontrei um título na página e ele me parece correto.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "title_06",
+    "Referencia": "H25",
+    "CriteriosRelacionados": "2.4.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<title>Teste de ARIA</title>",
+          "pointer": "html > head:nth-child(1) > title:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Idioma principal da página",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "lang",
+    "Referencia": "",
+    "CriteriosRelacionados": "",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<html lang=\"pt-BR\"><head></head><body></body></html>",
+          "pointer": "html"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "button tem nome acessível não vazio",
+    "Descricao": "Verifiquei que todos os elementos <button> têm nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "button_01",
+    "Referencia": "97a4e1",
+    "CriteriosRelacionados": "4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button aria-label=\"Fechar dialogo\">X</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6) > button:nth-child(3)",
+          "accessibleName": "Fechar dialogo"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Elementos com os filhos obrigatórios",
+    "Descricao": "Constatei que todos os elementos com papel semântico definido explicitamente têm pelo menos um dos elementos filho obrigatórios.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_02",
+    "Referencia": "bc4a75",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<div class=\"tabs\" role=\"tablist\" aria-label=\"Categorias\">\n    Resumo\n    Detalhes\n  </div>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Valores de estados e propriedades ARIA permitidos",
+    "Descricao": "Verifiquei que todos os estados e todas as propriedades ARIA são permitidos.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_05",
+    "Referencia": "5c01ea",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<div class=\"tabs\" role=\"tablist\" aria-label=\"Categorias\">\n    Resumo\n    Detalhes\n  </div>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Valores de estados e propriedades ARIA permitidos",
+    "Descricao": "Verifiquei que todos os estados e todas as propriedades ARIA são permitidos.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_05",
+    "Referencia": "5c01ea",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button id=\"tab-um\" role=\"tab\" aria-selected=\"true\" aria-controls=\"painel-um\">Resumo</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > button:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Valores de estados e propriedades ARIA permitidos",
+    "Descricao": "Verifiquei que todos os estados e todas as propriedades ARIA são permitidos.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_05",
+    "Referencia": "5c01ea",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button id=\"tab-um\" role=\"tab\" aria-selected=\"true\" aria-controls=\"painel-um\">Resumo</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > button:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Valores de estados e propriedades ARIA permitidos",
+    "Descricao": "Verifiquei que todos os estados e todas as propriedades ARIA são permitidos.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_05",
+    "Referencia": "5c01ea",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button id=\"tab-dois\" role=\"tab\" aria-selected=\"false\" aria-controls=\"painel-dois\">Detalhes</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > button:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Valores de estados e propriedades ARIA permitidos",
+    "Descricao": "Verifiquei que todos os estados e todas as propriedades ARIA são permitidos.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_05",
+    "Referencia": "5c01ea",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button id=\"tab-dois\" role=\"tab\" aria-selected=\"false\" aria-controls=\"painel-dois\">Detalhes</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > button:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Valores de estados e propriedades ARIA permitidos",
+    "Descricao": "Verifiquei que todos os estados e todas as propriedades ARIA são permitidos.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_05",
+    "Referencia": "5c01ea",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<section id=\"painel-um\" role=\"tabpanel\" aria-labelledby=\"tab-um\" aria-describedby=\"ajuda\">\n    Resumo\n    Conteudo do resumo.\n  </section>",
+          "pointer": "html > body:nth-child(2) > section:nth-child(4)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Valores de estados e propriedades ARIA permitidos",
+    "Descricao": "Verifiquei que todos os estados e todas as propriedades ARIA são permitidos.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_05",
+    "Referencia": "5c01ea",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<section id=\"painel-um\" role=\"tabpanel\" aria-labelledby=\"tab-um\" aria-describedby=\"ajuda\">\n    Resumo\n    Conteudo do resumo.\n  </section>",
+          "pointer": "html > body:nth-child(2) > section:nth-child(4)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Valores de estados e propriedades ARIA permitidos",
+    "Descricao": "Verifiquei que todos os estados e todas as propriedades ARIA são permitidos.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_05",
+    "Referencia": "5c01ea",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<div role=\"dialog\" aria-labelledby=\"titulo-dialogo\" aria-describedby=\"texto-dialogo\">\n    Dialogo de teste\n    Descricao do dialogo.\n    X\n  </div>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Valores de estados e propriedades ARIA permitidos",
+    "Descricao": "Verifiquei que todos os estados e todas as propriedades ARIA são permitidos.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_05",
+    "Referencia": "5c01ea",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<div role=\"dialog\" aria-labelledby=\"titulo-dialogo\" aria-describedby=\"texto-dialogo\">\n    Dialogo de teste\n    Descricao do dialogo.\n    X\n  </div>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Valores de estados e propriedades ARIA permitidos",
+    "Descricao": "Verifiquei que todos os estados e todas as propriedades ARIA são permitidos.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_05",
+    "Referencia": "5c01ea",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button aria-label=\"Fechar dialogo\">X</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6) > button:nth-child(3)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Atributos aria-* definidos",
+    "Descricao": "Verifiquei que todos os atributos aria-* estão de acordo com a especificação ARIA.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_07",
+    "Referencia": "5f99a7",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<div class=\"tabs\" role=\"tablist\" aria-label=\"Categorias\">\n    Resumo\n    Detalhes\n  </div>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Atributos aria-* definidos",
+    "Descricao": "Verifiquei que todos os atributos aria-* estão de acordo com a especificação ARIA.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_07",
+    "Referencia": "5f99a7",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button id=\"tab-um\" role=\"tab\" aria-selected=\"true\" aria-controls=\"painel-um\">Resumo</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > button:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Atributos aria-* definidos",
+    "Descricao": "Verifiquei que todos os atributos aria-* estão de acordo com a especificação ARIA.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_07",
+    "Referencia": "5f99a7",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button id=\"tab-dois\" role=\"tab\" aria-selected=\"false\" aria-controls=\"painel-dois\">Detalhes</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > button:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Atributos aria-* definidos",
+    "Descricao": "Verifiquei que todos os atributos aria-* estão de acordo com a especificação ARIA.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_07",
+    "Referencia": "5f99a7",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<section id=\"painel-um\" role=\"tabpanel\" aria-labelledby=\"tab-um\" aria-describedby=\"ajuda\">\n    Resumo\n    Conteudo do resumo.\n  </section>",
+          "pointer": "html > body:nth-child(2) > section:nth-child(4)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Atributos aria-* definidos",
+    "Descricao": "Verifiquei que todos os atributos aria-* estão de acordo com a especificação ARIA.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_07",
+    "Referencia": "5f99a7",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<section id=\"painel-dois\" role=\"tabpanel\" aria-labelledby=\"tab-dois\" hidden=\"\">\n    Detalhes\n    Conteudo dos detalhes.\n  </section>",
+          "pointer": "html > body:nth-child(2) > section:nth-child(5)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Atributos aria-* definidos",
+    "Descricao": "Verifiquei que todos os atributos aria-* estão de acordo com a especificação ARIA.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_07",
+    "Referencia": "5f99a7",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<div role=\"dialog\" aria-labelledby=\"titulo-dialogo\" aria-describedby=\"texto-dialogo\">\n    Dialogo de teste\n    Descricao do dialogo.\n    X\n  </div>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Atributos aria-* definidos",
+    "Descricao": "Verifiquei que todos os atributos aria-* estão de acordo com a especificação ARIA.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_07",
+    "Referencia": "5f99a7",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button aria-label=\"Fechar dialogo\">X</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6) > button:nth-child(3)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Elementos com papel semântico explícito",
+    "Descricao": "Constatei que todos os elementos com papel semântico explícito têm os necessários estados e propriedades.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "element_10",
+    "Referencia": "4e8ab6",
+    "CriteriosRelacionados": "4.1.2,1.3.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<div class=\"tabs\" role=\"tablist\" aria-label=\"Categorias\">\n    Resumo\n    Detalhes\n  </div>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Elementos com papel semântico explícito",
+    "Descricao": "Constatei que todos os elementos com papel semântico explícito têm os necessários estados e propriedades.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "element_10",
+    "Referencia": "4e8ab6",
+    "CriteriosRelacionados": "4.1.2,1.3.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button id=\"tab-um\" role=\"tab\" aria-selected=\"true\" aria-controls=\"painel-um\">Resumo</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > button:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Elementos com papel semântico explícito",
+    "Descricao": "Constatei que todos os elementos com papel semântico explícito têm os necessários estados e propriedades.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "element_10",
+    "Referencia": "4e8ab6",
+    "CriteriosRelacionados": "4.1.2,1.3.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button id=\"tab-dois\" role=\"tab\" aria-selected=\"false\" aria-controls=\"painel-dois\">Detalhes</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > button:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Elementos com papel semântico explícito",
+    "Descricao": "Constatei que todos os elementos com papel semântico explícito têm os necessários estados e propriedades.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "element_10",
+    "Referencia": "4e8ab6",
+    "CriteriosRelacionados": "4.1.2,1.3.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<section id=\"painel-um\" role=\"tabpanel\" aria-labelledby=\"tab-um\" aria-describedby=\"ajuda\">\n    Resumo\n    Conteudo do resumo.\n  </section>",
+          "pointer": "html > body:nth-child(2) > section:nth-child(4)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Elementos com papel semântico explícito",
+    "Descricao": "Constatei que todos os elementos com papel semântico explícito têm os necessários estados e propriedades.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "element_10",
+    "Referencia": "4e8ab6",
+    "CriteriosRelacionados": "4.1.2,1.3.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<div role=\"dialog\" aria-labelledby=\"titulo-dialogo\" aria-describedby=\"texto-dialogo\">\n    Dialogo de teste\n    Descricao do dialogo.\n    X\n  </div>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Valores de estados e propriedades ARIA de tipo válido",
+    "Descricao": "Verifiquei que todos os estados e todas as propriedades ARIA têm um tipo de valor válido.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_03",
+    "Referencia": "6a7281",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<div class=\"tabs\" role=\"tablist\" aria-label=\"Categorias\">\n    Resumo\n    Detalhes\n  </div>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Valores de estados e propriedades ARIA de tipo válido",
+    "Descricao": "Verifiquei que todos os estados e todas as propriedades ARIA têm um tipo de valor válido.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_03",
+    "Referencia": "6a7281",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button id=\"tab-um\" role=\"tab\" aria-selected=\"true\" aria-controls=\"painel-um\">Resumo</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > button:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Valores de estados e propriedades ARIA de tipo válido",
+    "Descricao": "Verifiquei que todos os estados e todas as propriedades ARIA têm um tipo de valor válido.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_03",
+    "Referencia": "6a7281",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button id=\"tab-um\" role=\"tab\" aria-selected=\"true\" aria-controls=\"painel-um\">Resumo</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > button:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Valores de estados e propriedades ARIA de tipo válido",
+    "Descricao": "Verifiquei que todos os estados e todas as propriedades ARIA têm um tipo de valor válido.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_03",
+    "Referencia": "6a7281",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button id=\"tab-dois\" role=\"tab\" aria-selected=\"false\" aria-controls=\"painel-dois\">Detalhes</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > button:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Valores de estados e propriedades ARIA de tipo válido",
+    "Descricao": "Verifiquei que todos os estados e todas as propriedades ARIA têm um tipo de valor válido.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_03",
+    "Referencia": "6a7281",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button id=\"tab-dois\" role=\"tab\" aria-selected=\"false\" aria-controls=\"painel-dois\">Detalhes</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > button:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Valores de estados e propriedades ARIA de tipo válido",
+    "Descricao": "Verifiquei que todos os estados e todas as propriedades ARIA têm um tipo de valor válido.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_03",
+    "Referencia": "6a7281",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<section id=\"painel-um\" role=\"tabpanel\" aria-labelledby=\"tab-um\" aria-describedby=\"ajuda\">\n    Resumo\n    Conteudo do resumo.\n  </section>",
+          "pointer": "html > body:nth-child(2) > section:nth-child(4)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Valores de estados e propriedades ARIA de tipo válido",
+    "Descricao": "Verifiquei que todos os estados e todas as propriedades ARIA têm um tipo de valor válido.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_03",
+    "Referencia": "6a7281",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<section id=\"painel-um\" role=\"tabpanel\" aria-labelledby=\"tab-um\" aria-describedby=\"ajuda\">\n    Resumo\n    Conteudo do resumo.\n  </section>",
+          "pointer": "html > body:nth-child(2) > section:nth-child(4)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Valores de estados e propriedades ARIA de tipo válido",
+    "Descricao": "Verifiquei que todos os estados e todas as propriedades ARIA têm um tipo de valor válido.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_03",
+    "Referencia": "6a7281",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<div role=\"dialog\" aria-labelledby=\"titulo-dialogo\" aria-describedby=\"texto-dialogo\">\n    Dialogo de teste\n    Descricao do dialogo.\n    X\n  </div>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Valores de estados e propriedades ARIA de tipo válido",
+    "Descricao": "Verifiquei que todos os estados e todas as propriedades ARIA têm um tipo de valor válido.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_03",
+    "Referencia": "6a7281",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<div role=\"dialog\" aria-labelledby=\"titulo-dialogo\" aria-describedby=\"texto-dialogo\">\n    Dialogo de teste\n    Descricao do dialogo.\n    X\n  </div>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Valores de estados e propriedades ARIA de tipo válido",
+    "Descricao": "Verifiquei que todos os estados e todas as propriedades ARIA têm um tipo de valor válido.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_03",
+    "Referencia": "6a7281",
+    "CriteriosRelacionados": "1.3.1,4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button aria-label=\"Fechar dialogo\">X</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6) > button:nth-child(3)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Elementos com atributo role válido",
+    "Descricao": "Verifiquei que todos os atributos role têm um valor válido",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "role_01",
+    "Referencia": "674b10",
+    "CriteriosRelacionados": "4.1.2",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<div class=\"tabs\" role=\"tablist\" aria-label=\"Categorias\">\n    Resumo\n    Detalhes\n  </div>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Elementos com atributo role válido",
+    "Descricao": "Verifiquei que todos os atributos role têm um valor válido",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "role_01",
+    "Referencia": "674b10",
+    "CriteriosRelacionados": "4.1.2",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button id=\"tab-um\" role=\"tab\" aria-selected=\"true\" aria-controls=\"painel-um\">Resumo</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > button:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Elementos com atributo role válido",
+    "Descricao": "Verifiquei que todos os atributos role têm um valor válido",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "role_01",
+    "Referencia": "674b10",
+    "CriteriosRelacionados": "4.1.2",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button id=\"tab-dois\" role=\"tab\" aria-selected=\"false\" aria-controls=\"painel-dois\">Detalhes</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > button:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Elementos com atributo role válido",
+    "Descricao": "Verifiquei que todos os atributos role têm um valor válido",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "role_01",
+    "Referencia": "674b10",
+    "CriteriosRelacionados": "4.1.2",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<section id=\"painel-um\" role=\"tabpanel\" aria-labelledby=\"tab-um\" aria-describedby=\"ajuda\">\n    Resumo\n    Conteudo do resumo.\n  </section>",
+          "pointer": "html > body:nth-child(2) > section:nth-child(4)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Elementos com atributo role válido",
+    "Descricao": "Verifiquei que todos os atributos role têm um valor válido",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "role_01",
+    "Referencia": "674b10",
+    "CriteriosRelacionados": "4.1.2",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<div role=\"dialog\" aria-labelledby=\"titulo-dialogo\" aria-describedby=\"texto-dialogo\">\n    Dialogo de teste\n    Descricao do dialogo.\n    X\n  </div>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Elementos dentro do contexto obrigatório",
+    "Descricao": "Verifiquei que todos os elementos com papel semântico definido explicitamente estão dentro dos contextos obrigatórios.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_01",
+    "Referencia": "ff89c9",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button id=\"tab-um\" role=\"tab\" aria-selected=\"true\" aria-controls=\"painel-um\">Resumo</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > button:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Elementos dentro do contexto obrigatório",
+    "Descricao": "Verifiquei que todos os elementos com papel semântico definido explicitamente estão dentro dos contextos obrigatórios.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aria_01",
+    "Referencia": "ff89c9",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button id=\"tab-dois\" role=\"tab\" aria-selected=\"false\" aria-controls=\"painel-dois\">Detalhes</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > button:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Elementos interativos com conteúdo textual",
+    "Descricao": "Constatei que todos os elementos interativos têm no seu nome acessível o texto visível das etiquetas",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "label_01",
+    "Referencia": "G208",
+    "CriteriosRelacionados": "2.5.3",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button aria-label=\"Fechar dialogo\">X</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6) > button:nth-child(3)",
+          "accessibleName": "Fechar dialogo"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Cabeçalhos com nome acessível",
+    "Descricao": "Constatei que todos os cabeçalhos desta página têm nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "heading_01",
+    "Referencia": "H42",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h1>Atributos ARIA e estados</h1>",
+          "pointer": "html > body:nth-child(2) > h1:nth-child(1)",
+          "accessibleName": "Atributos ARIA e estados"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Cabeçalhos com nome acessível",
+    "Descricao": "Constatei que todos os cabeçalhos desta página têm nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "heading_01",
+    "Referencia": "H42",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Resumo</h2>",
+          "pointer": "html > body:nth-child(2) > section:nth-child(4) > h2:nth-child(1)",
+          "accessibleName": "Resumo"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Cabeçalhos com nome acessível",
+    "Descricao": "Constatei que todos os cabeçalhos desta página têm nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "heading_01",
+    "Referencia": "H42",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2 id=\"titulo-dialogo\">Dialogo de teste</h2>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6) > h2:nth-child(1)",
+          "accessibleName": "Dialogo de teste"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h1>Atributos ARIA e estados</h1>",
+          "pointer": "html > body:nth-child(2) > h1:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<p id=\"ajuda\">Escolha uma aba para consultar os detalhes.</p>",
+          "pointer": "html > body:nth-child(2) > p:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button id=\"tab-um\" role=\"tab\" aria-selected=\"true\" aria-controls=\"painel-um\">Resumo</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > button:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button id=\"tab-dois\" role=\"tab\" aria-selected=\"false\" aria-controls=\"painel-dois\">Detalhes</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > button:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Resumo</h2>",
+          "pointer": "html > body:nth-child(2) > section:nth-child(4) > h2:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<p>Conteudo do resumo.</p>",
+          "pointer": "html > body:nth-child(2) > section:nth-child(4) > p:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2 id=\"titulo-dialogo\">Dialogo de teste</h2>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6) > h2:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<p id=\"texto-dialogo\">Descricao do dialogo.</p>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6) > p:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button aria-label=\"Fechar dialogo\">X</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6) > button:nth-child(3)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Elementos com descendentes decorativos",
+    "Descricao": "Constatei que todos os elementos com um papel semântico que confere aos seus descendentes um papel decorativo, não têm descendentes focáveis",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "element_08",
+    "Referencia": "307n5z",
+    "CriteriosRelacionados": "4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button id=\"tab-um\" role=\"tab\" aria-selected=\"true\" aria-controls=\"painel-um\">Resumo</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > button:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Elementos com descendentes decorativos",
+    "Descricao": "Constatei que todos os elementos com um papel semântico que confere aos seus descendentes um papel decorativo, não têm descendentes focáveis",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "element_08",
+    "Referencia": "307n5z",
+    "CriteriosRelacionados": "4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button id=\"tab-dois\" role=\"tab\" aria-selected=\"false\" aria-controls=\"painel-dois\">Detalhes</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > button:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Elementos com descendentes decorativos",
+    "Descricao": "Constatei que todos os elementos com um papel semântico que confere aos seus descendentes um papel decorativo, não têm descendentes focáveis",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "element_08",
+    "Referencia": "307n5z",
+    "CriteriosRelacionados": "4.1.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button aria-label=\"Fechar dialogo\">X</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6) > button:nth-child(3)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h1>Atributos ARIA e estados</h1>",
+          "pointer": "html > body:nth-child(2) > h1:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<p id=\"ajuda\">Escolha uma aba para consultar os detalhes.</p>",
+          "pointer": "html > body:nth-child(2) > p:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button id=\"tab-um\" role=\"tab\" aria-selected=\"true\" aria-controls=\"painel-um\">Resumo</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > button:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button id=\"tab-dois\" role=\"tab\" aria-selected=\"false\" aria-controls=\"painel-dois\">Detalhes</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > button:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Resumo</h2>",
+          "pointer": "html > body:nth-child(2) > section:nth-child(4) > h2:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<p>Conteudo do resumo.</p>",
+          "pointer": "html > body:nth-child(2) > section:nth-child(4) > p:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2 id=\"titulo-dialogo\">Dialogo de teste</h2>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6) > h2:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<p id=\"texto-dialogo\">Descricao do dialogo.</p>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6) > p:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button aria-label=\"Fechar dialogo\">X</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6) > button:nth-child(3)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Erro",
+    "Criterio": "Link que não pula para o conteúdo principal",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aSkipFirstNo",
+    "Referencia": "",
+    "CriteriosRelacionados": "",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button id=\"tab-um\" role=\"tab\" aria-selected=\"true\" aria-controls=\"painel-um\">Resumo</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > button:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Atributos id",
+    "Descricao": "Constatei que nesta página não há atributos id repetidos.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "id_01",
+    "Referencia": "H93",
+    "CriteriosRelacionados": "4.1.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<p id=\"ajuda\">Escolha uma aba para consultar os detalhes.</p>",
+          "pointer": "html > body:nth-child(2) > p:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Atributos id",
+    "Descricao": "Constatei que nesta página não há atributos id repetidos.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "id_01",
+    "Referencia": "H93",
+    "CriteriosRelacionados": "4.1.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button id=\"tab-um\" role=\"tab\" aria-selected=\"true\" aria-controls=\"painel-um\">Resumo</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > button:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Atributos id",
+    "Descricao": "Constatei que nesta página não há atributos id repetidos.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "id_01",
+    "Referencia": "H93",
+    "CriteriosRelacionados": "4.1.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<button id=\"tab-dois\" role=\"tab\" aria-selected=\"false\" aria-controls=\"painel-dois\">Detalhes</button>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(3) > button:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Atributos id",
+    "Descricao": "Constatei que nesta página não há atributos id repetidos.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "id_01",
+    "Referencia": "H93",
+    "CriteriosRelacionados": "4.1.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<section id=\"painel-um\" role=\"tabpanel\" aria-labelledby=\"tab-um\" aria-describedby=\"ajuda\">\n    Resumo\n    Conteudo do resumo.\n  </section>",
+          "pointer": "html > body:nth-child(2) > section:nth-child(4)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Atributos id",
+    "Descricao": "Constatei que nesta página não há atributos id repetidos.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "id_01",
+    "Referencia": "H93",
+    "CriteriosRelacionados": "4.1.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<section id=\"painel-dois\" role=\"tabpanel\" aria-labelledby=\"tab-dois\" hidden=\"\">\n    Detalhes\n    Conteudo dos detalhes.\n  </section>",
+          "pointer": "html > body:nth-child(2) > section:nth-child(5)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Atributos id",
+    "Descricao": "Constatei que nesta página não há atributos id repetidos.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "id_01",
+    "Referencia": "H93",
+    "CriteriosRelacionados": "4.1.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2 id=\"titulo-dialogo\">Dialogo de teste</h2>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6) > h2:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Atributos id",
+    "Descricao": "Constatei que nesta página não há atributos id repetidos.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "id_01",
+    "Referencia": "H93",
+    "CriteriosRelacionados": "4.1.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<p id=\"texto-dialogo\">Descricao do dialogo.</p>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6) > p:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Aviso",
+    "Criterio": "Cabeçalhos (h1 - h6)",
+    "Descricao": "Encontrei 1 cabeçalho na página.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "hx_01b",
+    "Referencia": "G141",
+    "CriteriosRelacionados": "1.3.1,2.4.10",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h1>Atributos ARIA e estados</h1>",
+          "pointer": "html > body:nth-child(2) > h1:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Aviso",
+    "Criterio": "Cabeçalhos (h1 - h6)",
+    "Descricao": "Encontrei 1 cabeçalho na página.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "hx_01b",
+    "Referencia": "G141",
+    "CriteriosRelacionados": "1.3.1,2.4.10",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2>Resumo</h2>",
+          "pointer": "html > body:nth-child(2) > section:nth-child(4) > h2:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Aviso",
+    "Criterio": "Cabeçalhos (h1 - h6)",
+    "Descricao": "Encontrei 1 cabeçalho na página.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "hx_01b",
+    "Referencia": "G141",
+    "CriteriosRelacionados": "1.3.1,2.4.10",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h2 id=\"titulo-dialogo\">Dialogo de teste</h2>",
+          "pointer": "html > body:nth-child(2) > div:nth-child(6) > h2:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "onlyOneh1",
+    "Descricao": "Identifiquei exatamente um cabeçalho de nível 1.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "heading_03",
+    "Referencia": "H42",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h1>Atributos ARIA e estados</h1>",
+          "pointer": "html > body:nth-child(2) > h1:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "9.6",
+    "Tipo de erro": "Erro",
+    "Criterio": "Sem links para contornar blocos de conteúdo",
+    "Descricao": "Não encontrei link para saltar blocos de texto.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "a_02a",
+    "Referencia": "G123",
+    "CriteriosRelacionados": "2.4.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": []
+    }
+  }
+]

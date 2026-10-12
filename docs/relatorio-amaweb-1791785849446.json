@@ -1,0 +1,668 @@
+[
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Título da página",
+    "Descricao": "Encontrei um título na página e ele me parece correto.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "title_06",
+    "Referencia": "H25",
+    "CriteriosRelacionados": "2.4.2",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<title>Fixtures de teste AMAWeb</title>",
+          "pointer": "html > head:nth-child(1) > title:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Idioma principal da página",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "lang",
+    "Referencia": "",
+    "CriteriosRelacionados": "",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<html lang=\"pt-BR\"><head></head><body></body></html>",
+          "pointer": "html"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Hiperligações com nome acessível não vazio",
+    "Descricao": "Verifiquei que todos os links têm nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "a_10",
+    "Referencia": "G91",
+    "CriteriosRelacionados": "4.1.2,2.4.4,2.4.9",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<a href=\"formulario.html\">Formulario e dados sensiveis</a>",
+          "pointer": "html > body:nth-child(2) > ol:nth-child(4) > li:nth-child(1) > a:nth-child(1)",
+          "accessibleName": "Formulario e dados sensiveis"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Hiperligações com nome acessível não vazio",
+    "Descricao": "Verifiquei que todos os links têm nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "a_10",
+    "Referencia": "G91",
+    "CriteriosRelacionados": "4.1.2,2.4.4,2.4.9",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<a href=\"contenteditable.html\">Conteudo editavel</a>",
+          "pointer": "html > body:nth-child(2) > ol:nth-child(4) > li:nth-child(2) > a:nth-child(1)",
+          "accessibleName": "Conteudo editavel"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Hiperligações com nome acessível não vazio",
+    "Descricao": "Verifiquei que todos os links têm nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "a_10",
+    "Referencia": "G91",
+    "CriteriosRelacionados": "4.1.2,2.4.4,2.4.9",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<a href=\"aria.html\">Atributos ARIA e estados</a>",
+          "pointer": "html > body:nth-child(2) > ol:nth-child(4) > li:nth-child(3) > a:nth-child(1)",
+          "accessibleName": "Atributos ARIA e estados"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Hiperligações com nome acessível não vazio",
+    "Descricao": "Verifiquei que todos os links têm nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "a_10",
+    "Referencia": "G91",
+    "CriteriosRelacionados": "4.1.2,2.4.4,2.4.9",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<a href=\"problemas.html\">Problemas de acessibilidade conhecidos</a>",
+          "pointer": "html > body:nth-child(2) > ol:nth-child(4) > li:nth-child(4) > a:nth-child(1)",
+          "accessibleName": "Problemas de acessibilidade conhecidos"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Hiperligações com nome acessível não vazio",
+    "Descricao": "Verifiquei que todos os links têm nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "a_10",
+    "Referencia": "G91",
+    "CriteriosRelacionados": "4.1.2,2.4.4,2.4.9",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<a href=\"limpa.html\">Pagina limpa de referencia</a>",
+          "pointer": "html > body:nth-child(2) > ol:nth-child(4) > li:nth-child(5) > a:nth-child(1)",
+          "accessibleName": "Pagina limpa de referencia"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Cabeçalhos com nome acessível",
+    "Descricao": "Constatei que todos os cabeçalhos desta página têm nome acessível.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "heading_01",
+    "Referencia": "H42",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h1>Fixtures de teste AMAWeb</h1>",
+          "pointer": "html > body:nth-child(2) > h1:nth-child(1)",
+          "accessibleName": "Fixtures de teste AMAWeb"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h1>Fixtures de teste AMAWeb</h1>",
+          "pointer": "html > body:nth-child(2) > h1:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<p>Abra cada pagina com a extensao e avalie com a sanitizacao ativada e desativada.</p>",
+          "pointer": "html > body:nth-child(2) > p:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<p>Para arquivos locais, ative \"Permitir acesso a URLs de arquivos\" nos detalhes da extensao.</p>",
+          "pointer": "html > body:nth-child(2) > p:nth-child(3)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<a href=\"formulario.html\">Formulario e dados sensiveis</a>",
+          "pointer": "html > body:nth-child(2) > ol:nth-child(4) > li:nth-child(1) > a:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<a href=\"contenteditable.html\">Conteudo editavel</a>",
+          "pointer": "html > body:nth-child(2) > ol:nth-child(4) > li:nth-child(2) > a:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<a href=\"aria.html\">Atributos ARIA e estados</a>",
+          "pointer": "html > body:nth-child(2) > ol:nth-child(4) > li:nth-child(3) > a:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<a href=\"problemas.html\">Problemas de acessibilidade conhecidos</a>",
+          "pointer": "html > body:nth-child(2) > ol:nth-child(4) > li:nth-child(4) > a:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "colorContrastOk",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "color_02_b",
+    "Referencia": "G145",
+    "CriteriosRelacionados": "1.4.3",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<a href=\"limpa.html\">Pagina limpa de referencia</a>",
+          "pointer": "html > body:nth-child(2) > ol:nth-child(4) > li:nth-child(5) > a:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h1>Fixtures de teste AMAWeb</h1>",
+          "pointer": "html > body:nth-child(2) > h1:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<p>Abra cada pagina com a extensao e avalie com a sanitizacao ativada e desativada.</p>",
+          "pointer": "html > body:nth-child(2) > p:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<p>Para arquivos locais, ative \"Permitir acesso a URLs de arquivos\" nos detalhes da extensao.</p>",
+          "pointer": "html > body:nth-child(2) > p:nth-child(3)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<a href=\"formulario.html\">Formulario e dados sensiveis</a>",
+          "pointer": "html > body:nth-child(2) > ol:nth-child(4) > li:nth-child(1) > a:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<a href=\"contenteditable.html\">Conteudo editavel</a>",
+          "pointer": "html > body:nth-child(2) > ol:nth-child(4) > li:nth-child(2) > a:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<a href=\"aria.html\">Atributos ARIA e estados</a>",
+          "pointer": "html > body:nth-child(2) > ol:nth-child(4) > li:nth-child(3) > a:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<a href=\"problemas.html\">Problemas de acessibilidade conhecidos</a>",
+          "pointer": "html > body:nth-child(2) > ol:nth-child(4) > li:nth-child(4) > a:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Combinações de cor com relação de contraste superior a 7:1 para texto normal ou 4.5:1 para texto grande",
+    "Descricao": "Verifiquei que todas as combinações de cor têm uma relação de contraste superior ao sugerido pelas WCAG, ou seja 4,5 para 1 para texto com letra grande e 7 para 1 para texto com letra normal.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "textC_01",
+    "Referencia": "G17",
+    "CriteriosRelacionados": "1.4.6",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<a href=\"limpa.html\">Pagina limpa de referencia</a>",
+          "pointer": "html > body:nth-child(2) > ol:nth-child(4) > li:nth-child(5) > a:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Erro",
+    "Criterio": "Link que não pula para o conteúdo principal",
+    "Descricao": "",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "aSkipFirstNo",
+    "Referencia": "",
+    "CriteriosRelacionados": "",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<a href=\"formulario.html\">Formulario e dados sensiveis</a>",
+          "pointer": "html > body:nth-child(2) > ol:nth-child(4) > li:nth-child(1) > a:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Aviso",
+    "Criterio": "Cabeçalhos (h1 - h6)",
+    "Descricao": "Encontrei 1 cabeçalho na página.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "hx_01b",
+    "Referencia": "G141",
+    "CriteriosRelacionados": "1.3.1,2.4.10",
+    "Nivel de Conformidade": "AAA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h1>Fixtures de teste AMAWeb</h1>",
+          "pointer": "html > body:nth-child(2) > h1:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "onlyOneh1",
+    "Descricao": "Identifiquei exatamente um cabeçalho de nível 1.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "heading_03",
+    "Referencia": "H42",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "A",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<h1>Fixtures de teste AMAWeb</h1>",
+          "pointer": "html > body:nth-child(2) > h1:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Itens de lista utilizados dentro de listas",
+    "Descricao": "Verifiquei que todos os elementos <li> estão contidos dentro de uma lista.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "listitem_01",
+    "Referencia": "H48",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<li>Formulario e dados sensiveis</li>",
+          "pointer": "html > body:nth-child(2) > ol:nth-child(4) > li:nth-child(1)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Itens de lista utilizados dentro de listas",
+    "Descricao": "Verifiquei que todos os elementos <li> estão contidos dentro de uma lista.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "listitem_01",
+    "Referencia": "H48",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<li>Conteudo editavel</li>",
+          "pointer": "html > body:nth-child(2) > ol:nth-child(4) > li:nth-child(2)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Itens de lista utilizados dentro de listas",
+    "Descricao": "Verifiquei que todos os elementos <li> estão contidos dentro de uma lista.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "listitem_01",
+    "Referencia": "H48",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<li>Atributos ARIA e estados</li>",
+          "pointer": "html > body:nth-child(2) > ol:nth-child(4) > li:nth-child(3)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Itens de lista utilizados dentro de listas",
+    "Descricao": "Verifiquei que todos os elementos <li> estão contidos dentro de uma lista.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "listitem_01",
+    "Referencia": "H48",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<li>Problemas de acessibilidade conhecidos</li>",
+          "pointer": "html > body:nth-child(2) > ol:nth-child(4) > li:nth-child(4)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Itens de lista utilizados dentro de listas",
+    "Descricao": "Verifiquei que todos os elementos <li> estão contidos dentro de uma lista.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "listitem_01",
+    "Referencia": "H48",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<li>Pagina limpa de referencia</li>",
+          "pointer": "html > body:nth-child(2) > ol:nth-child(4) > li:nth-child(5)"
+        }
+      ]
+    }
+  },
+  {
+    "Pontuação": "10.0",
+    "Tipo de erro": "Sucesso",
+    "Criterio": "Listas só com itens de lista",
+    "Descricao": "Verifiquei que todas as listas só contêm itens de lista.",
+    "Numero de ocorrencias": 1,
+    "Valor": 1,
+    "Regra": "list_02",
+    "Referencia": "H48",
+    "CriteriosRelacionados": "1.3.1",
+    "Nivel de Conformidade": "AA",
+    "Elementos": {
+      "elementosHtml": [
+        {
+          "htmlCode": "<ol>\n    Formulario e dados sensiveis\n    Conteudo editavel\n    Atributos ARIA e estados\n    Problemas de acessibilidade conhecidos\n    Pagina limpa de referencia\n  </ol>",
+          "pointer": "html > body:nth-child(2) > ol:nth-child(4)"
+        }
+      ]
+    }
+  }
+]

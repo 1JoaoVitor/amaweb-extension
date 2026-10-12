@@ -25,6 +25,18 @@
         <button id="btn-baixar-json" class="btn-outline" type="button" disabled>Baixar JSON</button>
       </div>
 
+      <section class="privacy-notice" role="alert" aria-labelledby="privacy-notice-title">
+        <div class="privacy-notice-header">
+          <h4 id="privacy-notice-title">Antes de avaliar</h4>
+          <button id="fechar-aviso-privacidade" class="privacy-notice-close" type="button" aria-label="Fechar aviso e não mostrar novamente" hidden>×</button>
+        </div>
+        <p>O HTML da página atual será enviado ao servidor AMAWeb para análise. Evite avaliar páginas com informações sensíveis.</p>
+        <label class="privacy-confirmation">
+          <input type="checkbox" id="aceite-privacidade">
+          <span>Entendi e quero continuar</span>
+        </label>
+      </section>
+
       <!-- 2. BLOCO DE CONFIGURAÇÕES (Agrupado com bordas retas) -->
       <div class="settings-group">
         <div class="options-row">
@@ -34,6 +46,16 @@
           </label>
           <label class="am-switch">
             <input type="checkbox" id="toggle-contagem" checked>
+            <span class="am-slider"></span>
+          </label>
+        </div>
+        <div class="options-row">
+          <label for="toggle-sanitizacao" class="options-label">
+            Sanitizar dados sensíveis
+            <span>Remove valores de formulários antes do envio</span>
+          </label>
+          <label class="am-switch">
+            <input type="checkbox" id="toggle-sanitizacao" checked>
             <span class="am-slider"></span>
           </label>
         </div>
@@ -107,6 +129,13 @@
           <option value="padrao">Ordem Padrão</option>
           <option value="ocorrencias-desc">Mais ocorrências</option>
           <option value="ocorrencias-asc">Menos ocorrências</option>
+        </select>
+
+        <select id="filtro-visibilidade" class="am-select">
+          <option value="todos">Qualquer visibilidade</option>
+          <option value="visiveis">Apenas itens visíveis</option>
+          <option value="ocultos">Apenas itens ocultos</option>
+          <option value="contem_ocultos">Contém itens ocultos</option>
         </select>
       </div>
       

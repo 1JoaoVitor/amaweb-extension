@@ -21,7 +21,10 @@ export function registrarRoteadorDeMensagens() {
       }
 
       try {
-        const responseHtml = await chrome.tabs.sendMessage(activeTab.id, { action: ACOES.CAPTURAR_HTML });
+        const responseHtml = await chrome.tabs.sendMessage(activeTab.id, {
+          action: ACOES.CAPTURAR_HTML,
+          sanitizar: request.sanitizar !== false
+        });
         if (!responseHtml?.sucesso || typeof responseHtml.html !== 'string' || !responseHtml.html.trim()) {
           sendResponse({ sucesso: false, erro: 'Falha ao capturar o HTML da página.' });
           return;

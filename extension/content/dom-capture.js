@@ -1,9 +1,22 @@
 (() => {
-  function capturar() {
+  function capturar(sanitizar = true) {
     try {
       const documentClone = document.documentElement.cloneNode(true);
-      const elementosInuteis = documentClone.querySelectorAll('script, style, link[rel="stylesheet"], svg, video, iframe, canvas, noscript');
+      const elementosInuteis = documentClone.querySelectorAll('script, style, link[rel="stylesheet"], svg, video, iframe, canvas, noscript, [id^="amaweb-"], [class^="amaweb-"], [class*=" amaweb-"]');
       elementosInuteis.forEach(elemento => elemento.remove());
+
+      if (sanitizar) {
+        documentClone.querySelectorAll('input').forEach(elemento => {
+          elemento.removeAttribute('value');
+          elemento.value = '';
+        });
+
+        documentClone.querySelectorAll('select').forEach(elemento => {
+          elemento.querySelectorAll('option[selected]').forEach(opcao => opcao.removeAttribute('selected'));
+          elemento.selectedIndex = -1;
+        });
+
+      }
 
       documentClone.querySelectorAll('img, source').forEach(elemento => {
         if (elemento.getAttribute('src')?.startsWith('data:image')) elemento.setAttribute('src', '');
@@ -31,7 +44,7 @@
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === 'CAPTURE_HTML') {
     // Chama a função global de captura que já existe neste arquivo
-    sendResponse(globalThis.AmawebDomCapture.capturar());
+    sendResponse(globalThis.AmawebDomCapture.capturar(request.sanitizar !== false));
     return true;
   }
 });

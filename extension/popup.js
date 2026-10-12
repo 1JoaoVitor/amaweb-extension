@@ -18,6 +18,61 @@ const MENSAGENS_ERRO_API = {
 
 const cachePronto = cacheAvaliacoes.hydrate();
 
+const btnAnalisar = document.getElementById('btn-analisar');
+const aceitePrivacidade = document.getElementById('aceite-privacidade');
+const avisoPrivacidade = document.querySelector('.privacy-notice');
+const fecharAvisoPrivacidade = document.getElementById('fechar-aviso-privacidade');
+const toggleSanitizacao = document.getElementById('toggle-sanitizacao');
+const CHAVE_AVISO_PRIVACIDADE = 'amaweb-privacy-notice-dismissed';
+const CHAVE_SANITIZACAO = 'amaweb-sanitize-html';
+
+function registrarFalhaDeMensagem(contexto, error) {
+  const mensagem = error?.message || String(error);
+  const log = mensagem.includes('Receiving end does not exist') ? console.debug : console.warn;
+  log(`[Extension] Falha em ${contexto}:`, error);
+}
+
+btnAnalisar.disabled = true;
+aceitePrivacidade.addEventListener('change', () => {
+  btnAnalisar.disabled = !aceitePrivacidade.checked;
+  fecharAvisoPrivacidade.hidden = !aceitePrivacidade.checked;
+  if (aceitePrivacidade.checked) {
+    chrome.storage.local.set({ [CHAVE_AVISO_PRIVACIDADE]: true });
+  }
+});
+
+fecharAvisoPrivacidade.addEventListener('click', async () => {
+  try {
+    await chrome.storage.local.set({ [CHAVE_AVISO_PRIVACIDADE]: true });
+  } catch (error) {
+    console.warn('[Extension] Não foi possível salvar a preferência do aviso:', error);
+  }
+
+  avisoPrivacidade.hidden = true;
+  btnAnalisar.disabled = false;
+});
+
+chrome.storage.local.get(CHAVE_AVISO_PRIVACIDADE).then(preferencias => {
+  if (preferencias[CHAVE_AVISO_PRIVACIDADE]) {
+    avisoPrivacidade.hidden = true;
+    btnAnalisar.disabled = false;
+  }
+}).catch(error => {
+  console.warn('[Extension] Não foi possível carregar a preferência do aviso:', error);
+});
+
+chrome.storage.local.get({ [CHAVE_SANITIZACAO]: true }).then(preferencias => {
+  toggleSanitizacao.checked = preferencias[CHAVE_SANITIZACAO];
+}).catch(error => {
+  console.warn('[Extension] Não foi possível carregar a preferência de sanitização:', error);
+});
+
+toggleSanitizacao.addEventListener('change', () => {
+  chrome.storage.local.set({ [CHAVE_SANITIZACAO]: toggleSanitizacao.checked }).catch(error => {
+    console.warn('[Extension] Não foi possível salvar a preferência de sanitização:', error);
+  });
+});
+
 // LÓGICA DAS ABAS
 document.getElementById('tab-geral').addEventListener('click', () => {
   document.getElementById('tab-geral').classList.add('active');
@@ -84,7 +139,10 @@ document.getElementById('btn-analisar').addEventListener('click', async () => {
     const dicionarioAMA = await responseTraducoes.json();
 
     const response = await new Promise((resolve) => {
-      chrome.runtime.sendMessage({ action: "EVALUATE_API" }, resolve);
+      chrome.runtime.sendMessage({
+        action: "EVALUATE_API",
+        sanitizar: toggleSanitizacao.checked
+      }, resolve);
     });
 
     if (!response || !response.sucesso) {
@@ -101,6 +159,10 @@ document.getElementById('btn-analisar').addEventListener('click', async () => {
     const scoreGeral = String(validacao.data.score) || "0.0";
     const dadosAvaliacao = adaptarJsonAmaWeb(validacao.data.nodes, scoreGeral, dicionarioAMA);
 
+    // Evita aplicar uma resposta antiga depois que a página mudou durante a avaliação.
+    const abaAtual = await chrome.tabs.get(tab.id).catch(() => null);
+    if (!abaAtual || abaAtual.url !== tab.url) return;
+
     const listaDetalhada = document.getElementById('lista-detalhada');
     listaDetalhada.replaceChildren();
     limparRegraAtiva();
@@ -113,7 +175,7 @@ document.getElementById('btn-analisar').addEventListener('click', async () => {
     await chrome.tabs.sendMessage(tab.id, { 
       action: "RENDER_OVERLAYS", 
       data: dadosAvaliacao 
-    }).catch(() => {});
+    }).catch(error => registrarFalhaDeMensagem('renderização dos overlays', error));
 
     atualizarListaDeResultados(dadosAvaliacao, tab);
 
@@ -166,7 +228,8 @@ document.getElementById('btn-analisar').addEventListener('click', async () => {
 document.getElementById('btn-limpar').addEventListener('click', async () => {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   if (!tab) return;
-  chrome.tabs.sendMessage(tab.id, { action: "CLEAR_OVERLAYS" }).catch(() => {});
+  chrome.tabs.sendMessage(tab.id, { action: "CLEAR_OVERLAYS" })
+    .catch(error => registrarFalhaDeMensagem('limpeza dos overlays', error));
 });
 
 async function resetarPainel(limparAbaId = true) {
@@ -222,14 +285,19 @@ function restaurarDoCache(tabId, tab) {
 }
 
 chrome.tabs.onActivated.addListener(async (activeInfo) => {
-  await cachePronto;
-  const tabId = activeInfo.tabId;
-  const tab = await chrome.tabs.get(tabId);
+  try {
+    await cachePronto;
+    const tabId = activeInfo.tabId;
+    const tab = await chrome.tabs.get(tabId);
 
-  const cache = cacheAvaliacoes.get(tabId);
-  if (cache && cache.url === tab.url) {
-    restaurarDoCache(tabId, tab);
-  } else {
+    const cache = cacheAvaliacoes.get(tabId);
+    if (cache && cache.url === tab.url) {
+      restaurarDoCache(tabId, tab);
+    } else {
+      resetarPainel(true);
+    }
+  } catch (error) {
+    console.warn('[Extension] Não foi possível restaurar a aba ativa:', error);
     resetarPainel(true);
   }
 });
@@ -244,7 +312,8 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
       const mudancaViaSPA = (changeInfo.url && changeInfo.status !== 'loading');
       
       if (mudancaViaSPA) {
-        chrome.tabs.sendMessage(tabId, { action: "CLEAR_OVERLAYS" }).catch(() => {});
+        chrome.tabs.sendMessage(tabId, { action: "CLEAR_OVERLAYS" })
+          .catch(error => registrarFalhaDeMensagem('limpeza dos overlays após navegação', error));
       }
       resetarPainel(true); 
     }
@@ -324,7 +393,7 @@ chrome.runtime.onMessage.addListener((message) => {
   }
 });
 
-['filtro-tipo', 'filtro-nivel', 'ordenacao'].forEach(id => {
+['filtro-tipo', 'filtro-nivel', 'ordenacao', 'filtro-visibilidade'].forEach(id => {
   document.getElementById(id)?.addEventListener('change', async () => {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     const cache = cacheAvaliacoes.get(tab.id);

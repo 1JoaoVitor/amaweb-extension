@@ -4,7 +4,9 @@ Registro da arquitetura atual, melhorias implementadas, correções prioritária
 
 ---
 
-## Estado Atual (agosto 2026)
+## Estado Atual (outubro 2026)
+
+> Atualização: a auditoria de segurança, separação de CSS, validação da API, exportação, JSDoc, sanitização seletiva e testes automatizados já foram implementados. Itens ainda marcados como pendentes devem ser lidos como histórico ou roadmap futuro.
 
 ### ✅ Implementado
 
@@ -13,12 +15,15 @@ Registro da arquitetura atual, melhorias implementadas, correções prioritária
 - `background/service-worker.js`: gerencia o ciclo de vida, abre o Side Panel e roteia mensagens
 - `background/api-client.js`: faz requisições para o backend da API AMAWeb
 - `background/message-router.js`: centraliza a comunicação entre contextos
-- `content.js`: injeta overlays e gerencia destaque de elementos na página
+- `content/dom-capture.js`: captura o DOM e aplica sanitização opcional
+- `content/overlay-manager.js`: injeta overlays e gerencia destaque de elementos na página
 - `sidepanel/findings-renderer.js`: renderiza cards de erros, filtros e ordenação
 - `popup.html` e `popup.js`: interface do painel lateral com abas (Geral e Detalhes)
 - `core/amaweb-adapter.js`: converte respostas da API com tradução plural, nível WCAG e referências
 - `core/cache-store.js`: mantém cache em memória e persiste em `chrome.storage.session`
-- `core/tests-catalog.js` e `core/tests-colors.js`: catálogos de metadados derivados do pacote oficial
+- `core/tests-catalog.js`: catálogo de metadados derivado do pacote oficial
+- `core/validators.js`: validação do schema da API
+- `core/export-report.js`: geração e download de relatórios JSON
 - `translations.json`: dicionário de traduções em português com `ELEMS` e `TESTS_RESULTS`
 
 **Funcionalidades operacionais:**
@@ -145,7 +150,9 @@ extension/
 ### P2: Funcionalidades Faltando
 
 **Testes unitários:**
-- 0 testes encontrados no repositório
+- ✅ 9 testes automatizados com `node:test`
+- Cobertura inicial: adaptador, cache, validadores, exportação JSON e captura/sanitização do DOM
+- Execução: `npm test`
 - **Prioridade:** Testes para adaptador, cache e validação de API
 - **Tecnologia:** Vitest, Jest ou Node.js nativo
 
