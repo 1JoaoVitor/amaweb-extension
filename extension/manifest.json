@@ -33,7 +33,8 @@
       "matches": ["<all_urls>"],
       "js": [
         "content/dom-capture.js",
-        "content/overlay-manager.js"
+        "content/overlay-manager.js",
+        "content/focus-order-manager.js"
       ],
       "css": ["overlay.css"]
     }

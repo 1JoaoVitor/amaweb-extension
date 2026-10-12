@@ -6,6 +6,8 @@ faça a mesma coisa:
 
 A versão atual inclui validação da API, timeout de 300 segundos, cache por aba, overlays sem contaminação da captura, sanitização seletiva de formulários, aviso de privacidade, exportação JSON, separação de CSS e testes automatizados.
 
+Também inclui um protótipo independente de **Ordem de Foco**, que numera elementos focáveis visíveis e permite mover o foco ao clicar em um marcador.
+
 Execute os testes com:
 
 ```bash

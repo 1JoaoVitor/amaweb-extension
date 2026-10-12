@@ -171,6 +171,10 @@ Páginas locais podem ser avaliadas quando o usuário permite acesso a URLs de a
 
 A extensão avalia o DOM capturado no momento da solicitação. Alterações posteriores feitas por JavaScript, conteúdo carregado depois da captura ou estados que exigem interação podem não estar representados no relatório. Para esses casos, o usuário deve deixar a página no estado que deseja avaliar antes de iniciar a análise.
 
+### Ordem de foco
+
+Foi adicionado um protótipo independente que identifica elementos focáveis visíveis, numera-os conforme a ordem de `tabIndex` e do DOM e permite mover o foco ao clicar nos marcadores. A implementação inicial não pretende reproduzir toda a lógica do navegador ou da WAVE: Shadow DOM, iframes e widgets com gerenciamento avançado de foco permanecem fora do escopo atual.
+
 ## Fixtures Locais de Teste
 
 Foram criadas páginas controladas em `docs/test-pages/` para comparar a avaliação com a sanitização ativada e desativada:

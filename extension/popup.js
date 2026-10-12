@@ -230,6 +230,29 @@ document.getElementById('btn-limpar').addEventListener('click', async () => {
   if (!tab) return;
   chrome.tabs.sendMessage(tab.id, { action: "CLEAR_OVERLAYS" })
     .catch(error => registrarFalhaDeMensagem('limpeza dos overlays', error));
+  chrome.tabs.sendMessage(tab.id, { action: "CLEAR_FOCUS_ORDER" })
+    .catch(error => registrarFalhaDeMensagem('limpeza da ordem de foco', error));
+  const btnOrdemFoco = document.getElementById('btn-ordem-foco');
+  if (btnOrdemFoco) {
+    btnOrdemFoco.dataset.ativo = 'false';
+    btnOrdemFoco.textContent = 'Ordem de Foco';
+  }
+});
+
+document.getElementById('btn-ordem-foco').addEventListener('click', async event => {
+  const button = event.currentTarget;
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  if (!tab) return;
+
+  const ativar = button.dataset.ativo !== 'true';
+  const action = ativar ? 'RENDER_FOCUS_ORDER' : 'CLEAR_FOCUS_ORDER';
+  try {
+    const response = await chrome.tabs.sendMessage(tab.id, { action });
+    button.dataset.ativo = String(ativar);
+    button.textContent = ativar ? `Ordem de Foco (${response?.count || 0})` : 'Ordem de Foco';
+  } catch (error) {
+    registrarFalhaDeMensagem('ordem de foco', error);
+  }
 });
 
 async function resetarPainel(limparAbaId = true) {
@@ -242,6 +265,11 @@ async function resetarPainel(limparAbaId = true) {
   if (errorPanel) errorPanel.style.display = "none";
   if (loadingPanel) loadingPanel.style.display = "none";
   if (btnAnalisar) btnAnalisar.innerText = "Avaliar Página";
+  const btnOrdemFoco = document.getElementById('btn-ordem-foco');
+  if (btnOrdemFoco) {
+    btnOrdemFoco.dataset.ativo = 'false';
+    btnOrdemFoco.textContent = 'Ordem de Foco';
+  }
   
   const listaDetalhada = document.getElementById('lista-detalhada');
   if (listaDetalhada) {
