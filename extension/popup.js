@@ -22,9 +22,7 @@ const btnAnalisar = document.getElementById('btn-analisar');
 const aceitePrivacidade = document.getElementById('aceite-privacidade');
 const avisoPrivacidade = document.querySelector('.privacy-notice');
 const fecharAvisoPrivacidade = document.getElementById('fechar-aviso-privacidade');
-const toggleSanitizacao = document.getElementById('toggle-sanitizacao');
 const CHAVE_AVISO_PRIVACIDADE = 'amaweb-privacy-notice-dismissed';
-const CHAVE_SANITIZACAO = 'amaweb-sanitize-html';
 
 function registrarFalhaDeMensagem(contexto, error) {
   const mensagem = error?.message || String(error);
@@ -59,18 +57,6 @@ chrome.storage.local.get(CHAVE_AVISO_PRIVACIDADE).then(preferencias => {
   }
 }).catch(error => {
   console.warn('[Extension] Não foi possível carregar a preferência do aviso:', error);
-});
-
-chrome.storage.local.get({ [CHAVE_SANITIZACAO]: true }).then(preferencias => {
-  toggleSanitizacao.checked = preferencias[CHAVE_SANITIZACAO];
-}).catch(error => {
-  console.warn('[Extension] Não foi possível carregar a preferência de sanitização:', error);
-});
-
-toggleSanitizacao.addEventListener('change', () => {
-  chrome.storage.local.set({ [CHAVE_SANITIZACAO]: toggleSanitizacao.checked }).catch(error => {
-    console.warn('[Extension] Não foi possível salvar a preferência de sanitização:', error);
-  });
 });
 
 // LÓGICA DAS ABAS
@@ -180,10 +166,7 @@ document.getElementById('btn-analisar').addEventListener('click', async () => {
     const dicionarioAMA = await responseTraducoes.json();
 
     const response = await new Promise((resolve) => {
-      chrome.runtime.sendMessage({
-        action: "EVALUATE_API",
-        sanitizar: toggleSanitizacao.checked
-      }, resolve);
+      chrome.runtime.sendMessage({ action: "EVALUATE_API", sanitizar: true }, resolve);
     });
 
     if (!response || !response.sucesso) {

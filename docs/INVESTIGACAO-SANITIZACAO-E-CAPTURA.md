@@ -17,7 +17,7 @@ A primeira versão da sanitização removia:
 - seleção atual de `select`;
 - texto de elementos `contenteditable`.
 
-O painel recebeu um controle para ativar ou desativar a sanitização, permitindo comparar os dois comportamentos sem alterar o código-fonte entre os testes.
+Durante a investigação, o painel recebeu temporariamente um controle para ativar ou desativar a sanitização. Depois que os testes foram concluídos, esse controle foi removido e a proteção passou a ser obrigatória no fluxo normal da extensão.
 
 ## Fixtures de teste
 

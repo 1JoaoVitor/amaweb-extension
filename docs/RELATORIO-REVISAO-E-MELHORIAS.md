@@ -91,7 +91,7 @@ A fase simples de sanitização também foi implementada no capturador. Antes do
 
 A página original não é modificada. Essa proteção ainda precisa ser comparada com respostas do AMAWeb em páginas de referência para confirmar que não prejudica regras de acessibilidade.
 
-Para facilitar essa comparação, a interface possui o controle `Sanitizar dados sensíveis`. Ele fica ativado por padrão, pode ser desativado temporariamente para testes comparativos e sua preferência é persistida localmente. A opção é enviada pelo painel ao service worker e ao content script junto de cada avaliação. O conteúdo de elementos `contenteditable` é preservado para não alterar resultados de conteúdo e contraste.
+Para proteger o usuário em produção, a sanitização é aplicada obrigatoriamente no fluxo de avaliação. O conteúdo de elementos `contenteditable` é preservado para não alterar resultados de conteúdo e contraste. A função interna ainda aceita o parâmetro nos testes automatizados, mas essa opção não é exposta na interface.
 
 ### Próxima melhoria recomendada
 
