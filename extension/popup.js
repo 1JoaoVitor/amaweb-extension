@@ -77,15 +77,28 @@ toggleSanitizacao.addEventListener('change', () => {
 document.getElementById('tab-geral').addEventListener('click', () => {
   document.getElementById('tab-geral').classList.add('active');
   document.getElementById('tab-detalhes').classList.remove('active');
+  document.getElementById('tab-foco').classList.remove('active');
   document.getElementById('view-geral').classList.add('active');
   document.getElementById('view-detalhes').classList.remove('active');
+  document.getElementById('view-foco').classList.remove('active');
 });
 
 document.getElementById('tab-detalhes').addEventListener('click', () => {
   document.getElementById('tab-detalhes').classList.add('active');
   document.getElementById('tab-geral').classList.remove('active');
+  document.getElementById('tab-foco').classList.remove('active');
   document.getElementById('view-detalhes').classList.add('active');
   document.getElementById('view-geral').classList.remove('active');
+  document.getElementById('view-foco').classList.remove('active');
+});
+
+document.getElementById('tab-foco').addEventListener('click', () => {
+  document.getElementById('tab-foco').classList.add('active');
+  document.getElementById('tab-geral').classList.remove('active');
+  document.getElementById('tab-detalhes').classList.remove('active');
+  document.getElementById('view-foco').classList.add('active');
+  document.getElementById('view-geral').classList.remove('active');
+  document.getElementById('view-detalhes').classList.remove('active');
 });
 
 // LÓGICA PRINCIPAL DE AVALIAÇÃO
@@ -230,17 +243,11 @@ document.getElementById('btn-limpar').addEventListener('click', async () => {
   if (!tab) return;
   chrome.tabs.sendMessage(tab.id, { action: "CLEAR_OVERLAYS" })
     .catch(error => registrarFalhaDeMensagem('limpeza dos overlays', error));
-  chrome.tabs.sendMessage(tab.id, { action: "CLEAR_FOCUS_ORDER" })
-    .catch(error => registrarFalhaDeMensagem('limpeza da ordem de foco', error));
-  const btnOrdemFoco = document.getElementById('btn-ordem-foco');
-  if (btnOrdemFoco) {
-    btnOrdemFoco.dataset.ativo = 'false';
-    btnOrdemFoco.textContent = 'Ordem de Foco';
-  }
 });
 
-document.getElementById('btn-ordem-foco').addEventListener('click', async event => {
+document.getElementById('btn-alternar-ordem-foco').addEventListener('click', async event => {
   const button = event.currentTarget;
+  const status = document.getElementById('focus-order-status');
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   if (!tab) return;
 
@@ -249,9 +256,11 @@ document.getElementById('btn-ordem-foco').addEventListener('click', async event 
   try {
     const response = await chrome.tabs.sendMessage(tab.id, { action });
     button.dataset.ativo = String(ativar);
-    button.textContent = ativar ? `Ordem de Foco (${response?.count || 0})` : 'Ordem de Foco';
+    button.textContent = ativar ? 'Desativar Ordem de Foco' : 'Ativar Ordem de Foco';
+    status.textContent = ativar ? `${response?.count || 0} elementos focáveis identificados.` : 'Modo desativado.';
   } catch (error) {
     registrarFalhaDeMensagem('ordem de foco', error);
+    status.textContent = 'Não foi possível comunicar com a página atual.';
   }
 });
 
@@ -265,11 +274,6 @@ async function resetarPainel(limparAbaId = true) {
   if (errorPanel) errorPanel.style.display = "none";
   if (loadingPanel) loadingPanel.style.display = "none";
   if (btnAnalisar) btnAnalisar.innerText = "Avaliar Página";
-  const btnOrdemFoco = document.getElementById('btn-ordem-foco');
-  if (btnOrdemFoco) {
-    btnOrdemFoco.dataset.ativo = 'false';
-    btnOrdemFoco.textContent = 'Ordem de Foco';
-  }
   
   const listaDetalhada = document.getElementById('lista-detalhada');
   if (listaDetalhada) {

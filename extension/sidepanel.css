@@ -75,6 +75,16 @@ body {
 .tab-content { display: none; }
 .tab-content.active { display: flex; flex-direction: column; gap: 16px; }
 
+.focus-order-panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 16px;
+}
+.focus-order-panel h3 { margin: 0 0 8px; color: var(--ama-green-dark); font-size: 17px; }
+.focus-order-description { color: var(--color-muted); font-size: 13px; line-height: 1.5; margin: 0 0 16px; }
+.focus-order-status { color: var(--color-muted); font-size: 12px; margin: 12px 0 0; }
+
 /* === BOTÕES GERAIS (ESTILO PORTAL) === */
 .actions-grid {
   display: grid;

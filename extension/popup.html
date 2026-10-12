@@ -13,6 +13,7 @@
     <nav class="tabs-container" aria-label="Visualização dos resultados">
       <button id="tab-geral" class="tab-btn active" type="button">Visão Geral</button>
       <button id="tab-detalhes" class="tab-btn" type="button">Lista de Erros</button>
+      <button id="tab-foco" class="tab-btn" type="button">Ordem de Foco</button>
     </nav>
 
     <section id="view-geral" class="tab-content active">
@@ -23,7 +24,6 @@
         <button id="btn-limpar" class="btn-outline-danger" type="button">Limpar Tela</button>
         <button id="btn-amaweb" class="btn-outline" type="button">Portal AMAWeb</button>
         <button id="btn-baixar-json" class="btn-outline" type="button" disabled>Baixar JSON</button>
-        <button id="btn-ordem-foco" class="btn-outline" type="button">Ordem de Foco</button>
       </div>
 
       <section class="privacy-notice" role="alert" aria-labelledby="privacy-notice-title">
@@ -143,6 +143,15 @@
       <div id="lista-detalhada">
         <p class="empty-state">Execute a avaliação na aba "Visão Geral" primeiro.</p>
       </div>
+    </section>
+
+    <section id="view-foco" class="tab-content">
+      <section class="focus-order-panel" aria-labelledby="focus-order-title">
+        <h3 id="focus-order-title">Ordem de Foco</h3>
+        <p class="focus-order-description">Numere os elementos focáveis visíveis da página e clique em um marcador para mover o foco até ele.</p>
+        <button id="btn-alternar-ordem-foco" class="btn-solid" type="button">Ativar Ordem de Foco</button>
+        <p class="focus-order-status" id="focus-order-status" role="status" aria-live="polite">Modo desativado.</p>
+      </section>
     </section>
   </main>
   <script type="module" src="popup.js"></script>
